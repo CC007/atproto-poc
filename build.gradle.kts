@@ -1,0 +1,62 @@
+import buildsrc.convention.dsl.*
+import buildsrc.convention.dsl.kotlin
+
+plugins {
+    id("buildsrc.convention.kotlin-jvm")
+    id("buildsrc.convention.spring-boot")
+}
+
+group = "com.github.cc007.poc.atproto"
+version = "0.0.1-SNAPSHOT"
+description = "atproto-poc"
+
+
+dependencies {
+    implementation {
+        kotlin("reflect")
+        kotlinx("html-jvm", version = "0.12.0")
+        springBoot("h2console")
+        springBoot("starter-actuator")
+        springBoot("starter-data-jpa")
+        springBoot("starter-liquibase")
+        springBoot("starter-restclient")
+        springBoot("starter-security")
+        springBoot("starter-webmvc")
+        springModulith("starter-core")
+        springModulith("starter-jpa")
+        id("io.github.wimdeblauwe:htmx-spring-boot:5.0.0")
+        id("tools.jackson.module:jackson-module-kotlin")
+    }
+
+    developmentOnly {
+        springBoot("devtools")
+    }
+
+    runtimeOnly {
+        springModulith("actuator")
+        springModulith("observability")
+        id("com.h2database:h2")
+        id("io.micrometer:micrometer-registry-prometheus")
+    }
+
+    annotationProcessor {
+        springBoot("configuration-processor")
+    }
+
+    testImplementation {
+        kotlin("test-junit5")
+        springBoot("starter-actuator-test")
+        springBoot("starter-data-jpa-test")
+        springBoot("starter-liquibase-test")
+        springBoot("starter-restclient-test")
+        springBoot("starter-security-test")
+        springBoot("starter-webmvc-test")
+        springBoot("testcontainers")
+        springModulith("starter-test")
+        id("org.testcontainers:testcontainers-junit-jupiter")
+    }
+
+    testRuntimeOnly {
+        id("org.junit.platform:junit-platform-launcher")
+    }
+}
