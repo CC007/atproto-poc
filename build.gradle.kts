@@ -26,6 +26,9 @@ dependencies {
         springModulith("starter-jpa")
         +"io.github.wimdeblauwe:htmx-spring-boot:5.0.0"
         +"tools.jackson.module:jackson-module-kotlin"
+        +"work.socialhub.kbsky:core:0.3.0"
+        +"work.socialhub.kbsky:auth:0.3.0"
+        +"work.socialhub.kbsky:stream:0.3.0"
     }
 
     developmentOnly {
