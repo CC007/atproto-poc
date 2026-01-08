@@ -1,1 +1,4 @@
 spring.application.name: atproto-poc
+logging:
+  level:
+    org.springframework.security: DEBUG

@@ -17,40 +17,51 @@ import work.socialhub.kbsky.api.entity.com.atproto.server.ServerCreateSessionReq
 import work.socialhub.kbsky.api.entity.com.atproto.server.ServerCreateSessionResponse
 import work.socialhub.kbsky.api.entity.share.Response
 import work.socialhub.kbsky.domain.Service
+import org.springframework.security.web.csrf.CsrfToken
+import jakarta.servlet.http.HttpServletRequest
 
 @Controller
 class LoginController {
     @GetMapping("/login", produces = [MediaType.TEXT_HTML_VALUE])
     @ResponseBody
     fun loginForm(
-        @RequestParam(name = "error", required = false) error: String?
-    ): String = createHTML().html {
-        head {
-            title("Login")
-        }
-        body {
-            h1 { +"Login" }
-            if (error != null) {
-                p { style = "color:red;"; +"Login failed: $error" }
+        @RequestParam(name = "error", required = false) error: String?,
+        request: HttpServletRequest
+    ): String {
+        val csrfToken = (request.getAttribute("_csrf") as? CsrfToken)?.token
+        return createHTML().html {
+            head {
+                title("Login")
             }
-            form(action = "/login", method = FormMethod.post) {
-                p {
-                    label { +"Username: " }
-                    textInput(name = "username") { required = true }
+            body {
+                h1 { +"Login" }
+                if (error != null) {
+                    p { style = "color:red;"; +"Login failed: $error" }
                 }
-                p {
-                    label { +"Password: " }
-                    passwordInput(name = "password") { required = true }
-                }
-                p {
-                    label { +"Network URL: " }
-                    textInput(name = "serviceUrl") {
-                        placeholder = Service.BSKY_SOCIAL.uri
+                form(action = "/login", method = FormMethod.post) {
+                    if (csrfToken != null) {
+                        input(type = InputType.hidden, name = "_csrf") {
+                            value = csrfToken
+                        }
                     }
-                    span { +" (default: ${Service.BSKY_SOCIAL.uri})" }
-                }
-                p {
-                    submitInput { value = "Login" }
+                    p {
+                        label { +"Username: " }
+                        textInput(name = "username") { required = true }
+                    }
+                    p {
+                        label { +"Password: " }
+                        passwordInput(name = "password") { required = true }
+                    }
+                    p {
+                        label { +"Network URL: " }
+                        textInput(name = "serviceUrl") {
+                            placeholder = Service.BSKY_SOCIAL.uri
+                        }
+                        span { +" (default: ${Service.BSKY_SOCIAL.uri})" }
+                    }
+                    p {
+                        submitInput { value = "Login" }
+                    }
                 }
             }
         }
