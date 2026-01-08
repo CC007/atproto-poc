@@ -24,8 +24,8 @@ dependencies {
         springBoot("starter-webmvc")
         springModulith("starter-core")
         springModulith("starter-jpa")
-        id("io.github.wimdeblauwe:htmx-spring-boot:5.0.0")
-        id("tools.jackson.module:jackson-module-kotlin")
+        +"io.github.wimdeblauwe:htmx-spring-boot:5.0.0"
+        +"tools.jackson.module:jackson-module-kotlin"
     }
 
     developmentOnly {
@@ -35,8 +35,8 @@ dependencies {
     runtimeOnly {
         springModulith("actuator")
         springModulith("observability")
-        id("com.h2database:h2")
-        id("io.micrometer:micrometer-registry-prometheus")
+        +"com.h2database:h2"
+        +"io.micrometer:micrometer-registry-prometheus"
     }
 
     annotationProcessor {
@@ -53,10 +53,10 @@ dependencies {
         springBoot("starter-webmvc-test")
         springBoot("testcontainers")
         springModulith("starter-test")
-        id("org.testcontainers:testcontainers-junit-jupiter")
+        +"org.testcontainers:testcontainers-junit-jupiter"
     }
 
     testRuntimeOnly {
-        id("org.junit.platform:junit-platform-launcher")
+        +"org.junit.platform:junit-platform-launcher"
     }
 }
