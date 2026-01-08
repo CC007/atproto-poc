@@ -29,6 +29,7 @@ dependencies {
         +"work.socialhub.kbsky:core:0.3.0"
         +"work.socialhub.kbsky:auth:0.3.0"
         +"work.socialhub.kbsky:stream:0.3.0"
+        +"io.github.oshai:kotlin-logging-jvm:5.1.0"
     }
 
     developmentOnly {

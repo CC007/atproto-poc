@@ -1,5 +1,6 @@
 package com.github.cc007.poc.atproto.auth
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.html.*
 import kotlinx.html.stream.createHTML
 import org.springframework.http.HttpStatus
@@ -19,9 +20,13 @@ import work.socialhub.kbsky.api.entity.share.Response
 import work.socialhub.kbsky.domain.Service
 import org.springframework.security.web.csrf.CsrfToken
 import jakarta.servlet.http.HttpServletRequest
+import kotlinx.html.FormMethod.post
+
+private val logger = KotlinLogging.logger {}
 
 @Controller
 class LoginController {
+
     @GetMapping("/login", produces = [MediaType.TEXT_HTML_VALUE])
     @ResponseBody
     fun loginForm(
@@ -38,7 +43,7 @@ class LoginController {
                 if (error != null) {
                     p { style = "color:red;"; +"Login failed: $error" }
                 }
-                form(action = "/login", method = FormMethod.post) {
+                form(action = "/login", method = post) {
                     if (csrfToken != null) {
                         input(type = InputType.hidden, name = "_csrf") {
                             value = csrfToken
@@ -92,23 +97,21 @@ private fun authenticate(username: String, password: String, networkUrl: String)
                 }
             )
     } catch (e: ATProtocolException) {
-        println("Failed login attempt: ${e.status}: ${e.message} (${e.body})")
+        logger.warn { "Failed login attempt: ${e.status}: ${e.message} (${e.body})" }
         throw when {
             e.status == 401 -> ResponseStatusException(HttpStatus.UNAUTHORIZED, e.message)
             e.message == "Input must have the property \"password\"" -> ResponseStatusException(
                 HttpStatus.UNAUTHORIZED,
                 e.message
             )
-
             e.message == "Input must have the property \"identifier\"" -> ResponseStatusException(
                 HttpStatus.UNAUTHORIZED,
                 e.message
             )
-
             e.status?.div(100) == 4 -> ResponseStatusException(e.status!!, e.message, e.cause)
             else -> ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong. Try again later.")
         }
     }
-    println(response.json)
+    logger.info { response.json }
     return response.data.accessJwt
 }
