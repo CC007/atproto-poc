@@ -2,3 +2,4 @@ spring.application.name: atproto-poc
 logging:
   level:
     org.springframework.security: DEBUG
+    com.github.cc007.poc.atproto: DEBUG
