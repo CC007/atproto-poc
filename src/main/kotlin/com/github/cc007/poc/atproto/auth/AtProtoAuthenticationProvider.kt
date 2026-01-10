@@ -20,18 +20,17 @@ private val logger = KotlinLogging.logger {}
 @Component
 class AtProtoAuthenticationProvider : AuthenticationProvider {
     override fun authenticate(authentication: Authentication): Authentication? {
-        val username = authentication.principal.toString()
+        val handle = authentication.principal.toString()
         val password = authentication.credentials.toString()
-        if (!username.contains(".")) {
+        if (!handle.contains(".")) {
             throw BadCredentialsException("Username should be of the form handle")
         }
-        val networkDomain = username.split(".", limit = 2).last()
-        val result = authenticate(username, password, "https://$networkDomain")
+        val result = authenticate(handle, password, "https://${handle.toSocialUrl()}")
         return when(result) {
             is Success<ServerCreateSessionResponse> -> result.data.toAuthentication()
             is Failure<*> -> {
                 // it is valid for the whole handle to be the domain name
-                val onlyDomainResult = authenticate(username, password, "https://$username")
+                val onlyDomainResult = authenticate(handle, password, "https://$handle")
                 when(onlyDomainResult) {
                     is Success<ServerCreateSessionResponse> -> onlyDomainResult.data.toAuthentication()
                     is Failure<*> -> throw BadCredentialsException(result.message)
