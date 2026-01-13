@@ -13,6 +13,7 @@ description = "atproto-poc"
 
 dependencies {
     implementation {
+        +libs.bundles.kotlinxEcosystem
         kotlin("reflect")
         kotlinx("html-jvm", version = "0.12.0")
         springBoot("h2console")

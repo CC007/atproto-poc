@@ -12,7 +12,7 @@ class ConfigurationSpecificDependencyHandlerScope(
 ) : DependencyHandler by dependencyHandlerScope {
 
     @GradleDsl
-    operator fun String.unaryPlus(): Dependency? {
+    operator fun Any.unaryPlus(): Dependency? {
         return add(configurationType, this)
     }
 
