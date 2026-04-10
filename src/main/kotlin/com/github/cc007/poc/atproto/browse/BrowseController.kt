@@ -72,8 +72,19 @@ class BrowseController {
                                 article {
                                     style = "border: 1px solid black; border-radius: 6px; padding: 5px; margin-bottom: 5px;"
                                     div {
-                                        it.post.author?.displayName?.let { strong { +it } }
-                                        +"@${it.post.author?.handle}"
+                                        style = "display: flex; align-items: center;"
+                                        it.post.author?.avatar?.let {
+                                            img(src = it) {
+                                                height = "30"
+                                                width = "30"
+                                                style = "flex: 0;"
+                                            }
+                                        }
+                                        div {
+                                            style = "flex: 1; padding: 5px;"
+                                            it.post.author?.displayName?.let { strong { +it } }
+                                            +"@${it.post.author?.handle}"
+                                        }
                                     }
                                     div {
                                         when (val record = it.post.record) {
