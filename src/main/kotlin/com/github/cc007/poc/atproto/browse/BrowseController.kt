@@ -16,6 +16,12 @@ import org.springframework.web.bind.annotation.ResponseBody
 import work.socialhub.kbsky.BlueskyFactory
 import work.socialhub.kbsky.api.entity.app.bsky.feed.FeedGetTimelineRequest
 import work.socialhub.kbsky.auth.BearerTokenAuthProvider
+import work.socialhub.kbsky.model.app.bsky.actor.ActorProfile
+import work.socialhub.kbsky.model.app.bsky.embed.*
+import work.socialhub.kbsky.model.app.bsky.feed.FeedLike
+import work.socialhub.kbsky.model.app.bsky.feed.FeedPost
+import work.socialhub.kbsky.model.app.bsky.feed.FeedRepost
+import work.socialhub.kbsky.model.app.bsky.graph.*
 
 val logger = KotlinLogging.logger {}
 private val prettyPrinter = Json { prettyPrint = true }
@@ -64,8 +70,61 @@ class BrowseController {
                             logger.info { timeline.json.pretty() }
                             timeline.data.feed.forEach {
                                 article {
-                                    it.post.author?.displayName?.let { strong { +it } }
-                                    +"@${it.post.author?.handle}"
+                                    style = "border: 1px solid black; border-radius: 6px; padding: 5px; margin-bottom: 5px;"
+                                    div {
+                                        it.post.author?.displayName?.let { strong { +it } }
+                                        +"@${it.post.author?.handle}"
+                                    }
+                                    div {
+                                        when (val record = it.post.record) {
+                                            is FeedPost -> {
+                                                p {
+                                                    +"${record.text}"
+                                                }
+                                                record.labels?.values?.joinToString(", ") { it.`val` }?.let { label ->
+                                                    p {
+                                                        +"Labels: $label"
+                                                    }
+                                                }
+                                                when (val embed = it.post.embed) {
+                                                    is EmbedImagesView -> {
+                                                        embed.images?.forEach { image ->
+                                                            image.thumb?.let {
+                                                                img(src = it) {
+                                                                    height = "90"
+                                                                    width = "160"
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                    is EmbedVideoView -> {
+                                                        embed.thumbnail?.let {
+                                                            img(src = it) {
+                                                                height = "90"
+                                                                width = "160"
+                                                            }
+                                                        }
+                                                    }
+                                                    is EmbedExternalView -> {}
+                                                    is EmbedRecordView -> {}
+                                                    is EmbedRecordWithMediaView -> {}
+                                                }
+                                            }
+
+                                            is FeedRepost -> {}
+                                            is ActorProfile -> {}
+                                            is GraphFollow -> {}
+                                            is GraphBlock -> {}
+                                            is FeedLike -> {}
+                                            is GraphListItem -> {}
+                                            is GraphList -> {}
+                                            is GraphStarterPack -> {}
+                                        }
+
+                                    }
+                                    div {
+                                        +"Likes: ${it.post.likeCount} | Quotes: ${it.post.quoteCount} | Reposts: ${it.post.repostCount} | Replies: ${it.post.replyCount}"
+                                    }
                                 }
                             }
                         }
