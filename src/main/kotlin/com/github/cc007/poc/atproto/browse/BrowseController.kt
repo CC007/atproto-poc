@@ -2,6 +2,7 @@ package com.github.cc007.poc.atproto.browse
 
 import com.github.cc007.poc.atproto.auth.AtProtoAuthentication
 import com.github.cc007.poc.atproto.components.overview.postSummary
+import com.github.cc007.poc.atproto.components.topBanner
 import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.servlet.http.HttpServletRequest
 import kotlinx.html.*
@@ -46,18 +47,7 @@ class BrowseController {
                     title("Browse")
                 }
                 body {
-                    header {
-                        form(action = "/logout", method = FormMethod.post) {
-                            if (csrfToken != null) {
-                                input(type = InputType.hidden, name = "_csrf") {
-                                    value = csrfToken
-                                }
-                            }
-                            p {
-                                submitInput { value = "Logout" }
-                            }
-                        }
-                    }
+                    topBanner(csrfToken)
                     main {
                         h1 { +"Timeline" }
                         section {
