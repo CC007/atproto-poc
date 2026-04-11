@@ -224,6 +224,29 @@ a {
     border: 1px solid #a6bfd2;
 }
 
+.embed-blur-clip {
+    display: inline-block;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 0.5rem;
+    max-width: 240px;
+    width: 100%;
+}
+
+.embed-blur-clip .embed-media {
+    margin-top: 0;
+}
+
+.embed-media-blur {
+    filter: blur(18px);
+    transition: filter 0.25s ease;
+    display: block;
+}
+
+.embed-blur-clip:hover .embed-media-blur {
+    filter: blur(0);
+}
+
 .parent-post .post-card {
     margin-top: 0.65rem;
     background: #eaf3fa;

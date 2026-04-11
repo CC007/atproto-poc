@@ -10,8 +10,11 @@ import work.socialhub.kbsky.model.app.bsky.feed.FeedPost
 import work.socialhub.kbsky.model.app.bsky.feed.FeedRepost
 import work.socialhub.kbsky.model.app.bsky.graph.*
 
+private val BLUR_LABELS = setOf("porn", "sexual")
+
 fun HtmlBlockTag.postSummary(post: FeedDefsPostView, parentPost: FeedDefsPostView?) {
     val labels = (post.labels ?: listOf()).map { it.`val` }
+    val blurMedia = labels.any { it in BLUR_LABELS }
     article(classes = "post-card") {
         post.author?.let { summaryAuthor(it) }
         div(classes = "post-content") {
@@ -19,11 +22,6 @@ fun HtmlBlockTag.postSummary(post: FeedDefsPostView, parentPost: FeedDefsPostVie
                 is FeedPost -> {
                     p(classes = "post-text") {
                         +"${record.text}"
-                    }
-                    if (labels.isNotEmpty()) {
-                        p(classes = "post-labels") {
-                            +"Labels: ${labels.joinToString()}"
-                        }
                     }
                 }
 
@@ -37,8 +35,8 @@ fun HtmlBlockTag.postSummary(post: FeedDefsPostView, parentPost: FeedDefsPostVie
                 is GraphStarterPack -> {}
             }
             when (val embed = post.embed) {
-                is EmbedImagesView -> { imageEmbed(embed) }
-                is EmbedVideoView -> { videoEmbed(embed) }
+                is EmbedImagesView -> { imageEmbed(embed, blurMedia) }
+                is EmbedVideoView -> { videoEmbed(embed, blurMedia) }
                 is EmbedExternalView -> {}
                 is EmbedRecordView -> {}
                 is EmbedRecordWithMediaView -> {}
@@ -70,22 +68,40 @@ private fun HtmlBlockTag.summaryAuthor(author: ActorDefsProfileViewBasic) {
     }
 }
 
-private fun HtmlBlockTag.imageEmbed(embed: EmbedImagesView) {
+private fun HtmlBlockTag.imageEmbed(embed: EmbedImagesView, blur: Boolean = false) {
     embed.images?.forEach { image ->
         image.thumb?.let {
-            img(src = it, classes = "embed-media") {
-                height = "90"
-                width = "160"
+            if (blur) {
+                div(classes = "embed-blur-clip") {
+                    img(src = it, classes = "embed-media embed-media-blur") {
+                        height = "90"
+                        width = "160"
+                    }
+                }
+            } else {
+                img(src = it, classes = "embed-media") {
+                    height = "90"
+                    width = "160"
+                }
             }
         }
     }
 }
 
-private fun HtmlBlockTag.videoEmbed(embed: EmbedVideoView) {
+private fun HtmlBlockTag.videoEmbed(embed: EmbedVideoView, blur: Boolean = false) {
     embed.thumbnail?.let {
-        img(src = it, classes = "embed-media") {
-            height = "90"
-            width = "160"
+        if (blur) {
+            div(classes = "embed-blur-clip") {
+                img(src = it, classes = "embed-media embed-media-blur") {
+                    height = "90"
+                    width = "160"
+                }
+            }
+        } else {
+            img(src = it, classes = "embed-media") {
+                height = "90"
+                width = "160"
+            }
         }
     }
 }
