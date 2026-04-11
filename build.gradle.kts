@@ -1,5 +1,4 @@
 import buildsrc.convention.dsl.*
-import buildsrc.convention.dsl.kotlin
 
 plugins {
     id("buildsrc.convention.kotlin-jvm")
@@ -25,11 +24,11 @@ dependencies {
         springBoot("starter-webmvc")
         springModulith("starter-core")
         springModulith("starter-jpa")
+        bsky("core", version = "0.3.0")
+        bsky("auth", version = "0.3.0")
+        bsky("stream", version = "0.3.0")
         +"io.github.wimdeblauwe:htmx-spring-boot:5.0.0"
         +"tools.jackson.module:jackson-module-kotlin"
-        +"work.socialhub.kbsky:core:0.3.0"
-        +"work.socialhub.kbsky:auth:0.3.0"
-        +"work.socialhub.kbsky:stream:0.3.0"
         +"io.github.oshai:kotlin-logging-jvm:5.1.0"
     }
 
