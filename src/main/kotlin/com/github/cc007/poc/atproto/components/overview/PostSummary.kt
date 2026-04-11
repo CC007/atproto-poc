@@ -12,17 +12,16 @@ import work.socialhub.kbsky.model.app.bsky.graph.*
 
 fun HtmlBlockTag.postSummary(post: FeedDefsPostView, parentPost: FeedDefsPostView?) {
     val labels = (post.labels ?: listOf()).map { it.`val` }
-    article {
-        style = "border: 1px solid black; border-radius: 6px; padding: 5px; margin-bottom: 5px;"
+    article(classes = "post-card") {
         post.author?.let { summaryAuthor(it) }
-        div {
+        div(classes = "post-content") {
             when (val record = post.record) {
                 is FeedPost -> {
-                    p {
+                    p(classes = "post-text") {
                         +"${record.text}"
                     }
                     if (labels.isNotEmpty()) {
-                        p {
+                        p(classes = "post-labels") {
                             +"Labels: ${labels.joinToString()}"
                         }
                     }
@@ -45,27 +44,28 @@ fun HtmlBlockTag.postSummary(post: FeedDefsPostView, parentPost: FeedDefsPostVie
                 is EmbedRecordWithMediaView -> {}
             }
         }
-        parentPost?.let { postSummary(it, null) }
-        div {
+        parentPost?.let {
+            div(classes = "parent-post") {
+                postSummary(it, null)
+            }
+        }
+        div(classes = "post-stats") {
             +"Likes: ${post.likeCount} | Quotes: ${post.quoteCount} | Reposts: ${post.repostCount} | Replies: ${post.replyCount}"
         }
     }
 }
 
 private fun HtmlBlockTag.summaryAuthor(author: ActorDefsProfileViewBasic) {
-    div {
-        style = "display: flex; align-items: center;"
+    div(classes = "post-author") {
         author.avatar?.let {
-            img(src = it) {
+            img(src = it, classes = "author-avatar") {
                 height = "30"
                 width = "30"
-                style = "flex: 0;"
             }
         }
-        div {
-            style = "flex: 1; padding: 5px;"
-            author.displayName?.let { strong { +it } }
-            +"@${author.handle}"
+        div(classes = "author-meta") {
+            author.displayName?.let { strong(classes = "author-name") { +it } }
+            span(classes = "author-handle") { +"@${author.handle}" }
         }
     }
 }
@@ -73,7 +73,7 @@ private fun HtmlBlockTag.summaryAuthor(author: ActorDefsProfileViewBasic) {
 private fun HtmlBlockTag.imageEmbed(embed: EmbedImagesView) {
     embed.images?.forEach { image ->
         image.thumb?.let {
-            img(src = it) {
+            img(src = it, classes = "embed-media") {
                 height = "90"
                 width = "160"
             }
@@ -83,7 +83,7 @@ private fun HtmlBlockTag.imageEmbed(embed: EmbedImagesView) {
 
 private fun HtmlBlockTag.videoEmbed(embed: EmbedVideoView) {
     embed.thumbnail?.let {
-        img(src = it) {
+        img(src = it, classes = "embed-media") {
             height = "90"
             width = "160"
         }

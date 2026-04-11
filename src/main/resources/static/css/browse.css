@@ -1,0 +1,244 @@
+:root {
+    --bg: #0b1220;
+    --surface: #111b2f;
+    --surface-2: #17243d;
+    --border: #2a3e66;
+    --text: #dbe8ff;
+    --muted: #9eb3d9;
+    --primary: #1185fe;
+    --primary-2: #3ca0ff;
+    --accent: #79c4ff;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body.browse-body {
+    margin: 0;
+    min-height: 100vh;
+    background: radial-gradient(circle at top, #152848 0%, var(--bg) 40%);
+    color: var(--text);
+    font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.top-banner {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.85rem 1.2rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(8, 15, 30, 0.92);
+    backdrop-filter: blur(10px);
+}
+
+.brand h1 {
+    margin: 0;
+    font-size: 1.15rem;
+    letter-spacing: 0.04em;
+}
+
+.brand p {
+    margin: 0.1rem 0 0;
+    color: var(--muted);
+    font-size: 0.8rem;
+}
+
+.logout-button {
+    border: 1px solid var(--primary-2);
+    border-radius: 999px;
+    background: linear-gradient(135deg, #0d6fd8, var(--primary));
+    color: #eef6ff;
+    padding: 0.45rem 0.95rem;
+    cursor: pointer;
+}
+
+.browse-layout {
+    display: grid;
+    grid-template-columns: 245px minmax(0, 1fr);
+    gap: 1rem;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.browse-sidebar {
+    align-self: start;
+    position: sticky;
+    top: 4.5rem;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(22, 39, 67, 0.95), rgba(12, 21, 37, 0.95));
+    padding: 0.9rem;
+}
+
+.sidebar-title {
+    margin: 0 0 0.75rem;
+    font-size: 0.9rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.sidebar-nav {
+    display: grid;
+    gap: 0.35rem;
+}
+
+.sidebar-nav a {
+    padding: 0.5rem 0.65rem;
+    border-radius: 8px;
+    color: var(--muted);
+}
+
+.sidebar-nav a:hover,
+.sidebar-nav a:focus-visible {
+    outline: none;
+    color: var(--text);
+    background: rgba(17, 133, 254, 0.18);
+}
+
+.browse-content {
+    min-width: 0;
+}
+
+.content-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 0.9rem;
+}
+
+.content-top h1 {
+    margin: 0;
+    font-size: 1.35rem;
+}
+
+.filter-row {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+
+.filter-chip {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    border-radius: 999px;
+    padding: 0.35rem 0.75rem;
+    cursor: pointer;
+}
+
+.filter-chip-active,
+.filter-chip:hover,
+.filter-chip:focus-visible {
+    outline: none;
+    color: #f4f9ff;
+    border-color: var(--primary-2);
+    background: rgba(17, 133, 254, 0.24);
+}
+
+.feed-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(285px, 1fr));
+    gap: 0.8rem;
+    align-items: start;
+}
+
+.post-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 0.75rem;
+    background: linear-gradient(180deg, var(--surface-2), var(--surface));
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.24);
+}
+
+.post-author {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+}
+
+.author-avatar {
+    border-radius: 50%;
+    border: 1px solid #4f6fa4;
+}
+
+.author-meta {
+    display: grid;
+    gap: 0.1rem;
+}
+
+.author-name {
+    display: block;
+    font-size: 0.93rem;
+}
+
+.author-handle {
+    color: var(--muted);
+    font-size: 0.8rem;
+}
+
+.post-content {
+    margin-top: 0.6rem;
+}
+
+.post-text {
+    margin: 0;
+    line-height: 1.4;
+}
+
+.post-labels {
+    margin: 0.55rem 0 0;
+    color: var(--muted);
+    font-size: 0.83rem;
+}
+
+.embed-media {
+    margin-top: 0.5rem;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 240px;
+    height: auto;
+    border: 1px solid #3b567f;
+}
+
+.parent-post .post-card {
+    margin-top: 0.65rem;
+    background: rgba(8, 14, 26, 0.55);
+}
+
+.post-stats {
+    margin-top: 0.7rem;
+    color: var(--muted);
+    font-size: 0.78rem;
+    border-top: 1px solid rgba(158, 179, 217, 0.18);
+    padding-top: 0.5rem;
+}
+
+@media (max-width: 960px) {
+    .browse-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .browse-sidebar {
+        position: static;
+    }
+}
+
+@media (max-width: 640px) {
+    .content-top {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+

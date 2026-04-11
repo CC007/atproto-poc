@@ -45,16 +45,38 @@ class BrowseController {
             createHTML().html {
                 head {
                     title("Browse")
+                    meta(name = "viewport", content = "width=device-width, initial-scale=1")
+                    link(rel = "stylesheet", href = "/css/browse.css")
                 }
-                body {
+                body(classes = "browse-body") {
                     topBanner(csrfToken)
-                    main {
-                        h1 { +"Timeline" }
-                        section {
+                    main(classes = "browse-layout") {
+                        aside(classes = "browse-sidebar") {
+                            h2(classes = "sidebar-title") { +"BlueArt" }
+                            nav(classes = "sidebar-nav") {
+                                a(href = "#") { +"Discover" }
+                                a(href = "#") { +"Following" }
+                                a(href = "#") { +"Traditional" }
+                                a(href = "#") { +"Digital" }
+                                a(href = "#") { +"Photography" }
+                            }
+                        }
+                        section(classes = "browse-content") {
+                            div(classes = "content-top") {
+                                h1 { +"Browse Timeline" }
+                                div(classes = "filter-row") {
+                                    button(classes = "filter-chip filter-chip-active") { +"Hot" }
+                                    button(classes = "filter-chip") { +"New" }
+                                    button(classes = "filter-chip") { +"Artists" }
+                                    button(classes = "filter-chip") { +"Commissions" }
+                                }
+                            }
+                            section(classes = "feed-grid") {
                             val timeline = feed.getTimeline(FeedGetTimelineRequest(auth))
                             logger.info { timeline.json.pretty() }
                             timeline.data.feed.forEach {
                                 postSummary(it.post, it.reply?.parent)
+                            }
                             }
                         }
                     }
