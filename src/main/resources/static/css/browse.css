@@ -1,13 +1,15 @@
 :root {
-    --bg: #0b1220;
-    --surface: #111b2f;
-    --surface-2: #17243d;
-    --border: #2a3e66;
-    --text: #dbe8ff;
-    --muted: #9eb3d9;
-    --primary: #1185fe;
+    --bg: #c2dff5;
+    --surface: #d4eaf9;
+    --surface-2: #dff1fe;
+    --author-surface: #eaf6ff;
+    --border: #93b9d9;
+    --text: #0e2333;
+    --muted: #3d6680;
+    --banner: #0a5fa8;
+    --primary: #0f85fe;
     --primary-2: #3ca0ff;
-    --accent: #79c4ff;
+    --accent: #0a62a8;
 }
 
 * {
@@ -17,7 +19,7 @@
 body.browse-body {
     margin: 0;
     min-height: 100vh;
-    background: radial-gradient(circle at top, #152848 0%, var(--bg) 40%);
+    background: radial-gradient(circle at top, #d8effe 0%, var(--bg) 48%);
     color: var(--text);
     font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
@@ -35,9 +37,15 @@ a {
     justify-content: space-between;
     align-items: center;
     padding: 0.85rem 1.2rem;
-    border-bottom: 1px solid var(--border);
-    background: rgba(8, 15, 30, 0.92);
+    border-bottom: 1px solid #1a6eb5;
+    background: linear-gradient(90deg, #0a5fa8 0%, #1478cc 50%, #0e6ec0 100%);
     backdrop-filter: blur(10px);
+}
+
+.top-banner,
+.top-banner .brand p,
+.top-banner .brand h1 {
+    color: #f2f8ff;
 }
 
 .brand h1 {
@@ -48,14 +56,14 @@ a {
 
 .brand p {
     margin: 0.1rem 0 0;
-    color: var(--muted);
+    color: #b8dbff;
     font-size: 0.8rem;
 }
 
 .logout-button {
-    border: 1px solid var(--primary-2);
+    border: 1px solid #9bcfff;
     border-radius: 999px;
-    background: linear-gradient(135deg, #0d6fd8, var(--primary));
+    background: linear-gradient(135deg, #0f73e0, var(--primary));
     color: #eef6ff;
     padding: 0.45rem 0.95rem;
     cursor: pointer;
@@ -76,7 +84,7 @@ a {
     top: 4.5rem;
     border: 1px solid var(--border);
     border-radius: 12px;
-    background: linear-gradient(180deg, rgba(22, 39, 67, 0.95), rgba(12, 21, 37, 0.95));
+    background: linear-gradient(180deg, #dbe8f4, #d3e2f0);
     padding: 0.9rem;
 }
 
@@ -103,7 +111,7 @@ a {
 .sidebar-nav a:focus-visible {
     outline: none;
     color: var(--text);
-    background: rgba(17, 133, 254, 0.18);
+    background: rgba(17, 133, 254, 0.14);
 }
 
 .browse-content {
@@ -131,7 +139,7 @@ a {
 
 .filter-chip {
     border: 1px solid var(--border);
-    background: var(--surface);
+    background: #e5eef6;
     color: var(--muted);
     border-radius: 999px;
     padding: 0.35rem 0.75rem;
@@ -144,7 +152,7 @@ a {
     outline: none;
     color: #f4f9ff;
     border-color: var(--primary-2);
-    background: rgba(17, 133, 254, 0.24);
+    background: rgba(17, 133, 254, 0.16);
 }
 
 .feed-grid {
@@ -159,18 +167,22 @@ a {
     border-radius: 12px;
     padding: 0.75rem;
     background: linear-gradient(180deg, var(--surface-2), var(--surface));
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.24);
+    box-shadow: 0 8px 20px rgba(32, 58, 83, 0.12);
 }
 
 .post-author {
     display: flex;
     align-items: center;
     gap: 0.55rem;
+    background: var(--author-surface);
+    border: 1px solid #d2e0eb;
+    border-radius: 10px;
+    padding: 0.35rem 0.45rem;
 }
 
 .author-avatar {
     border-radius: 50%;
-    border: 1px solid #4f6fa4;
+    border: 1px solid #89a9c4;
 }
 
 .author-meta {
@@ -209,19 +221,19 @@ a {
     width: 100%;
     max-width: 240px;
     height: auto;
-    border: 1px solid #3b567f;
+    border: 1px solid #a6bfd2;
 }
 
 .parent-post .post-card {
     margin-top: 0.65rem;
-    background: rgba(8, 14, 26, 0.55);
+    background: #eaf3fa;
 }
 
 .post-stats {
     margin-top: 0.7rem;
     color: var(--muted);
     font-size: 0.78rem;
-    border-top: 1px solid rgba(158, 179, 217, 0.18);
+    border-top: 1px solid rgba(90, 115, 137, 0.26);
     padding-top: 0.5rem;
 }
 
