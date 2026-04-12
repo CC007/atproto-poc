@@ -262,10 +262,61 @@ a {
 
 .post-stats {
     margin-top: 0.7rem;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    flex-wrap: wrap;
     color: var(--muted);
     font-size: 0.78rem;
     border-top: 1px solid rgba(90, 115, 137, 0.26);
     padding-top: 0.5rem;
+}
+
+.post-stat-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.28rem;
+    line-height: 1;
+}
+
+.post-stat-icon {
+    display: inline-flex;
+    width: 1.2rem;
+    height: 0.9rem;
+}
+
+.post-stat-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.post-stat-icon path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.post-stat-icon-like svg {
+    transform: translateY(0.5px);
+}
+
+.post-stat-icon-quote svg {
+    transform: translateY(1px);
+}
+
+.post-stat-icon-quote path {
+    fill: currentColor;
+    stroke: none;
+}
+
+.post-stat-icon-repost svg {
+    transform: translateY(1px);
+}
+
+.post-stat-icon-reply svg {
+    transform: translateY(1px);
 }
 
 @media (max-width: 960px) {
