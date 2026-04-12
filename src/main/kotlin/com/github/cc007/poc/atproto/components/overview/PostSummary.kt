@@ -2,13 +2,10 @@ package com.github.cc007.poc.atproto.components.overview
 
 import kotlinx.html.*
 import work.socialhub.kbsky.model.app.bsky.actor.ActorDefsProfileViewBasic
-import work.socialhub.kbsky.model.app.bsky.actor.ActorProfile
 import work.socialhub.kbsky.model.app.bsky.embed.*
 import work.socialhub.kbsky.model.app.bsky.feed.FeedDefsPostView
-import work.socialhub.kbsky.model.app.bsky.feed.FeedLike
 import work.socialhub.kbsky.model.app.bsky.feed.FeedPost
-import work.socialhub.kbsky.model.app.bsky.feed.FeedRepost
-import work.socialhub.kbsky.model.app.bsky.graph.*
+import work.socialhub.kbsky.model.share.RecordUnion
 
 private val BLUR_LABELS = setOf("porn", "sexual")
 
@@ -16,31 +13,10 @@ fun HtmlBlockTag.postSummary(post: FeedDefsPostView, parentPost: FeedDefsPostVie
     val labels = (post.labels ?: listOf()).map { it.`val` }
     val blurMedia = labels.any { it in BLUR_LABELS }
     article(classes = "post-card") {
-        post.author?.let { summaryAuthor(it) }
+        post.author?.let { authorBanner(it) }
         div(classes = "post-content") {
-            when (val record = post.record) {
-                is FeedPost -> {
-                    p(classes = "post-text") {
-                        +"${record.text}"
-                    }
-                }
-
-                is FeedRepost -> {}
-                is ActorProfile -> {}
-                is GraphFollow -> {}
-                is GraphBlock -> {}
-                is FeedLike -> {}
-                is GraphListItem -> {}
-                is GraphList -> {}
-                is GraphStarterPack -> {}
-            }
-            when (val embed = post.embed) {
-                is EmbedImagesView -> { imageEmbed(embed, blurMedia) }
-                is EmbedVideoView -> { videoEmbed(embed, blurMedia) }
-                is EmbedExternalView -> {}
-                is EmbedRecordView -> {}
-                is EmbedRecordWithMediaView -> {}
-            }
+            record(post.record)
+            post.embed?.let { embed(it, blurMedia) }
         }
         parentPost?.let {
             div(classes = "parent-post") {
@@ -53,7 +29,7 @@ fun HtmlBlockTag.postSummary(post: FeedDefsPostView, parentPost: FeedDefsPostVie
     }
 }
 
-private fun HtmlBlockTag.summaryAuthor(author: ActorDefsProfileViewBasic) {
+private fun HtmlBlockTag.authorBanner(author: ActorDefsProfileViewBasic) {
     div(classes = "post-author") {
         author.avatar?.let {
             img(src = it, classes = "author-avatar") {
@@ -65,6 +41,82 @@ private fun HtmlBlockTag.summaryAuthor(author: ActorDefsProfileViewBasic) {
             author.displayName?.let { strong(classes = "author-name") { +it } }
             span(classes = "author-handle") { +"@${author.handle}" }
         }
+    }
+}
+
+private fun HtmlBlockTag.record(record: RecordUnion?) {
+    when (record) {
+        is FeedPost -> {
+            p(classes = "post-text feed-post") {
+                +"${record.text}"
+            }
+        }
+        else -> {
+            p(classes = "post-text") {
+                em {
+                    +"This type of post is not yet supported${record?.type?.let { ": $it" } ?: ""}"
+                }
+            }
+        }
+//                is FeedRepost -> {}
+//                is ActorProfile -> {}
+//                is GraphFollow -> {}
+//                is GraphBlock -> {}
+//                is FeedLike -> {}
+//                is GraphListItem -> {}
+//                is GraphList -> {}
+//                is GraphStarterPack -> {}
+    }
+}
+
+private fun HtmlBlockTag.embed(
+    embed: EmbedViewUnion,
+    blurMedia: Boolean
+) {
+    when (embed) {
+        is EmbedImagesView -> {
+            imageEmbed(embed, blurMedia)
+        }
+
+        is EmbedVideoView -> {
+            videoEmbed(embed, blurMedia)
+        }
+
+        is EmbedRecordView -> {
+            div(classes = "embed-record") {
+                article(classes = "post-card") {
+                    embed.record?.asRecord?.let {
+                        it.author?.let { author -> authorBanner(author) }
+                        record(it.value)
+                        it.embeds?.forEach { embed(it, blurMedia) }
+                    }
+                }
+            }
+        }
+
+        is EmbedRecordWithMediaView -> {
+            val labels = (embed.record?.record?.asRecord?.labels ?: listOf()).map { it.`val` }
+            val blurMedia = labels.any { it in BLUR_LABELS }
+            div(classes = "embed-record-with-media") {
+                article(classes = "post-card") {
+                    embed.record?.record?.asRecord?.let {
+                        it.author?.let { author -> authorBanner(author) }
+                        record(it.value)
+                        it.embeds?.forEach { embed(it, blurMedia) }
+                    }
+                    embed.media?.let { embed(it, blurMedia) }
+                }
+            }
+        }
+
+        else -> {
+            p(classes = "embed-media") {
+                em {
+                    +"This type of embed is not supported: ${embed.type}"
+                }
+            }
+        }
+//                is EmbedExternalView -> {}
     }
 }
 
