@@ -55,6 +55,7 @@ private fun HtmlBlockTag.record(record: RecordUnion?) {
                 +"${record.text}"
             }
         }
+
         else -> {
             p(classes = "post-text") {
                 em {
@@ -79,11 +80,23 @@ private fun HtmlBlockTag.embed(
 ) {
     when (embed) {
         is EmbedImagesView -> {
-            imageEmbed(embed, blurMedia)
+            embed.images?.forEach { image ->
+                image.thumb?.let {
+                    embedThumbnail(it, blurMedia)
+                }
+            }
         }
 
         is EmbedVideoView -> {
-            videoEmbed(embed, blurMedia)
+            embed.thumbnail?.let {
+                embedThumbnail(it, blurMedia)
+            }
+        }
+
+        is EmbedExternalView -> {
+            embed.external?.thumb?.let {
+                embedThumbnail(it, blurMedia)
+            }
         }
 
         is EmbedRecordView -> {
@@ -120,44 +133,21 @@ private fun HtmlBlockTag.embed(
                 }
             }
         }
-//                is EmbedExternalView -> {}
     }
 }
 
-private fun HtmlBlockTag.imageEmbed(embed: EmbedImagesView, blur: Boolean = false) {
-    embed.images?.forEach { image ->
-        image.thumb?.let {
-            if (blur) {
-                div(classes = "embed-blur-clip") {
-                    img(src = it, classes = "embed-media embed-media-blur") {
-                        height = "90"
-                        width = "160"
-                    }
-                }
-            } else {
-                img(src = it, classes = "embed-media") {
-                    height = "90"
-                    width = "160"
-                }
-            }
-        }
-    }
-}
-
-private fun HtmlBlockTag.videoEmbed(embed: EmbedVideoView, blur: Boolean = false) {
-    embed.thumbnail?.let {
-        if (blur) {
-            div(classes = "embed-blur-clip") {
-                img(src = it, classes = "embed-media embed-media-blur") {
-                    height = "90"
-                    width = "160"
-                }
-            }
-        } else {
-            img(src = it, classes = "embed-media") {
+private fun HtmlBlockTag.embedThumbnail(src: String, blur: Boolean) {
+    if (blur) {
+        div(classes = "embed-blur-clip") {
+            img(src = src, classes = "embed-media embed-media-blur") {
                 height = "90"
                 width = "160"
             }
+        }
+    } else {
+        img(src = src, classes = "embed-media") {
+            height = "90"
+            width = "160"
         }
     }
 }
