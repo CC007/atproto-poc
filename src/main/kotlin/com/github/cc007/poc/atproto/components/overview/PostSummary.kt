@@ -20,6 +20,10 @@ fun HtmlBlockTag.postSummary(post: FeedDefsPostView, parentPost: FeedDefsPostVie
         }
         parentPost?.let {
             div(classes = "parent-post") {
+                br()
+                em {
+                    +"Reply to:"
+                }
                 postSummary(it, null)
             }
         }
