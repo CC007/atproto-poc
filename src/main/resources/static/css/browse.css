@@ -319,6 +319,10 @@ a {
     transform: translateY(1px);
 }
 
+.post-stat-icon-bookmark svg {
+    transform: translateY(1px);
+}
+
 @media (max-width: 960px) {
     .browse-layout {
         grid-template-columns: 1fr;

@@ -13,6 +13,7 @@ private const val LIKE_ICON = """<svg xmlns="http://www.w3.org/2000/svg" viewBox
 private const val QUOTE_ICON = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7.8 7.5c-1.9 0-3.3 1.5-3.3 3.6V16h4.7v-4H7.6c.08-.96.76-1.78 1.86-2.16L7.8 7.5z"/><path d="M16.3 7.5c-1.9 0-3.3 1.5-3.3 3.6V16h4.7v-4h-1.6c.08-.96.76-1.78 1.86-2.16L16.3 7.5z"/></svg>"""
 private const val REPOST_ICON = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5.5 7h11"/><path d="M13.5 4.5 16 7l-2.5 2.5"/><path d="M18.5 17h-11"/><path d="M10.5 14.5 8 17l2.5 2.5"/></svg>"""
 private const val REPLY_ICON = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5.5 6.5h13A1.5 1.5 0 0 1 20 8v6a1.5 1.5 0 0 1-1.5 1.5h-6.1L7.5 19v-3.5h-2A1.5 1.5 0 0 1 4 14V8a1.5 1.5 0 0 1 1.5-1.5z"/></svg>"""
+private const val BOOKMARK_ICON = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 5.5h10a1 1 0 0 1 1 1V20l-6-3.8L6 20V6.5a1 1 0 0 1 1-1z"/></svg>"""
 
 fun HtmlBlockTag.postSummary(post: FeedDefsPostView, parentPost: FeedDefsPostView?) {
     val needsBlur = needsBlur(post.labels)
@@ -25,6 +26,7 @@ fun HtmlBlockTag.postSummary(post: FeedDefsPostView, parentPost: FeedDefsPostVie
         post.quoteCount,
         post.repostCount,
         post.replyCount,
+        post.bookmarkCount,
         parentPost
     )
 }
@@ -38,6 +40,7 @@ private fun HtmlBlockTag.postSummary(
     quoteCount: Int? = null,
     repostCount: Int? = null,
     replyCount: Int? = null,
+    bookmarkCount: Int? = null,
     parentPost: FeedDefsPostView? = null
 ) {
     article(classes = "post-card") {
@@ -51,6 +54,7 @@ private fun HtmlBlockTag.postSummary(
             statItem("Quotes", QUOTE_ICON, quoteCount, "post-stat-icon-quote")
             statItem("Reposts", REPOST_ICON, repostCount, "post-stat-icon-repost")
             statItem("Replies", REPLY_ICON, replyCount, "post-stat-icon-reply")
+            statItem("Bookmarks", BOOKMARK_ICON, bookmarkCount, "post-stat-icon-bookmark")
         }
         parentPost?.let {
             div(classes = "parent-post") {
@@ -159,6 +163,7 @@ private fun HtmlBlockTag.embed(
                         it.quoteCount,
                         it.repostCount,
                         it.replyCount,
+                        it.bookmarkCount,
                     )
                 }
             }
@@ -179,6 +184,7 @@ private fun HtmlBlockTag.embed(
                         it.quoteCount,
                         it.repostCount,
                         it.replyCount,
+                        it.bookmarkCount,
                     )
                 }
             }
