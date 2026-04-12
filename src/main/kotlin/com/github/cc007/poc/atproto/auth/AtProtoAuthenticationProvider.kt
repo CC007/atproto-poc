@@ -60,7 +60,7 @@ private fun authenticate(username: String, password: String, networkUrl: String)
         BlueskyFactory
             .instance(networkUrl)
             .server()
-            .createSession(
+            .createSessionBlocking(
                 ServerCreateSessionRequest().also {
                     it.identifier = username
                     it.password = password

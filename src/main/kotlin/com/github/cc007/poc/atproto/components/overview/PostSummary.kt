@@ -5,18 +5,45 @@ import work.socialhub.kbsky.model.app.bsky.actor.ActorDefsProfileViewBasic
 import work.socialhub.kbsky.model.app.bsky.embed.*
 import work.socialhub.kbsky.model.app.bsky.feed.FeedDefsPostView
 import work.socialhub.kbsky.model.app.bsky.feed.FeedPost
+import work.socialhub.kbsky.model.com.atproto.label.LabelDefsLabel
 import work.socialhub.kbsky.model.share.RecordUnion
 
 private val BLUR_LABELS = setOf("porn", "sexual")
 
 fun HtmlBlockTag.postSummary(post: FeedDefsPostView, parentPost: FeedDefsPostView?) {
-    val labels = (post.labels ?: listOf()).map { it.`val` }
-    val blurMedia = labels.any { it in BLUR_LABELS }
+    val needsBlur = needsBlur(post.labels)
+    postSummary(
+        post.author,
+        post.record,
+        post.embed?.let { listOf(it) } ?: emptyList(),
+        needsBlur,
+        post.likeCount,
+        post.quoteCount,
+        post.repostCount,
+        post.replyCount,
+        parentPost
+    )
+}
+
+private fun HtmlBlockTag.postSummary(
+    author: ActorDefsProfileViewBasic?,
+    record: RecordUnion?,
+    embeds: List<EmbedViewUnion>,
+    needsBlur: Boolean,
+    likeCount: Int? = null,
+    quoteCount: Int? = null,
+    repostCount: Int? = null,
+    replyCount: Int? = null,
+    parentPost: FeedDefsPostView? = null
+) {
     article(classes = "post-card") {
-        post.author?.let { authorBanner(it) }
+        author?.let { authorBanner(it) }
         div(classes = "post-content") {
-            record(post.record)
-            post.embed?.let { embed(it, blurMedia) }
+            record(record)
+            embeds.forEach { embed(it, needsBlur) }
+        }
+        div(classes = "post-stats") {
+            +"Likes: $likeCount | Quotes: $quoteCount | Reposts: $repostCount | Replies: $replyCount"
         }
         parentPost?.let {
             div(classes = "parent-post") {
@@ -26,9 +53,6 @@ fun HtmlBlockTag.postSummary(post: FeedDefsPostView, parentPost: FeedDefsPostVie
                 }
                 postSummary(it, null)
             }
-        }
-        div(classes = "post-stats") {
-            +"Likes: ${post.likeCount} | Quotes: ${post.quoteCount} | Reposts: ${post.repostCount} | Replies: ${post.replyCount}"
         }
     }
 }
@@ -76,52 +100,63 @@ private fun HtmlBlockTag.record(record: RecordUnion?) {
 
 private fun HtmlBlockTag.embed(
     embed: EmbedViewUnion,
-    blurMedia: Boolean
+    needsBlur: Boolean
 ) {
     when (embed) {
         is EmbedImagesView -> {
             embed.images?.forEach { image ->
                 image.thumb?.let {
-                    embedThumbnail(it, blurMedia)
+                    embedThumbnail(it, needsBlur)
                 }
             }
         }
 
         is EmbedVideoView -> {
             embed.thumbnail?.let {
-                embedThumbnail(it, blurMedia)
+                embedThumbnail(it, needsBlur)
             }
         }
 
         is EmbedExternalView -> {
             embed.external?.thumb?.let {
-                embedThumbnail(it, blurMedia)
+                embedThumbnail(it, needsBlur)
             }
         }
 
         is EmbedRecordView -> {
             div(classes = "embed-record") {
-                article(classes = "post-card") {
-                    embed.record?.asRecord?.let {
-                        it.author?.let { author -> authorBanner(author) }
-                        record(it.value)
-                        it.embeds?.forEach { embed(it, blurMedia) }
-                    }
+                embed.record?.asRecord?.let {
+                    val needsBlur = needsBlur(it.labels)
+                    postSummary(
+                        it.author,
+                        it.value,
+                        it.embeds ?: emptyList(),
+                        needsBlur,
+                        it.likeCount,
+                        it.quoteCount,
+                        it.repostCount,
+                        it.replyCount,
+                    )
                 }
             }
         }
 
         is EmbedRecordWithMediaView -> {
-            val labels = (embed.record?.record?.asRecord?.labels ?: listOf()).map { it.`val` }
-            val blurMedia = labels.any { it in BLUR_LABELS }
             div(classes = "embed-record-with-media") {
-                article(classes = "post-card") {
-                    embed.record?.record?.asRecord?.let {
-                        it.author?.let { author -> authorBanner(author) }
-                        record(it.value)
-                        it.embeds?.forEach { embed(it, blurMedia) }
-                    }
-                    embed.media?.let { embed(it, blurMedia) }
+                embed.record?.record?.asRecord?.let {
+                    val needsBlur = needsBlur(it.labels)
+                    val recordEmbeds = it.embeds ?: emptyList()
+                    val embeds = embed.media?.let { listOf(*recordEmbeds.toTypedArray(), it) } ?: recordEmbeds
+                    postSummary(
+                        it.author,
+                        it.value,
+                        embeds,
+                        needsBlur,
+                        it.likeCount,
+                        it.quoteCount,
+                        it.repostCount,
+                        it.replyCount,
+                    )
                 }
             }
         }
@@ -134,6 +169,12 @@ private fun HtmlBlockTag.embed(
             }
         }
     }
+}
+
+private fun needsBlur(labels: List<LabelDefsLabel>?): Boolean {
+    val labelsVals = (labels ?: emptyList()).map { it.`val` }
+    val blurMedia = labelsVals.any { it in BLUR_LABELS }
+    return blurMedia
 }
 
 private fun HtmlBlockTag.embedThumbnail(src: String, blur: Boolean) {

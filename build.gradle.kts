@@ -9,6 +9,9 @@ group = "com.github.cc007.poc.atproto"
 version = "0.0.1-SNAPSHOT"
 description = "atproto-poc"
 
+repositories {
+    mavenLocal()
+}
 
 dependencies {
     implementation {
@@ -24,7 +27,10 @@ dependencies {
         springBoot("starter-webmvc")
         springModulith("starter-core")
         springModulith("starter-jpa")
-        bsky("core", version = "0.3.0")
+        bsky("core", version = "0.3.0") {
+            exclude(group = "work.socialhub.kbsky", module = "core-jvm")
+        }
+        bsky("core-jvm", version = "1.0.0-SNAPSHOT")
         bsky("auth", version = "0.3.0")
         bsky("stream", version = "0.3.0")
         +"io.github.wimdeblauwe:htmx-spring-boot:5.0.0"

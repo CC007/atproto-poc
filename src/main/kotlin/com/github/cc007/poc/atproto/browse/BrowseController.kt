@@ -72,11 +72,11 @@ class BrowseController {
                                 }
                             }
                             section(classes = "feed-grid") {
-                            val timeline = feed.getTimeline(FeedGetTimelineRequest(auth))
-                            logger.info { timeline.json.pretty() }
-                            timeline.data.feed.forEach {
-                                postSummary(it.post, it.reply?.parent)
-                            }
+                                val timeline = feed.getTimelineBlocking(FeedGetTimelineRequest(auth))
+                                logger.info { timeline.json.pretty() }
+                                timeline.data.feed.forEach {
+                                    postSummary(it.post, it.reply?.parent)
+                                }
                             }
                         }
                     }

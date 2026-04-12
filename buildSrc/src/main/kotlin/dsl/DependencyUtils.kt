@@ -1,9 +1,11 @@
 package buildsrc.convention.dsl
 
 import org.gradle.api.artifacts.Dependency
+import org.gradle.api.artifacts.ExternalModuleDependency
 import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.gradle.kotlin.dsl.DependencyHandlerScope
 import org.gradle.kotlin.dsl.GradleDsl
+import org.gradle.kotlin.dsl.add
 
 
 class ConfigurationSpecificDependencyHandlerScope(
@@ -17,8 +19,11 @@ class ConfigurationSpecificDependencyHandlerScope(
     }
 
     @GradleDsl
-    fun id(dependencyNotation: Any): Dependency? {
-        return add(configurationType, dependencyNotation)
+    fun DependencyHandler.id(
+        dependencyNotation: String,
+        dependencyConfiguration: ExternalModuleDependency.() -> Unit = {}
+    ): Dependency? {
+        return add(configurationType, dependencyNotation, dependencyConfiguration)
     }
 }
 
