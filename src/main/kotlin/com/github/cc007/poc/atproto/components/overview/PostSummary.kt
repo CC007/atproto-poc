@@ -7,6 +7,8 @@ import work.socialhub.kbsky.model.app.bsky.feed.FeedDefsPostView
 import work.socialhub.kbsky.model.app.bsky.feed.FeedPost
 import work.socialhub.kbsky.model.com.atproto.label.LabelDefsLabel
 import work.socialhub.kbsky.model.share.RecordUnion
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 private val BLUR_LABELS = setOf("porn", "sexual")
 private const val LIKE_ICON = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-6.7-4.35-9.2-8.1C.8 9.95 2.1 6.5 5.45 5.7 7.5 5.2 9.25 5.95 10.4 7.4L12 9.4l1.6-2c1.15-1.45 2.9-2.2 4.95-1.7 3.35.8 4.65 4.25 2.65 7.2C18.7 16.65 12 21 12 21z"/></svg>"""
@@ -27,6 +29,8 @@ fun HtmlBlockTag.postSummary(post: FeedDefsPostView, parentPost: FeedDefsPostVie
         post.repostCount,
         post.replyCount,
         post.bookmarkCount,
+        post.uri,
+        post.cid,
         parentPost
     )
 }
@@ -41,6 +45,8 @@ private fun HtmlBlockTag.postSummary(
     repostCount: Int? = null,
     replyCount: Int? = null,
     bookmarkCount: Int? = null,
+    postUri: String? = null,
+    postCid: String? = null,
     parentPost: FeedDefsPostView? = null
 ) {
     article(classes = "post-card") {
@@ -56,6 +62,7 @@ private fun HtmlBlockTag.postSummary(
             statItem("Replies", REPLY_ICON, replyCount, "post-stat-icon-reply")
             statItem("Bookmarks", BOOKMARK_ICON, bookmarkCount, "post-stat-icon-bookmark")
         }
+        postLink(author?.handle, postUri, postCid, embeds)
         parentPost?.let {
             div(classes = "parent-post") {
                 br()
@@ -64,6 +71,29 @@ private fun HtmlBlockTag.postSummary(
                 }
                 postSummary(it, null)
             }
+        }
+    }
+}
+
+private fun FlowContent.postLink(
+    handle: String?,
+    uri: String?,
+    cid: String?,
+    embeds: List<EmbedViewUnion>,
+) {
+    if (embeds.isEmpty()) {
+        return
+    }
+    val postUri = uri ?: return
+    val postCid = cid ?: return
+    val encodedUri = URLEncoder.encode(postUri, StandardCharsets.UTF_8)
+
+    p(classes = "post-open-link") {
+        a(href = "/art/$postCid?uri=$encodedUri") {
+            +"Open artwork"
+        }
+        handle?.let {
+            +" by @$it"
         }
     }
 }
@@ -164,6 +194,8 @@ private fun HtmlBlockTag.embed(
                         it.repostCount,
                         it.replyCount,
                         it.bookmarkCount,
+                        it.uri,
+                        it.cid,
                     )
                 }
             }
@@ -185,6 +217,8 @@ private fun HtmlBlockTag.embed(
                         it.repostCount,
                         it.replyCount,
                         it.bookmarkCount,
+                        it.uri,
+                        it.cid,
                     )
                 }
             }

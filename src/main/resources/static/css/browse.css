@@ -272,6 +272,17 @@ a {
     padding-top: 0.5rem;
 }
 
+.post-open-link {
+    margin: 0.55rem 0 0;
+    font-size: 0.8rem;
+    color: var(--accent);
+}
+
+.post-open-link a {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
 .post-stat-item {
     display: inline-flex;
     align-items: center;

@@ -32,7 +32,7 @@ class BrowseController {
 
     @GetMapping("/browse", produces = [MediaType.TEXT_HTML_VALUE])
     @ResponseBody
-    fun index(
+    fun browseEndpoint(
         request: HttpServletRequest
     ): String {
         return with(SecurityContextHolder.getContext().authentication as AtProtoAuthentication) {
