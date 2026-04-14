@@ -255,6 +255,10 @@ a {
     filter: blur(0);
 }
 
+.embed-record {
+    margin-top: 0.5rem;
+}
+
 .parent-post .post-card {
     margin-top: 0.65rem;
     background: #eaf3fa;

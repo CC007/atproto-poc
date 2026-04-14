@@ -202,16 +202,16 @@ private fun HtmlBlockTag.embed(
         }
 
         is EmbedRecordWithMediaView -> {
-            div(classes = "embed-record-with-media") {
+            embed.media?.let { embed(it, needsBlur) }
+
+            div(classes = "embed-record") {
                 embed.record?.record?.asRecord?.let {
-                    val needsBlur = needsBlur(it.labels)
-                    val recordEmbeds = it.embeds ?: emptyList()
-                    val embeds = embed.media?.let { listOf(*recordEmbeds.toTypedArray(), it) } ?: recordEmbeds
+                    val recordNeedsBlur = needsBlur(it.labels)
                     postSummary(
                         it.author,
                         it.value,
-                        embeds,
-                        needsBlur,
+                        it.embeds ?: emptyList(),
+                        recordNeedsBlur,
                         it.likeCount,
                         it.quoteCount,
                         it.repostCount,
