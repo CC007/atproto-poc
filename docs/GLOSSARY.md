@@ -21,3 +21,9 @@ Route `/art/{cid}` that renders the primary embed, post text, and comments.
 ## `kotlinx.html`
 Kotlin DSL used in this project to render server-side HTML.
 
+## AI Task
+A repository-tracked work item executed by an AI assistant, documented with status, progress notes, and completion details.
+
+## AI Task Index
+`docs/AI_TASKS.md`, the status board that links active and completed task records in `docs/ai-tasks/`.
+

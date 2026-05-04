@@ -6,11 +6,12 @@ Use this repository guidance hierarchy:
 2. `README.md`
 3. `docs/ARCHITECTURE.md`
 4. `docs/DECISIONS.md`
-5. `docs/TESTING.md`
-6. `docs/SECURITY.md`
-7. `docs/GLOSSARY.md`
-8. `CONTRIBUTING.md`
-9. `HELP.md`
+5. `docs/AI_TASKS.md`
+6. `docs/TESTING.md`
+7. `docs/SECURITY.md`
+8. `docs/GLOSSARY.md`
+9. `CONTRIBUTING.md`
+10. `HELP.md`
 
 ## Copilot Behavior Requirements
 
@@ -32,6 +33,7 @@ When your change impacts one of these domains, create or update the page:
 
 - `docs/ARCHITECTURE.md`
 - `docs/DECISIONS.md` (or files under `docs/adr/`)
+- `docs/AI_TASKS.md` (and files under `docs/ai-tasks/`)
 - `docs/TESTING.md`
 - `docs/SECURITY.md`
 - `docs/GLOSSARY.md`

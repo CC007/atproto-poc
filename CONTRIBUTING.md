@@ -11,6 +11,7 @@ Use small, reviewable changes and keep behavior changes explicit.
 3. Read these docs pages for current project state:
    - `docs/ARCHITECTURE.md`
    - `docs/DECISIONS.md`
+   - `docs/AI_TASKS.md`
    - `docs/TESTING.md`
    - `docs/SECURITY.md`
    - `docs/GLOSSARY.md`
@@ -39,6 +40,7 @@ Also update or create docs when the change affects those concerns:
 
 - `docs/ARCHITECTURE.md`
 - `docs/DECISIONS.md` or `docs/adr/`
+- `docs/AI_TASKS.md` and `docs/ai-tasks/`
 - `docs/TESTING.md`
 - `docs/SECURITY.md`
 - `docs/GLOSSARY.md`
@@ -51,4 +53,11 @@ When using GitHub Copilot for edits, ensure prompts include:
 - The files to modify
 - A request to follow `AGENTS.md` and `.github/copilot-instructions.md`
 - A request to update relevant docs pages under `docs/` if project state changes
+
+## AI Task Tracking
+
+- Use `docs/AI_TASKS.md` as the AI task index and status board.
+- Create one task file per AI work item using `docs/ai-tasks/_TEMPLATE.md`.
+- Keep status and progress current while work is in-flight.
+- Record completion details in each task file under `How Completed`.
 

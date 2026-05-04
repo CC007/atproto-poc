@@ -23,3 +23,9 @@ Track technical decisions and rationale in one place. Use this file for concise 
 - Decision: Resolve `/art/{cid}` primarily via provided `uri`, with CID-only fallback as best-effort.
 - Consequences: More stable detail fetch when URI is present; CID-only routes may miss off-timeline posts.
 
+### D-004: Track AI tasks in repository docs
+- Status: accepted
+- Context: GitHub Issues are reserved for human planning and ownership, but AI work requires versioned status and completion traceability.
+- Decision: Introduce `docs/AI_TASKS.md` as an index and maintain per-task records under `docs/ai-tasks/`.
+- Consequences: AI progress is reviewable in Git history; contributors must keep task records updated as part of handoff.
+

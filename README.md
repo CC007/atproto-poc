@@ -27,11 +27,12 @@ When working with AI assistants, treat these as mandatory context:
 2. `.github/copilot-instructions.md` (GitHub Copilot-specific instructions)
 3. `docs/ARCHITECTURE.md` (components, boundaries, routes, and data flows)
 4. `docs/DECISIONS.md` (decision history and rationale)
-5. `docs/TESTING.md` (test strategy and verification commands)
-6. `docs/SECURITY.md` (security model and hardening notes)
-7. `docs/GLOSSARY.md` (domain terms and naming consistency)
-8. `CONTRIBUTING.md` (contribution rules and validation expectations)
-9. `HELP.md` (generated references and environment notes)
+5. `docs/AI_TASKS.md` (AI task index, statuses, and links to task records)
+6. `docs/TESTING.md` (test strategy and verification commands)
+7. `docs/SECURITY.md` (security model and hardening notes)
+8. `docs/GLOSSARY.md` (domain terms and naming consistency)
+9. `CONTRIBUTING.md` (contribution rules and validation expectations)
+10. `HELP.md` (generated references and environment notes)
 
 ## Documentation Roadmap (Nice-to-Have)
 
@@ -39,6 +40,7 @@ These pages are part of the expected documentation surface for future edits. If 
 
 - `docs/ARCHITECTURE.md` (components, boundaries, data flows)
 - `docs/DECISIONS.md` or `docs/adr/` (decision history and rationale)
+- `docs/AI_TASKS.md` + `docs/ai-tasks/` (AI task backlog and execution records)
 - `docs/TESTING.md` (test strategy and command matrix)
 - `docs/SECURITY.md` (security model, secrets, and hardening guidance)
 - `docs/GLOSSARY.md` (domain language and naming consistency)

@@ -10,11 +10,12 @@ Before planning or editing, read these files in order:
 2. `.github/copilot-instructions.md`
 3. `docs/ARCHITECTURE.md`
 4. `docs/DECISIONS.md`
-5. `docs/TESTING.md`
-6. `docs/SECURITY.md`
-7. `docs/GLOSSARY.md`
-8. `CONTRIBUTING.md`
-9. `HELP.md`
+5. `docs/AI_TASKS.md`
+6. `docs/TESTING.md`
+7. `docs/SECURITY.md`
+8. `docs/GLOSSARY.md`
+9. `CONTRIBUTING.md`
+10. `HELP.md`
 
 If any file is missing or stale, propose an update as part of the change.
 
@@ -38,6 +39,7 @@ After significant changes, update or create the relevant docs pages:
 
 - `docs/ARCHITECTURE.md` for component boundaries, data flow, routes, or major structure changes
 - `docs/DECISIONS.md` (or `docs/adr/`) for important technical tradeoffs and rationale
+- `docs/AI_TASKS.md` (and `docs/ai-tasks/`) for AI-owned task state and completion notes
 - `docs/TESTING.md` for verification scope, commands, and gaps
 - `docs/SECURITY.md` for auth, secrets, threat model, or hardening updates
 - `docs/GLOSSARY.md` for new domain terms or naming conventions
