@@ -50,10 +50,14 @@ private fun HtmlBlockTag.postSummary(
     postCid: String? = null,
     parentPost: FeedDefsPostView? = null
 ) {
-    article(classes = "post-card") {
+    val hasEmbeds = embeds.isNotEmpty()
+    val cardClasses = if (hasEmbeds) "post-card post-card-media" else "post-card post-card-text-only"
+    article(classes = cardClasses) {
         author?.let { authorBanner(it) }
         div(classes = "post-content") {
-            record(record)
+            if (!hasEmbeds) {
+                record(record)
+            }
             embeds.forEach { embed(it, needsBlur) }
         }
         div(classes = "post-stats") {
@@ -162,10 +166,11 @@ private fun HtmlBlockTag.embed(
 ) {
     when (embed) {
         is EmbedImagesView -> {
-            embed.images?.forEach { image ->
-                image.thumb?.let {
-                    embedThumbnail(it, needsBlur)
-                }
+            val imageThumbs = embed.images
+                ?.mapNotNull { it.thumb }
+                ?: emptyList()
+            if (imageThumbs.isNotEmpty()) {
+                renderImageGallery(imageThumbs, needsBlur)
             }
         }
 
@@ -241,18 +246,34 @@ private fun needsBlur(labels: List<LabelDefsLabel>?): Boolean {
     return blurMedia
 }
 
-private fun HtmlBlockTag.embedThumbnail(src: String, blur: Boolean) {
-    if (blur) {
-        div(classes = "embed-blur-clip") {
-            img(src = src, classes = "embed-media embed-media-blur") {
-                height = "90"
-                width = "160"
+private fun HtmlBlockTag.renderImageGallery(imageThumbs: List<String>, blur: Boolean) {
+    if (imageThumbs.size <= 1) {
+        embedThumbnail(imageThumbs.first(), blur, "embed-media-single")
+        return
+    }
+
+    div(classes = "embed-media-grid") {
+        div(classes = "embed-media-grid-main") {
+            embedThumbnail(imageThumbs.first(), blur, "embed-media-grid-primary")
+        }
+        div(classes = "embed-media-grid-side") {
+            imageThumbs.drop(1).take(3).forEach { thumb ->
+                embedThumbnail(thumb, blur, "embed-media-grid-secondary")
             }
         }
-    } else {
-        img(src = src, classes = "embed-media") {
-            height = "90"
-            width = "160"
+    }
+}
+
+private fun HtmlBlockTag.embedThumbnail(src: String, blur: Boolean, mediaClass: String = "") {
+    val classes = listOf("embed-media", mediaClass)
+        .filter { it.isNotBlank() }
+        .joinToString(" ")
+
+    if (blur) {
+        div(classes = "embed-blur-clip") {
+            img(src = src, classes = "$classes embed-media-blur")
         }
+    } else {
+        img(src = src, classes = classes)
     }
 }

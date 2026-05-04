@@ -2,10 +2,10 @@
 
 ## Metadata
 - ID: `BA-005`
-- Status: `todo`
+- Status: `completed`
 - Owner: `ai`
 - Created: `2026-05-04 22:56`
-- Updated: `2026-05-05 00:19`
+- Updated: `2026-05-05 00:36`
 - Related Human Issue: none
 
 ## Goal
@@ -28,23 +28,39 @@ Make browse cards a consistent vertical size regardless of content. Apply a deli
   - Responsive breakpoints beyond basic desktop layout.
 
 ## Plan
-- [ ] Define card fixed height constant in CSS (suggested: CSS custom property `--card-height`).
-- [ ] Update `.post-card` to enforce `height: var(--card-height)` and `overflow: hidden`.
-- [ ] Add multi-image grid class: first image fills the left portion, images 2–4 fill a right column stacked.
-- [ ] Update `embedThumbnail` and `embed(EmbedImagesView)` in `PostSummary.kt` to emit the correct wrapper elements for the grid.
-- [ ] Suppress `record()` text output when embeds list is non-empty.
-- [ ] Add `text-overflow: ellipsis` / clip rules for text-only `.post-card`.
+- [x] Define card fixed height constant in CSS (suggested: CSS custom property `--card-height`).
+- [x] Update `.post-card` to enforce `height: var(--card-height)` and `overflow: hidden`.
+- [x] Add multi-image grid class: first image fills the left portion, images 2–4 fill a right column stacked.
+- [x] Update `embedThumbnail` and `embed(EmbedImagesView)` in `PostSummary.kt` to emit the correct wrapper elements for the grid.
+- [x] Suppress `record()` text output when embeds list is non-empty.
+- [x] Add `text-overflow: ellipsis` / clip rules for text-only `.post-card`.
 - [ ] Visual smoke test against `/browse`.
-- [ ] Update `docs/ARCHITECTURE.md` if component structure changes significantly.
+- [x] Update `docs/ARCHITECTURE.md` if component structure changes significantly.
 
 ## Progress Log
 - `2026-05-04 22:56`: Task created.
+- `2026-05-05 00:50`: Implemented media-aware card markup and gallery wrappers in `PostSummary.kt`.
+- `2026-05-05 00:51`: Added fixed browse card height, overflow clipping, and split-gallery CSS in `browse.css`.
+- `2026-05-05 00:36`: Added `PostSummaryTest`; ran `./gradlew test` successfully and updated docs.
 
 ## How Completed
-_To be filled in on completion._
+- Updated `src/main/kotlin/com/github/cc007/blueart/components/overview/PostSummary.kt`:
+  - Added media/text-only card classes.
+  - Suppressed post text when embeds are present.
+  - Added image gallery rendering for `EmbedImagesView` with split layout for 2-4 images.
+  - Updated thumbnail helper to accept CSS class variants used by gallery slots.
+- Updated `src/main/resources/static/css/browse.css`:
+  - Added `--card-height` and fixed card-height behavior.
+  - Switched cards to flex-column layout so content area clips while footer stats remain visible.
+  - Added text-only line-clamp clipping.
+  - Added media-single and split-gallery sizing/layout rules.
+- Updated `docs/ARCHITECTURE.md` to reflect the media-aware browse card rendering behavior.
+- Updated `docs/TESTING.md` to capture new PostSummary rendering coverage.
+- Updated `docs/AI_TASKS.md` to move BA-005 from Active to Completed.
 
 ## Verification
-_To be filled in on completion._
+- `./gradlew test`
+- Manual `/browse` visual smoke test remains pending.
 
 ## Follow-ups
 - [ ] Consider responsive layout adjustments for narrower viewports.

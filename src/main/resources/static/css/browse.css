@@ -11,6 +11,7 @@
     --primary-2: #3ca0ff;
     --accent: #0a62a8;
     --hashtag: #085898;
+    --card-height: 360px;
 }
 
 * {
@@ -166,7 +167,7 @@ a {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 0.8rem;
-    align-items: start;
+    align-items: stretch;
 }
 
 .post-card {
@@ -175,6 +176,10 @@ a {
     padding: 0.75rem;
     background: linear-gradient(180deg, var(--surface-2), var(--surface));
     box-shadow: 0 8px 20px rgba(32, 58, 83, 0.12);
+    height: var(--card-height);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .post-author {
@@ -209,6 +214,9 @@ a {
 
 .post-content {
     margin-top: 0.6rem;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
 }
 
 .post-text {
@@ -216,6 +224,13 @@ a {
     line-height: 1.4;
     overflow-wrap: anywhere;
     word-break: break-word;
+}
+
+.post-card-text-only .post-text {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 11;
+    overflow: hidden;
 }
 
 .richtext-link,
@@ -255,20 +270,51 @@ a {
 }
 
 .embed-media {
-    margin-top: 0.5rem;
+    margin-top: 0;
     border-radius: 8px;
     width: 100%;
-    max-width: 240px;
-    height: auto;
+    height: 100%;
     border: 1px solid #a6bfd2;
+    display: block;
+    object-fit: cover;
+}
+
+.post-card-media .embed-media-single,
+.post-card-media .embed-blur-clip {
+    margin-top: 0.5rem;
+    height: 170px;
+}
+
+.embed-media-grid {
+    margin-top: 0.5rem;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 0.35rem;
+    height: 180px;
+}
+
+.embed-media-grid-main,
+.embed-media-grid-side {
+    min-width: 0;
+    min-height: 0;
+}
+
+.embed-media-grid-side {
+    display: grid;
+    gap: 0.35rem;
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+}
+
+.embed-media-grid-main .embed-blur-clip,
+.embed-media-grid-side .embed-blur-clip {
+    margin-top: 0;
+    height: 100%;
 }
 
 .embed-blur-clip {
-    display: inline-block;
+    display: block;
     border-radius: 8px;
     overflow: hidden;
-    margin-top: 0.5rem;
-    max-width: 240px;
     width: 100%;
 }
 
@@ -279,7 +325,6 @@ a {
 .embed-media-blur {
     filter: blur(18px);
     transition: filter 0.25s ease;
-    display: block;
 }
 
 .embed-blur-clip:hover .embed-media-blur {
@@ -293,6 +338,8 @@ a {
 .parent-post .post-card {
     margin-top: 0.65rem;
     background: #eaf3fa;
+    height: auto;
+    overflow: visible;
 }
 
 .post-stats {
@@ -305,6 +352,7 @@ a {
     font-size: 0.78rem;
     border-top: 1px solid rgba(90, 115, 137, 0.26);
     padding-top: 0.5rem;
+    flex-shrink: 0;
 }
 
 .post-open-link {
