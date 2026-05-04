@@ -28,7 +28,13 @@ Use this page as the index for active and completed AI task records under `docs/
 ## Active Tasks
 | ID | Title | Status | Owner | Links |
 | --- | --- | --- | --- | --- |
-| _none_ | _none_ | _none_ | _none_ | _none_ |
+| `BA-002` | Remove proof-of-concept framing | `todo` | `ai` | `docs/ai-tasks/2026-05-04-BA-002-remove-poc-framing.md` |
+| `BA-003` | Explore CSS-in-Kotlin approach (ktor CSS DSL / Kotlinwind) | `todo` | `ai` | `docs/ai-tasks/2026-05-04-BA-003-explore-css-in-kotlin.md` |
+| `BA-004` | Rich-text facet rendering (links and hashtags) | `todo` | `ai` | `docs/ai-tasks/2026-05-04-BA-004-rich-text-facets.md` |
+| `BA-005` | Uniform browse card height with multi-image layout | `todo` | `ai` | `docs/ai-tasks/2026-05-04-BA-005-uniform-browse-card-layout.md` |
+| `BA-006` | Functional subheader filter (post type switcher) | `todo` | `ai` | `docs/ai-tasks/2026-05-04-BA-006-functional-subheader-filter.md` |
+| `BA-007` | User gallery and favorites pages | `todo` | `ai` | `docs/ai-tasks/2026-05-04-BA-007-user-gallery-and-favorites.md` |
+| `BA-008` | User profile page (DeviantArt-style) | `todo` | `ai` | `docs/ai-tasks/2026-05-04-BA-008-user-profile-page.md` |
 
 ## Completed Tasks
 | ID | Title | Completed On | Notes |
