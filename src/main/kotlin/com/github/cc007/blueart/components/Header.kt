@@ -1,4 +1,4 @@
-package com.github.cc007.poc.atproto.components
+package com.github.cc007.blueart.components
 
 import kotlinx.html.*
 

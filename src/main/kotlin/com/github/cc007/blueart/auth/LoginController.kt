@@ -1,4 +1,4 @@
-package com.github.cc007.poc.atproto.auth
+package com.github.cc007.blueart.auth
 
 import jakarta.servlet.http.HttpServletRequest
 import kotlinx.html.*

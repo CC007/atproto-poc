@@ -1,4 +1,4 @@
-package com.github.cc007.poc.atproto.components.overview
+package com.github.cc007.blueart.components.overview
 
 import kotlinx.html.*
 import work.socialhub.kbsky.model.app.bsky.actor.ActorDefsProfileViewBasic

@@ -4,8 +4,8 @@
 - ID: `BA-007`
 - Status: `todo`
 - Owner: `ai`
-- Created: `2026-05-04`
-- Updated: `2026-05-04`
+- Created: `2026-05-04 22:56`
+- Updated: `2026-05-04 22:56`
 - Related Human Issue: none
 
 ## Goal
@@ -47,4 +47,3 @@ _To be filled in on completion._
 ## Follow-ups
 - [ ] Add pagination to gallery and favorites.
 - [ ] Link gallery/favorites from the user profile page (BA-008).
-

@@ -1,6 +1,6 @@
-package com.github.cc007.poc.atproto.auth
+package com.github.cc007.blueart.auth
 
-import com.github.cc007.poc.atproto.util.*
+import com.github.cc007.blueart.util.*
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.BadCredentialsException

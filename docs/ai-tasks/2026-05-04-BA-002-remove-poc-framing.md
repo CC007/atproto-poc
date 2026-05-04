@@ -2,10 +2,11 @@
 
 ## Metadata
 - ID: `BA-002`
-- Status: `todo`
+- Status: `done`
 - Owner: `ai`
-- Created: `2026-05-04`
-- Updated: `2026-05-04`
+- Created: `2026-05-04 22:56`
+- Updated: `2026-05-04 23:06`
+- Completed: `2026-05-04 23:06`
 - Related Human Issue: none
 
 ## Goal
@@ -25,23 +26,28 @@ Rebrand the project documentation and in-code references away from "proof-of-con
   - Changing the runtime behavior of the application.
 
 ## Plan
-- [ ] Audit all files for `poc`, `proof-of-concept`, `PoC` references.
-- [ ] Agree on new canonical package/artifact namespace (e.g. `com.github.cc007.blueart`).
-- [ ] Rename package directories and update all imports.
-- [ ] Update `build.gradle.kts` artifact ID and `settings.gradle.kts` project name.
-- [ ] Update all documentation files.
-- [ ] Add D-XXX entry in `docs/DECISIONS.md` capturing the rename rationale.
-- [ ] Run `./gradlew test` to confirm refactor compiles and tests pass.
+- [x] Audit all files for `poc`, `proof-of-concept`, `PoC` references.
+- [x] Agree on new canonical package/artifact namespace (`com.github.cc007.blueart`).
+- [x] Rename package directories and update all imports.
+- [x] Update `build.gradle.kts` artifact ID and `settings.gradle.kts` project name.
+- [x] Update all documentation files.
+- [x] Add D-005 entry in `docs/DECISIONS.md` capturing the rename rationale.
+- [x] Run `./gradlew test` to confirm refactor compiles and tests pass.
 
 ## Progress Log
-- `2026-05-04`: Task created.
+- `2026-05-04 22:56`: Task created.
+- `2026-05-04 23:06`: Task completed by AI.
 
 ## How Completed
-_To be filled in on completion._
+- Canonical new package name chosen: `com.github.cc007.blueart`.
+- Moved all Kotlin sources from `src/*/kotlin/com/github/cc007/poc/atproto/` to `src/*/kotlin/com/github/cc007/blueart/`.
+- Renamed main application class `AtprotoPocApplication` → `BlueArtApplication`; test runner `TestAtprotoPocApplication` → `TestBlueArtApplication`; test class `AtprotoPocApplicationTests` → `BlueArtApplicationTests`.
+- Updated `build.gradle.kts`: `group`, `description`.
+- Updated `src/main/resources/application.yaml`: `spring.application.name`, logging package.
+- Updated `README.md`, `docs/ARCHITECTURE.md`, `docs/SECURITY.md`, `docs/DECISIONS.md` (D-001, added D-005).
 
 ## Verification
-_To be filled in on completion._
+- `./gradlew test` → `BlueArtApplicationTests > contextLoads() PASSED`, `BUILD SUCCESSFUL`.
 
 ## Follow-ups
 - [ ] Update CI/CD references if the artifact name is used there.
-

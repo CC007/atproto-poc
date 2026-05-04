@@ -1,11 +1,11 @@
-package com.github.cc007.poc.atproto
+package com.github.cc007.blueart
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class AtprotoPocApplication
+class BlueArtApplication
 
 fun main(args: Array<String>) {
-    runApplication<AtprotoPocApplication>(*args)
+    runApplication<BlueArtApplication>(*args)
 }

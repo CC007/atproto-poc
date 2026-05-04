@@ -1,6 +1,6 @@
 # BlueArt
 
-BlueArt is a Kotlin + Spring Boot proof-of-concept for browsing Bluesky/ATProto content with a server-rendered UI.
+BlueArt is a Kotlin + Spring Boot web application for browsing Bluesky/ATProto content with a server-rendered UI.
 
 ## Project Scope
 

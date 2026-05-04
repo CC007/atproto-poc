@@ -1,6 +1,5 @@
-package com.github.cc007.poc.atproto.auth
+package com.github.cc007.blueart.auth
 
-import jakarta.servlet.http.HttpServletResponse
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity

@@ -1,7 +1,7 @@
-package com.github.cc007.poc.atproto.content.art
+package com.github.cc007.blueart.content.art
 
-import com.github.cc007.poc.atproto.auth.AtProtoAuthentication
-import com.github.cc007.poc.atproto.components.topBanner
+import com.github.cc007.blueart.auth.AtProtoAuthentication
+import com.github.cc007.blueart.components.topBanner
 import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.servlet.http.HttpServletRequest
 import kotlinx.html.*

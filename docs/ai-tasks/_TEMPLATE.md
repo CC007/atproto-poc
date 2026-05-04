@@ -4,8 +4,9 @@
 - ID: `BA-XXX`
 - Status: `todo`
 - Owner: `ai`
-- Created: `YYYY-MM-DD`
-- Updated: `YYYY-MM-DD`
+- Created: `YYYY-MM-DD HH:MM`
+- Updated: `YYYY-MM-DD HH:MM`
+- Completed: `YYYY-MM-DD HH:MM` (when done)
 - Related Human Issue: `<optional, e.g. #123>`
 
 ## Goal
@@ -21,7 +22,7 @@ Describe the expected outcome in one to three sentences.
 - [ ] Step 3
 
 ## Progress Log
-- `YYYY-MM-DD`: Created task.
+- `YYYY-MM-DD HH:MM`: Created task.
 
 ## How Completed
 List what was changed and how:
@@ -37,4 +38,3 @@ List what was changed and how:
 ## Follow-ups
 - [ ] Optional follow-up 1
 - [ ] Optional follow-up 2
-

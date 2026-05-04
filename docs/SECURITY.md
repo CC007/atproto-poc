@@ -1,8 +1,8 @@
 # Security
 
 ## Current Posture
-- This repository is a proof-of-concept and should not be treated as production-hardened.
-- Security controls and threat modeling are evolving.
+- This repository is a pre-production web application. Security controls and threat modeling are evolving.
+- Do not deploy to production until explicit hardening and threat modeling are complete.
 
 ## Practices
 - Do not commit secrets, credentials, or private tokens.

@@ -5,9 +5,9 @@ plugins {
     id("buildsrc.convention.spring-boot")
 }
 
-group = "com.github.cc007.poc.atproto"
+group = "com.github.cc007.blueart"
 version = "0.0.1-SNAPSHOT"
-description = "atproto-poc"
+description = "BlueArt server-rendered ATProto art browsing and discovery web application module"
 
 repositories {
     mavenLocal()

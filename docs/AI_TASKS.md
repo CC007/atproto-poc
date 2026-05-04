@@ -28,7 +28,6 @@ Use this page as the index for active and completed AI task records under `docs/
 ## Active Tasks
 | ID | Title | Status | Owner | Links |
 | --- | --- | --- | --- | --- |
-| `BA-002` | Remove proof-of-concept framing | `todo` | `ai` | `docs/ai-tasks/2026-05-04-BA-002-remove-poc-framing.md` |
 | `BA-003` | Explore CSS-in-Kotlin approach (ktor CSS DSL / Kotlinwind) | `todo` | `ai` | `docs/ai-tasks/2026-05-04-BA-003-explore-css-in-kotlin.md` |
 | `BA-004` | Rich-text facet rendering (links and hashtags) | `todo` | `ai` | `docs/ai-tasks/2026-05-04-BA-004-rich-text-facets.md` |
 | `BA-005` | Uniform browse card height with multi-image layout | `todo` | `ai` | `docs/ai-tasks/2026-05-04-BA-005-uniform-browse-card-layout.md` |
@@ -39,6 +38,5 @@ Use this page as the index for active and completed AI task records under `docs/
 ## Completed Tasks
 | ID | Title | Completed On | Notes |
 | --- | --- | --- | --- |
-| `BA-001` | Add in-repo AI task tracker | `2026-05-04` | `docs/ai-tasks/2026-05-04-BA-001-add-ai-task-tracker.md` |
-
-
+| `BA-001` | Add in-repo AI task tracker | `2026-05-04 22:31` | `docs/ai-tasks/2026-05-04-BA-001-add-ai-task-tracker.md` |
+| `BA-002` | Remove proof-of-concept framing | `2026-05-04 23:06` | `docs/ai-tasks/2026-05-04-BA-002-remove-poc-framing.md` |

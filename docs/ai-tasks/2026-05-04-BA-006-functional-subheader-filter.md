@@ -4,8 +4,8 @@
 - ID: `BA-006`
 - Status: `todo`
 - Owner: `ai`
-- Created: `2026-05-04`
-- Updated: `2026-05-04`
+- Created: `2026-05-04 22:56`
+- Updated: `2026-05-04 22:56`
 - Related Human Issue: none
 
 ## Goal
@@ -45,4 +45,3 @@ _To be filled in on completion._
 ## Follow-ups
 - [ ] Add integration tests for each filter value.
 - [ ] Consider session/cookie persistence for the selected filter.
-

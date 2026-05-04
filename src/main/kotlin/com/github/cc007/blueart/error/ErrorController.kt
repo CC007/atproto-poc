@@ -1,4 +1,4 @@
-package com.github.cc007.poc.atproto.error
+package com.github.cc007.blueart.error
 
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus

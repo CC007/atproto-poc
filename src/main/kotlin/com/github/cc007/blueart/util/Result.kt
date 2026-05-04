@@ -1,4 +1,4 @@
-package com.github.cc007.poc.atproto.util
+package com.github.cc007.blueart.util
 
 sealed interface Result<T>
 data class Success<T>(val data: T) : Result<T>

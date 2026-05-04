@@ -4,8 +4,9 @@
 - ID: `BA-001`
 - Status: `completed`
 - Owner: `ai`
-- Created: `2026-05-04`
-- Updated: `2026-05-04`
+- Created: `2026-05-04 22:31`
+- Updated: `2026-05-04 22:31`
+- Completed: `2026-05-04 22:31`
 - Related Human Issue: `none`
 
 ## Goal
@@ -27,7 +28,7 @@ Create a repository-local process to track AI tasks, including partial and compl
 - [x] Record rationale and glossary terms.
 
 ## Progress Log
-- `2026-05-04`: Created AI task tracking docs and linked them from steering files.
+- `2026-05-04 22:31`: Created AI task tracking docs and linked them from steering files.
 
 ## How Completed
 List what was changed and how:
@@ -55,5 +56,3 @@ List what was changed and how:
 ## Follow-ups
 - [ ] Decide whether to add `docs/ai-tasks/BA-NUMBERING.md` with explicit numbering ownership.
 - [ ] Optionally add a script to scaffold new task files from template.
-
-

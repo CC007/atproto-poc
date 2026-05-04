@@ -4,8 +4,8 @@
 - ID: `BA-003`
 - Status: `todo`
 - Owner: `ai`
-- Created: `2026-05-04`
-- Updated: `2026-05-04`
+- Created: `2026-05-04 22:56`
+- Updated: `2026-05-04 22:56`
 - Related Human Issue: none
 
 ## Goal
@@ -41,4 +41,3 @@ _To be filled in on completion._
 
 ## Follow-ups
 - [ ] If approach is adopted, plan full migration as a follow-up BA task.
-

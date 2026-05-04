@@ -1,5 +1,5 @@
-spring.application.name: atproto-poc
+spring.application.name: blueart
 logging:
   level:
     org.springframework.security: DEBUG
-    com.github.cc007.poc.atproto: DEBUG
+    com.github.cc007.blueart: DEBUG
