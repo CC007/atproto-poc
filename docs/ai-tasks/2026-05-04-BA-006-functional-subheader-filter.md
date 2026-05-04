@@ -5,7 +5,7 @@
 - Status: `todo`
 - Owner: `ai`
 - Created: `2026-05-04 22:56`
-- Updated: `2026-05-04 22:56`
+- Updated: `2026-05-05 00:19`
 - Related Human Issue: none
 
 ## Goal
@@ -34,7 +34,7 @@ Replace the current non-functional subheader with a working filter bar that lets
 - [ ] Update `docs/ARCHITECTURE.md` primary routes section.
 
 ## Progress Log
-- `2026-05-04`: Task created.
+- `2026-05-04 22:56`: Task created.
 
 ## How Completed
 _To be filled in on completion._

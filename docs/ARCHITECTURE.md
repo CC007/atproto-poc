@@ -13,6 +13,7 @@ BlueArt is a Kotlin + Spring Boot web application for browsing Bluesky/ATProto c
 - `BrowseController` renders timeline browsing routes.
 - `PostSummary` renders feed-card snippets and navigation links.
 - `ArtContentController` renders art detail pages and comments.
+- `RichTextFacetRenderer` converts ATProto rich-text facet byte ranges into safe link/tag/mention HTML segments shared by browse and art detail rendering.
 
 ## Primary Routes
 - `GET /browse` timeline cards.

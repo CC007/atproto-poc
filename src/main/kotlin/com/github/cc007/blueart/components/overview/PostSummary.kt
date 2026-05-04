@@ -1,5 +1,6 @@
 package com.github.cc007.blueart.components.overview
 
+import com.github.cc007.blueart.components.richtext.renderRichText
 import kotlinx.html.*
 import work.socialhub.kbsky.model.app.bsky.actor.ActorDefsProfileViewBasic
 import work.socialhub.kbsky.model.app.bsky.embed.*
@@ -133,7 +134,7 @@ private fun HtmlBlockTag.record(record: RecordUnion?) {
     when (record) {
         is FeedPost -> {
             p(classes = "post-text feed-post") {
-                +"${record.text}"
+                renderRichText(record.text, record.facets)
             }
         }
 

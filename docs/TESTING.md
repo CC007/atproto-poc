@@ -18,6 +18,9 @@ This project currently relies on Gradle test tasks and targeted checks around ch
   - browse cards containing `Open artwork` links
   - `/art/{cid}` rendering media, description, and comments
 
+## Recent Coverage Additions
+- `RichTextFacetRendererTest` validates UTF-8 byte-offset slicing plus defensive handling of malformed/overlapping link, tag, and mention facets.
+
 ## Suggested Additions
 - Lightweight integration tests for `GET /browse` and `GET /art/{cid}` rendering expectations.
 

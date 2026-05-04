@@ -1,6 +1,7 @@
 package com.github.cc007.blueart.content.art
 
 import com.github.cc007.blueart.auth.AtProtoAuthentication
+import com.github.cc007.blueart.components.richtext.renderRichText
 import com.github.cc007.blueart.components.topBanner
 import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.servlet.http.HttpServletRequest
@@ -23,6 +24,7 @@ import work.socialhub.kbsky.model.app.bsky.embed.*
 import work.socialhub.kbsky.model.app.bsky.feed.FeedDefsPostView
 import work.socialhub.kbsky.model.app.bsky.feed.FeedDefsThreadUnion
 import work.socialhub.kbsky.model.app.bsky.feed.FeedPost
+import work.socialhub.kbsky.model.app.bsky.richtext.RichtextFacet
 import work.socialhub.kbsky.model.share.RecordUnion
 
 private val logger = KotlinLogging.logger {}
@@ -93,6 +95,7 @@ class ArtContentController {
                                     }
                                 }
                             } else {
+                                val feedPost = post.record as? FeedPost
                                 section(classes = "art-card") {
                                     section(classes = "art-embed") {
                                         renderMainEmbed(post.embed)
@@ -100,7 +103,13 @@ class ArtContentController {
 
                                     section(classes = "art-description") {
                                         h2 { +"Description" }
-                                        p(classes = "art-text") { +(postText(post.record) ?: "No description provided.") }
+                                        if (feedPost?.text.isNullOrBlank()) {
+                                            p(classes = "art-text") { +"No description provided." }
+                                        } else {
+                                            p(classes = "art-text") {
+                                                renderRichText(feedPost.text, feedPost.facets)
+                                            }
+                                        }
                                     }
                                 }
 
@@ -124,7 +133,9 @@ class ArtContentController {
                                                         span(classes = "comment-handle") { +"@${comment.handle}" }
                                                     }
                                                 }
-                                                p(classes = "comment-text") { +comment.text }
+                                                p(classes = "comment-text") {
+                                                    renderRichText(comment.text, comment.facets)
+                                                }
                                             }
                                         }
                                     }
@@ -225,6 +236,7 @@ private data class CommentView(
     val handle: String,
     val avatar: String?,
     val text: String,
+    val facets: List<RichtextFacet>?,
     val depth: Int,
 )
 
@@ -235,13 +247,15 @@ private fun collectComments(
 ) {
     val reply = thread.asViewPost ?: return
     val post = reply.post ?: return
-    val text = postText(post.record)
+    val commentRecord = post.record as? FeedPost
+    val text = commentRecord?.text
     if (!text.isNullOrBlank()) {
         into += CommentView(
             displayName = post.author?.displayName ?: post.author?.handle ?: "Unknown",
             handle = post.author?.handle ?: "unknown",
             avatar = post.author?.avatar,
             text = text,
+            facets = commentRecord.facets,
             depth = depth,
         )
     }

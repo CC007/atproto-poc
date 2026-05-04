@@ -5,7 +5,7 @@
 - Status: `todo`
 - Owner: `ai`
 - Created: `2026-05-04 22:56`
-- Updated: `2026-05-04 22:56`
+- Updated: `2026-05-05 00:19`
 - Related Human Issue: none
 
 ## Goal
@@ -46,7 +46,7 @@ Add a `GET /user/{handle}` profile page inspired by DeviantArt's layout. The pag
 - [ ] Update `docs/ARCHITECTURE.md` routes table.
 
 ## Progress Log
-- `2026-05-04`: Task created.
+- `2026-05-04 22:56`: Task created.
 
 ## How Completed
 _To be filled in on completion._

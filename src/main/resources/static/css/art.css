@@ -6,6 +6,7 @@
     --text: #0e2333;
     --muted: #3d6680;
     --accent: #0a62a8;
+    --hashtag: #085898;
 }
 
 * {
@@ -101,6 +102,36 @@ body.art-body {
     line-height: 1.45;
     overflow-wrap: anywhere;
     word-break: break-word;
+}
+
+.richtext-link,
+.richtext-mention,
+.richtext-tag {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.richtext-link,
+.richtext-mention {
+    color: var(--accent);
+}
+
+.richtext-mention {
+    font-weight: 600;
+}
+
+.richtext-tag {
+    color: var(--hashtag);
+    font-weight: 600;
+}
+
+.richtext-link:hover,
+.richtext-link:focus-visible,
+.richtext-mention:hover,
+.richtext-mention:focus-visible,
+.richtext-tag:hover,
+.richtext-tag:focus-visible {
+    opacity: 0.85;
 }
 
 .comments {
