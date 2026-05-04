@@ -34,6 +34,10 @@ Use this page as the index for active and completed AI task records under `docs/
 | `BA-008` | User profile page (DeviantArt-style) | `todo` | `ai` | `docs/ai-tasks/2026-05-04-BA-008-user-profile-page.md` |
 | `BA-009` | Support blocked post type placeholder in browse timeline | `todo` | `ai` | `docs/ai-tasks/2026-05-05-BA-009-support-blocked-post-type.md` |
 | `BA-010` | Support quotes and status updates on post details page | `todo` | `ai` | `docs/ai-tasks/2026-05-05-BA-010-support-quotes-and-status-post-details.md` |
+| `BA-011` | Hashtag/tag browsing page | `todo` | `ai` | `docs/ai-tasks/2026-05-05-BA-011-tag-browsing-page.md` |
+| `BA-012` | Feeds, lists, and starter packs page with embed support | `todo` | `ai` | `docs/ai-tasks/2026-05-05-BA-012-feeds-lists-starter-packs-page.md` |
+| `BA-013` | Unified search page for posts, users, feeds, and hashtags | `todo` | `ai` | `docs/ai-tasks/2026-05-05-BA-013-search-page-posts-users-feeds-hashtags.md` |
+| `BA-014` | Adaptive media embeds across browse/search/gallery/favorites (BA-005 follow-up) | `todo` | `ai` | `docs/ai-tasks/2026-05-05-BA-014-adaptive-media-embeds-followup-ba-005.md` |
 
 ## Completed Tasks
 | ID | Title | Completed On | Notes |
