@@ -32,6 +32,7 @@ Use this page as the index for active and completed AI task records under `docs/
 | `BA-006` | Functional subheader filter (post type switcher) | `todo` | `ai` | `docs/ai-tasks/2026-05-04-BA-006-functional-subheader-filter.md` |
 | `BA-007` | User gallery and favorites pages | `todo` | `ai` | `docs/ai-tasks/2026-05-04-BA-007-user-gallery-and-favorites.md` |
 | `BA-008` | User profile page (DeviantArt-style) | `todo` | `ai` | `docs/ai-tasks/2026-05-04-BA-008-user-profile-page.md` |
+| `BA-009` | Support blocked post type placeholder in browse timeline | `todo` | `ai` | `docs/ai-tasks/2026-05-05-BA-009-support-blocked-post-type.md` |
 
 ## Completed Tasks
 | ID | Title | Completed On | Notes |
