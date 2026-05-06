@@ -25,6 +25,10 @@ Use this page as the index for active and completed AI task records under `docs/
 4. Fill in the `How Completed` section with exact files, commands, and checks used.
 5. Move the row to Completed Tasks when done.
 
+## AI Working Agreement
+- Before changing any AI task status to `completed`, the AI must run relevant tests/checks and record results.
+- After tests/checks pass, the AI must ask for user confirmation before marking a task `completed`.
+
 ## Active Tasks
 | ID | Title | Status | Owner | Links |
 | --- | --- | --- | --- | --- |

@@ -26,6 +26,8 @@ If any file is missing or stale, propose an update as part of the change.
 - Do not revert unrelated local changes.
 - Preserve existing behavior unless the task explicitly requires a change.
 - For non-trivial code changes, add or update tests where practical.
+- The AI does not push code; only the user pushes to remote repositories.
+- The AI only creates commits or amends commits when the user explicitly asks.
 
 ## Validation Rules
 
