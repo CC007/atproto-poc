@@ -75,7 +75,7 @@ class ArtContentController {
                 head {
                     title(pageTitle)
                     meta(name = "viewport", content = "width=device-width, initial-scale=1")
-                    link(rel = "stylesheet", href = "/css/art.css")
+                    link(rel = "stylesheet", href = "/css/generated/art.css")
                 }
                 body(classes = "art-body") {
                     topBanner(csrfToken)

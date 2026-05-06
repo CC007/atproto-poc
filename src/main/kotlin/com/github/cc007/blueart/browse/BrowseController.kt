@@ -46,7 +46,7 @@ class BrowseController {
                 head {
                     title("Browse")
                     meta(name = "viewport", content = "width=device-width, initial-scale=1")
-                    link(rel = "stylesheet", href = "/css/browse.css")
+                    link(rel = "stylesheet", href = "/css/generated/browse.css")
                 }
                 body(classes = "browse-body") {
                     topBanner(csrfToken)

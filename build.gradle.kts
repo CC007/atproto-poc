@@ -18,6 +18,7 @@ dependencies {
         +libs.bundles.kotlinxEcosystem
         kotlin("reflect")
         kotlinx("html-jvm", version = "0.12.0")
+        +"org.jetbrains.kotlin-wrappers:kotlin-css-jvm:2025.7.14"
         springBoot("h2console")
         springBoot("starter-actuator")
         springBoot("starter-data-jpa")
