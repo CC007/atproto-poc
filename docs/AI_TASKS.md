@@ -37,7 +37,6 @@ Use this page as the index for active and completed AI task records under `docs/
 | `BA-012` | Feeds, lists, and starter packs page with embed support | `todo` | `ai` | `docs/ai-tasks/2026-05-05-BA-012-feeds-lists-starter-packs-page.md` |
 | `BA-013` | Unified search page for posts, users, feeds, and hashtags | `todo` | `ai` | `docs/ai-tasks/2026-05-05-BA-013-search-page-posts-users-feeds-hashtags.md` |
 | `BA-014` | Adaptive media embeds across browse/search/gallery/favorites (BA-005 follow-up) | `todo` | `ai` | `docs/ai-tasks/2026-05-05-BA-014-adaptive-media-embeds-followup-ba-005.md` |
-| `BA-015` | Multi-module Gradle prep for styling platform | `todo` | `ai` | `docs/ai-tasks/2026-05-06-BA-015-multi-module-gradle-prep-for-styling-platform.md` |
 | `BA-016` | Co-located tailwind-like styling architecture and design | `todo` | `ai` | `docs/ai-tasks/2026-05-06-BA-016-co-located-tailwind-like-styling-architecture.md` |
 | `BA-017` | Setup `kolo-styles` library module | `todo` | `ai` | `docs/ai-tasks/2026-05-06-BA-017-setup-kolo-styles-library-module.md` |
 | `BA-018` | Type-safe style collection/parsing/application framework | `todo` | `ai` | `docs/ai-tasks/2026-05-06-BA-018-type-safe-style-collection-parsing-application-framework.md` |
@@ -51,3 +50,4 @@ Use this page as the index for active and completed AI task records under `docs/
 | `BA-003` | Complete Kotlin CSS DSL stylesheet migration | `2026-05-06 19:25` | `docs/ai-tasks/2026-05-04-BA-003-explore-css-in-kotlin.md` |
 | `BA-004` | Rich-text facet rendering (links, hashtags, and mentions) | `2026-05-05 00:16` | `docs/ai-tasks/2026-05-04-BA-004-rich-text-facets.md` |
 | `BA-005` | Uniform browse card height with multi-image layout | `2026-05-05 00:36` | `docs/ai-tasks/2026-05-04-BA-005-uniform-browse-card-layout.md` |
+| `BA-015` | Multi-module Gradle prep for styling platform | `2026-05-06 23:15` | `docs/ai-tasks/2026-05-06-BA-015-multi-module-gradle-prep-for-styling-platform.md` |

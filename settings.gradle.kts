@@ -4,3 +4,7 @@ plugins {
 }
 
 rootProject.name = "BlueArt"
+
+include(":app")
+include(":libs")
+

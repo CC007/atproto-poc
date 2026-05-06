@@ -8,6 +8,12 @@ This project currently relies on Gradle test tasks and targeted checks around ch
 ./gradlew test
 ```
 
+For module-scoped verification after the multi-module split:
+
+```bash
+./gradlew :app:test
+```
+
 ## Change-Focused Guidance
 - Prefer targeted tests for narrow changes.
 - Run `./gradlew test` when edits are broad or touch shared code paths.

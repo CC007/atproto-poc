@@ -35,3 +35,9 @@ Track technical decisions and rationale in one place. Use this file for concise 
 - Decision: Rename the root package to `com.github.cc007.blueart`, the Gradle artifact description to `blueart`, the Spring application name to `blueart`, and the main entry-point class to `BlueArtApplication`. Remove all "proof-of-concept" prose from documentation.
 - Consequences: Any external tooling or CI that references the old artifact name or package must be updated (see BA-002 follow-ups). Build and tests confirmed passing after rename.
 
+### D-006: Adopt a minimal-diff multi-module Gradle structure
+- Status: accepted
+- Context: Upcoming styling platform work requires reusable library modules without coupling everything to the executable app module.
+- Decision: Split the build into `:app` (Spring Boot executable) and `:libs` (library group anchor) while preserving existing app code, package names, routes, and root-level build/test workflows.
+- Consequences: Future reusable modules can be added under `:libs:*` without another structural migration; application code now lives under `app/src/*` and should be targeted with `:app:*` tasks when module-specific execution is needed.
+
