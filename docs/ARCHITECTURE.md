@@ -7,7 +7,7 @@ BlueArt is a Kotlin + Spring Boot web application for browsing Bluesky/ATProto c
 - Server: Spring Boot MVC controllers.
 - Rendering: server-side HTML generation (`kotlinx.html`).
 - Build: Gradle Kotlin DSL.
-- Styling: Kotlin CSS DSL endpoints under `/css/generated/*.css` currently import static CSS from `src/main/resources/static/css/` as a transition step.
+- Styling: Kotlin CSS DSL endpoints under `/css/generated/*.css` generate full browse and art stylesheets from Kotlin in `CssController`.
 
 ## Main Components
 - `BrowseController` renders timeline browsing routes.
@@ -22,7 +22,7 @@ BlueArt is a Kotlin + Spring Boot web application for browsing Bluesky/ATProto c
 ## Data Flow (High Level)
 1. Controller fetches Bluesky/ATProto content through `work.socialhub.kbsky` APIs.
 2. Domain objects are mapped directly into HTML views.
-3. Controllers link `/css/generated/*.css`; those generated stylesheets currently import CSS from `static/css/`.
+3. Controllers link `/css/generated/*.css`; styles are emitted from Kotlin CSS DSL in `CssController`.
 
 ## Current Gaps
 - `/art/{cid}` fallback lookup is best-effort when only CID is provided.

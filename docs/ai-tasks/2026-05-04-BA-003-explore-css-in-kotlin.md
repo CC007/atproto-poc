@@ -5,7 +5,7 @@
 - Status: `partial`
 - Owner: `ai`
 - Created: `2026-05-04 22:56`
-- Updated: `2026-05-06 18:46`
+- Updated: `2026-05-06 19:25`
 - Related Human Issue: none
 
 ## Goal
@@ -33,17 +33,19 @@ Evaluate using the **ktor CSS DSL** (or an equivalent utility-class library such
 ## Progress Log
 - `2026-05-04 22:56`: Task created.
 - `2026-05-06 18:16`: Implemented BA-003 part 1: added Kotlin CSS DSL dependency and Spring CSS endpoints (`/css/generated/browse.css`, `/css/generated/art.css`) that keep styles external by importing existing static stylesheets.
+- `2026-05-06 19:25`: Implemented BA-003 step 2: encoded all existing `browse.css` and `art.css` rules in Kotlin CSS DSL inside `CssController`; removed `@import` bridge behavior.
 
 ## How Completed
-- Partial milestone delivered (part 1):
+- Partial milestones delivered (parts 1 + 2):
   - Added CSS DSL dependency: `org.jetbrains.kotlin-wrappers:kotlin-css-jvm:2025.7.14`.
   - Added `CssController` endpoints at `/css/generated/browse.css` and `/css/generated/art.css`.
-  - Updated browse/art pages to load generated stylesheet URLs while keeping external CSS files in place.
-  - Added `CssControllerTest` to validate generated CSS includes legacy stylesheet imports.
+  - Implemented full rule mapping for `browse.css` and `art.css` into Kotlin CSS DSL output in `CssController`.
+  - Removed generated stylesheet `@import` bridge usage.
+  - Updated `CssControllerTest` to validate generated CSS contains all legacy rule headers and no `@import`.
 
 ## Verification
 - `./gradlew test --tests com.github.cc007.blueart.styling.CssControllerTest` passed.
-- Not verified yet: full stylesheet rewrite in Kotlin DSL (future BA-003 steps).
+- Not verified yet: Kotlinwind evaluation and final BA-003 recommendation write-up.
 
 ## Follow-ups
 - [ ] If approach is adopted, plan full migration as a follow-up BA task.

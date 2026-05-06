@@ -21,7 +21,7 @@ This project currently relies on Gradle test tasks and targeted checks around ch
 ## Recent Coverage Additions
 - `RichTextFacetRendererTest` validates UTF-8 byte-offset slicing plus defensive handling of malformed/overlapping link, tag, and mention facets.
 - `PostSummaryTest` validates browse card rendering rules for BA-005 (text-only card text rendering, text suppression when embeds exist, and split gallery wrappers for multi-image embeds).
-- `CssControllerTest` validates BA-003 part 1 stylesheet endpoints generate CSS that imports existing external browse/art stylesheets.
+- `CssControllerTest` validates BA-003 step 2 stylesheet endpoints no longer use `@import` and preserve complete rule-header coverage from `static/css/browse.css` and `static/css/art.css` in generated Kotlin CSS DSL output.
 
 ## Suggested Additions
 - Lightweight integration tests for `GET /browse` and `GET /art/{cid}` rendering expectations.
