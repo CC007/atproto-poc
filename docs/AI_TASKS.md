@@ -45,6 +45,7 @@ Use this page as the index for active and completed AI task records under `docs/
 | `BA‑017` | Setup `kolo-styles` library module | `todo` | `ai` | [📋](ai-tasks/2026-05-06-BA-017-setup-kolo-styles-library-module.md) |
 | `BA‑018` | Type-safe style collection/parsing/application framework | `todo` | `ai` | [📋](ai-tasks/2026-05-06-BA-018-type-safe-style-collection-parsing-application-framework.md) |
 | `BA‑019` | Add first margin/padding utilities and preserve visual parity | `todo` | `ai` | [📋](ai-tasks/2026-05-06-BA-019-margin-padding-elements-csscontroller-cleanup-visual-parity.md) |
+| `BA‑020` | Create endpoints folder and move all endpoint controllers to it | `todo` | `ai` | [📋](ai-tasks/2026-05-07-BA-020-move-controllers-to-endpoints-folder.md) |
 
 ## Completed Tasks
 | ID | Title | Completed On | Notes |
