@@ -1,4 +1,4 @@
-package com.github.cc007.blueart.error
+package com.github.cc007.blueart.endpoints.error
 
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
@@ -26,3 +26,4 @@ class ErrorController {
         return ResponseEntity("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
+

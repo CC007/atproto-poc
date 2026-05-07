@@ -1,8 +1,8 @@
-package com.github.cc007.blueart.content.art
+package com.github.cc007.blueart.endpoints.content.art
 
-import com.github.cc007.blueart.auth.AtProtoAuthentication
 import com.github.cc007.blueart.components.richtext.renderRichText
 import com.github.cc007.blueart.components.topBanner
+import com.github.cc007.blueart.endpoints.auth.AtProtoAuthentication
 import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.servlet.http.HttpServletRequest
 import kotlinx.html.*
@@ -261,3 +261,4 @@ private fun collectComments(
     }
     reply.replies.orEmpty().forEach { child -> collectComments(child, depth + 1, into) }
 }
+

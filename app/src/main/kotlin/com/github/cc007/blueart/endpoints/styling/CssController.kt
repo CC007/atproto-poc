@@ -1,4 +1,4 @@
-package com.github.cc007.blueart.styling
+package com.github.cc007.blueart.endpoints.styling
 
 import kotlinx.css.*
 import org.springframework.stereotype.Controller
@@ -552,6 +552,4 @@ class CssController {
 
     private fun cssColorVar(name: String): Color = Color(cssVar(name))
 }
-
-
 

@@ -1,4 +1,4 @@
-package com.github.cc007.blueart.styling
+package com.github.cc007.blueart.endpoints.styling
 
 import kotlin.test.Test
 import kotlin.test.assertTrue

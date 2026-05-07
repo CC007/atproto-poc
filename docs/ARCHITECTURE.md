@@ -13,10 +13,24 @@ BlueArt is a Kotlin + Spring Boot web application for browsing Bluesky/ATProto c
 - `:app`: executable Spring Boot web application module. Contains controllers, HTML renderers, routes, and runtime wiring.
 - `:libs`: reusable-library group module reserved for future shared libraries (including styling modules such as `kolo-styles`).
 
+## Package Layout (`:app`)
+All endpoint controllers live under `com.github.cc007.blueart.endpoints`, preserving their function-specific subdirectory names:
+
+| Package | Contents |
+|---|---|
+| `endpoints/auth` | `LoginController` |
+| `endpoints/browse` | `BrowseController` |
+| `endpoints/content/art` | `ArtContentController` |
+| `endpoints/error` | `ErrorController` |
+| `endpoints/styling` | `CssController` |
+| `auth` | `AtProtoAuthentication`, `AtProtoAuthenticationProvider`, `SecurityConfig` (non-controller auth wiring) |
+| `components` | `Header`, `PostSummary`, `RichTextFacetRenderer` (shared HTML components) |
+| `util` | `Result`, `User` |
+
 ## Main Components
-- `BrowseController` renders timeline browsing routes.
+- `BrowseController` (`endpoints/browse`) renders timeline browsing routes.
 - `PostSummary` renders feed-card snippets and navigation links, including media-aware card behavior (text-only cards clamp overflow; cards with embeds hide body text and use thumbnail/gallery layouts).
-- `ArtContentController` renders art detail pages and comments.
+- `ArtContentController` (`endpoints/content/art`) renders art detail pages and comments.
 - `RichTextFacetRenderer` converts ATProto rich-text facet byte ranges into safe link/tag/mention HTML segments shared by browse and art detail rendering.
 
 ## Primary Routes

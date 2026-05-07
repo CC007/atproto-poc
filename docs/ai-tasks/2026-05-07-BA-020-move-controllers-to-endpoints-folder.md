@@ -2,10 +2,11 @@
 
 ## Metadata
 - ID: `BA-020`
-- Status: `todo`
+- Status: `completed`
 - Owner: `ai`
 - Created: `2026-05-07 00:00`
-- Updated: `2026-05-07 00:00`
+- Updated: `2026-05-07 23:45`
+- Completed: `2026-05-07 23:45`
 - Related Human Issue: none
 
 ## Goal
@@ -29,22 +30,35 @@ Consolidate all Spring MVC endpoint controllers under a dedicated `endpoints` pa
   - Moving non-controller files (e.g. `SecurityConfig`, auth providers, components, utilities).
 
 ## Plan
-- [ ] Audit each controller file for cross-package import dependencies.
-- [ ] Create `app/src/main/kotlin/com/github/cc007/blueart/endpoints/` directory.
-- [ ] Move each controller, updating its `package` declaration.
-- [ ] Fix any broken import statements in other files that referenced the old packages.
-- [ ] Remove empty source directories left behind.
-- [ ] Run `./gradlew :app:test` and confirm all tests pass.
-- [ ] Update `docs/ARCHITECTURE.md` to reflect the new package layout.
+- [x] Audit each controller file for cross-package import dependencies.
+- [x] Create `app/src/main/kotlin/com/github/cc007/blueart/endpoints/` directory.
+- [x] Move each controller, updating its `package` declaration.
+- [x] Fix any broken import statements in other files that referenced the old packages.
+- [x] Remove empty source directories left behind.
+- [x] Run `./gradlew :app:test` and confirm all tests pass.
+- [x] Update `docs/ARCHITECTURE.md` to reflect the new package layout.
 
 ## Progress Log
 - `2026-05-07 00:00`: Task created.
+- `2026-05-07 23:45`: Implementation complete and tests passing.
 
 ## How Completed
-_To be filled in on completion._
+- Files created under `endpoints/` subtree:
+  - `endpoints/auth/LoginController.kt`
+  - `endpoints/browse/BrowseController.kt`
+  - `endpoints/content/art/ArtContentController.kt`
+  - `endpoints/error/ErrorController.kt`
+  - `endpoints/styling/CssController.kt`
+  - `(test) endpoints/styling/CssControllerTest.kt`
+- Package declarations updated to match new paths (`com.github.cc007.blueart.endpoints.*`).
+- Imports referencing moved files had no external consumers — no other files needed import fixes.
+- Old source files removed; empty directories `browse/`, `content/art/`, `content/`, `error/`, `styling/` (main + test) deleted.
+- Commands run: `./gradlew :app:test`
+- `docs/ARCHITECTURE.md` updated with package layout table.
 
 ## Verification
-_To be filled in on completion._
+- Result: `BUILD SUCCESSFUL` — all 14 tasks, CssControllerTest (2 tests), PostSummaryTest, RichTextFacetRendererTest, and BlueArtApplicationTests all passed.
+- Not verified: runtime smoke test (no running instance available).
 
 ## Follow-ups
 - [ ] Verify that `endpoints/auth/LoginController.kt` has no circular dependency with `SecurityConfig` (which stays in `auth/`).

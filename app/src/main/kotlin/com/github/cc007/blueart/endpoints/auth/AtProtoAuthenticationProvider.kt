@@ -1,4 +1,4 @@
-package com.github.cc007.blueart.auth
+package com.github.cc007.blueart.endpoints.auth
 
 import com.github.cc007.blueart.util.*
 import io.github.oshai.kotlinlogging.KotlinLogging

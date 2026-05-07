@@ -1,4 +1,4 @@
-package com.github.cc007.blueart.auth
+package com.github.cc007.blueart.endpoints.auth
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
