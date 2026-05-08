@@ -28,6 +28,8 @@ For module-scoped verification after the multi-module split:
 - `RichTextFacetRendererTest` validates UTF-8 byte-offset slicing plus defensive handling of malformed/overlapping link, tag, and mention facets.
 - `PostSummaryTest` validates browse card rendering rules for BA-005 (text-only card text rendering, text suppression when embeds exist, and split gallery wrappers for multi-image embeds).
 - `CssControllerTest` validates BA-003 step 2 stylesheet endpoints no longer use `@import` and preserve complete rule-header coverage from `static/css/browse.css` and `static/css/art.css` in generated Kotlin CSS DSL output.
+- `KoloStylesApiTest` validates baseline `:libs:kolo-styles` placeholder API wiring for utility definitions and parser/generator hook contracts.
+- `KoloStylesModuleWiringTest` validates the `:app` module can consume the `:libs:kolo-styles` placeholder API without changing runtime behavior.
 
 ## Suggested Additions
 - Lightweight integration tests for `GET /browse` and `GET /art/{cid}` rendering expectations.

@@ -6,12 +6,13 @@ BlueArt is a Kotlin + Spring Boot web application for browsing Bluesky/ATProto c
 ## Runtime Shape
 - Server: Spring Boot MVC controllers.
 - Rendering: server-side HTML generation (`kotlinx.html`).
-- Build: Gradle Kotlin DSL with a multi-module layout (`:app` and `:libs`).
+- Build: Gradle Kotlin DSL with a multi-module layout (`:app`, `:libs`, and `:libs:kolo-styles`).
 - Styling: Kotlin CSS DSL endpoints under `/css/generated/*.css` generate full browse and art stylesheets from Kotlin in `CssController`.
 
 ## Module Boundaries
 - `:app`: executable Spring Boot web application module. Contains controllers, HTML renderers, routes, and runtime wiring.
 - `:libs`: reusable-library group module reserved for future shared libraries (including styling modules such as `kolo-styles`).
+- `:libs:kolo-styles`: reusable styling library module for co-located style infrastructure primitives. Currently provides baseline utility/parser/generator contracts and a minimal API placeholder for app wiring.
 
 ## Package Layout (`:app`)
 All endpoint controllers live under `com.github.cc007.blueart.endpoints`, preserving their function-specific subdirectory names:

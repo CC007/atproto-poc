@@ -15,6 +15,7 @@ repositories {
 
 dependencies {
     implementation {
+        +project(":libs:kolo-styles")
         +libs.bundles.kotlinxEcosystem
         kotlin("reflect")
         kotlinx("html-jvm", version = "0.12.0")
