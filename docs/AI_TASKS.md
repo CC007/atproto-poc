@@ -41,7 +41,6 @@ Use this page as the index for active and completed AI task records under `docs/
 | `BA‑012` | Feeds, lists, and starter packs page with embed support | `todo` | `ai` | [📋](ai-tasks/2026-05-05-BA-012-feeds-lists-starter-packs-page.md) |
 | `BA‑013` | Unified search page for posts, users, feeds, and hashtags | `todo` | `ai` | [📋](ai-tasks/2026-05-05-BA-013-search-page-posts-users-feeds-hashtags.md) |
 | `BA‑014` | Adaptive media embeds across browse/search/gallery/favorites (BA-005 follow-up) | `todo` | `ai` | [📋](ai-tasks/2026-05-05-BA-014-adaptive-media-embeds-followup-ba-005.md) |
-| `BA‑016` | Co-located tailwind-like styling architecture and design | `in_progress` | `ai` | [📋](ai-tasks/2026-05-06-BA-016-co-located-tailwind-like-styling-architecture.md) |
 | `BA‑018` | Type-safe style collection/parsing/application framework | `todo` | `ai` | [📋](ai-tasks/2026-05-06-BA-018-type-safe-style-collection-parsing-application-framework.md) |
 | `BA‑019` | Add first margin/padding utilities and preserve visual parity | `todo` | `ai` | [📋](ai-tasks/2026-05-06-BA-019-margin-padding-elements-csscontroller-cleanup-visual-parity.md) |
 
@@ -55,4 +54,5 @@ Use this page as the index for active and completed AI task records under `docs/
 | `BA‑005` | Uniform browse card height with multi-image layout | `2026-05-05 00:36` | [📋](ai-tasks/2026-05-04-BA-005-uniform-browse-card-layout.md) |
 | `BA‑015` | Multi-module Gradle prep for styling platform | `2026-05-06 23:15` | [📋](ai-tasks/2026-05-06-BA-015-multi-module-gradle-prep-for-styling-platform.md) |
 | `BA‑017` | Setup `kolo-styles` library module | `2026-05-09 00:09` | [📋](ai-tasks/2026-05-06-BA-017-setup-kolo-styles-library-module.md) |
+| `BA‑016` | Co-located tailwind-like styling architecture and design | `2026-05-09 02:10` | [📋](ai-tasks/2026-05-06-BA-016-co-located-tailwind-like-styling-architecture.md) |
 | `BA‑020` | Create endpoints folder and move all endpoint controllers to it | `2026-05-07 23:45` | [📋](ai-tasks/2026-05-07-BA-020-move-controllers-to-endpoints-folder.md) |

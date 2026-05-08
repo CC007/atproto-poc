@@ -29,12 +29,14 @@ Introduce the first co-located utility elements (padding and margin), remove equ
   - `kolo=<semicolon-separated canonical token list>`
 - Canonical token list must be deduplicated and variant-aware sorted.
 - Arbitrary value tokens (`[...]`) are not included in this milestone.
+- Keep `kolo.css` and existing page CSS side-by-side during migration.
+- Remove only margin/padding declarations that are explicitly migrated to Kolo utilities.
 - Primary cache strategy is versioned URL caching.
 
 ## Plan
 - [ ] Pick a small pilot subset of components with clear margin/padding usage.
 - [ ] Implement and apply typed margin/padding utilities via the new framework and `kolo { ... }` DSL.
-- [ ] Ensure migrated markup emits deterministic token lists for `kolo.css` generation.
+- [ ] Ensure migrated markup emits deterministic token lists for `kolo.css` generation using the canonical ordering contract.
 - [ ] Remove migrated margin/padding declarations from `CssController` once parity is confirmed.
 - [ ] Update and run tests for CSS output and affected rendering paths.
 - [ ] Run manual before/after visual comparison for `/browse` and `/art/{cid}`.
@@ -42,6 +44,7 @@ Introduce the first co-located utility elements (padding and margin), remove equ
 ## Progress Log
 - `2026-05-06 20:15`: Task created as first implementation milestone after framework setup.
 - `2026-05-09 00:00`: Synced migration constraints from BA-016/BA-018 decisions (token format, endpoint contract, and cache/versioning strategy).
+- `2026-05-09 00:10`: Added side-by-side stylesheet migration requirement and explicit canonical token ordering dependency.
 
 ## How Completed
 _To be filled in on completion._

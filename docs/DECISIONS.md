@@ -41,3 +41,16 @@ Track technical decisions and rationale in one place. Use this file for concise 
 - Decision: Split the build into `:app` (Spring Boot executable) and `:libs` (library group anchor) while preserving existing app code, package names, routes, and root-level build/test workflows.
 - Consequences: Future reusable modules can be added under `:libs:*` without another structural migration; application code now lives under `app/src/*` and should be targeted with `:app:*` tasks when module-specific execution is needed.
 
+### D-007: Adopt Kolo co-located utility styling contract
+- Status: accepted
+- Context: Styling needs a Kotlin-first co-located authoring flow while preserving maintainability, pseudo/media support, and predictable CSS delivery/caching.
+- Decision:
+  - Author utilities via element-attached `kolo { ... }` DSL.
+  - Use Tailwind-style token naming with pseudo/media variants.
+  - Defer arbitrary value tokens (`[...]`) for now.
+  - Serve generated utility CSS from `/css/generated/kolo.css` using `version=<build git sha>` and `kolo=<semicolon-separated canonical token list>` query params.
+  - Canonicalize `kolo` with dedupe + variant-aware deterministic sorting before link emission.
+  - During migration, keep page CSS and `kolo.css` side-by-side; remove only declarations already migrated to Kolo utilities.
+  - Use versioned URL caching as the primary cache strategy (`ETag` optional).
+- Consequences: Implementation tasks must preserve canonical token ordering and URL stability, and migration work should be incremental to avoid regressions while both stylesheet paths coexist.
+
