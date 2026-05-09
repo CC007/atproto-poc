@@ -5,7 +5,7 @@
 - Status: `completed`
 - Owner: `ai`
 - Created: `2026-05-06 20:15`
-- Updated: `2026-05-09 02:10`
+- Updated: `2026-05-09 09:15`
 - Related Human Issue: none
 
 ## Goal
@@ -93,6 +93,7 @@ Design the architecture for a Kotlin-first, tailwind-like, co-located styling ap
 - [x] Define architecture options and choose one with rationale.
 - [x] Record decisions in `docs/DECISIONS.md` (or ADR) and update `docs/ARCHITECTURE.md`.
 - [x] Produce implementation checklist for `BA-017`, `BA-018`, and `BA-019`.
+- [x] Split former `BA-018` implementation scope into `BA-021` (endpoint generation) and `BA-022` (DSL/class/link wiring).
 
 ## Progress Log
 - `2026-05-06 20:15`: Task created to de-risk tailwind-like styling implementation.
@@ -102,6 +103,7 @@ Design the architecture for a Kotlin-first, tailwind-like, co-located styling ap
 - `2026-05-09 00:25`: Adjusted canonical sort-key precedence to prioritize variant grouping readability: `(group, variantCount, variantChain, baseUtility, token)`.
 - `2026-05-09 00:35`: Documented request-scoped token collection and recommended two-pass render flow for correct `kolo.css` link emission.
 - `2026-05-09 02:10`: Validation completed (`./gradlew test` passed) and task marked complete after user confirmed the current architecture is sufficient.
+- `2026-05-09 09:15`: Follow-up execution was split by concern; superseded `BA-018` with `BA-021` and `BA-022`.
 
 ## How Completed
 - Recorded the accepted Kolo styling architecture directly in this task file, including:
@@ -114,6 +116,8 @@ Design the architecture for a Kotlin-first, tailwind-like, co-located styling ap
   - `docs/DECISIONS.md` via `D-007`
   - `docs/ARCHITECTURE.md`
   - `docs/ai-tasks/2026-05-06-BA-018-type-safe-style-collection-parsing-application-framework.md`
+  - `docs/ai-tasks/2026-05-09-BA-021-kolo-css-endpoint-generation-from-parameters.md`
+  - `docs/ai-tasks/2026-05-09-BA-022-kolo-extension-link-class-generation.md`
   - `docs/ai-tasks/2026-05-06-BA-019-margin-padding-elements-csscontroller-cleanup-visual-parity.md`
   - `docs/AI_TASKS.md`
 - Completed after the user confirmed the current architecture is sufficient for now and can be reopened later if needed.
@@ -129,5 +133,6 @@ Design the architecture for a Kotlin-first, tailwind-like, co-located styling ap
 - Note: test run produced shutdown-time warnings about missing `EVENT_PUBLICATION` table during bean destruction, but the build finished successfully and these warnings were pre-existing/non-blocking for this documentation task.
 
 ## Follow-ups
-- [ ] `BA-018`: Implement the type-safe style framework aligned with the chosen architecture.
+- [ ] `BA-021`: Implement the CSS endpoint path that generates utility stylesheet output from canonical request parameters.
+- [ ] `BA-022`: Implement `kolo {}` API wiring, class generation, and stylesheet link emission.
 

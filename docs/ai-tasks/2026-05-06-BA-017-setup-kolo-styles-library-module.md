@@ -5,7 +5,7 @@
 - Status: `completed`
 - Owner: `ai`
 - Created: `2026-05-06 20:15`
-- Updated: `2026-05-09 00:09`
+- Updated: `2026-05-09 09:15`
 - Completed: `2026-05-09 00:09`
 - Related Human Issue: none
 
@@ -58,5 +58,6 @@ Create the first dedicated styling library module (`kolo-styles`) in the multi-m
 - `./gradlew :libs:kolo-styles:test :app:test --tests com.github.cc007.blueart.styling.KoloStylesModuleWiringTest` (passed)
 
 ## Follow-ups
-- [ ] `BA-018`: Implement type-safe style collection/parsing/application framework in `kolo-styles`.
+- [ ] `BA-021`: Implement endpoint-side CSS generation from canonical `kolo` parameters.
+- [ ] `BA-022`: Implement `kolo {}` extension APIs, element class generation, and stylesheet link integration.
 

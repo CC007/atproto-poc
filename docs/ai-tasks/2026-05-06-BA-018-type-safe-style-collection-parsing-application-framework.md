@@ -2,25 +2,21 @@
 
 ## Metadata
 - ID: `BA-018`
-- Status: `todo`
+- Status: `cancelled`
 - Owner: `ai`
 - Created: `2026-05-06 20:15`
-- Updated: `2026-05-09 00:35`
+- Updated: `2026-05-09 09:15`
 - Related Human Issue: none
 
 ## Goal
-Implement the framework that gathers co-located style declarations, parses them into CSS output, and applies generated class tokens with a type-safe API (no fragile string-only style keywords).
+This task originally covered both utility CSS endpoint generation and `kolo { ... }` DSL/application wiring. It has been superseded by two narrower tasks to make execution and validation clearer: `BA-021` and `BA-022`.
 
 ## Scope
 - In scope:
-  - Define typed style keyword model (for example sealed hierarchies/value classes/enums) for utility expressions.
-  - Implement style collection from render-time declarations.
-  - Implement parser/translator from typed tokens to CSS rules and generated classes.
-  - Integrate output with current stylesheet delivery mechanism.
-  - Add tests for parser correctness, duplicate handling, and typo prevention guarantees.
+  - Preserve historical planning context from BA-016 without executing implementation under this task ID.
+  - Point implementation to replacement tasks with explicit boundaries.
 - Out of scope:
-  - Full utility catalog coverage.
-  - Broad page-by-page migration.
+  - Any direct implementation work.
 
 ## Locked Decisions from BA-016
 - API shape:
@@ -84,16 +80,10 @@ class KoloScope internal constructor(
   - The framework should also attach the generated class name(s) for the current element behind the scenes.
 
 ## Plan
-- [ ] Finalize API contracts from `BA-016` architecture decisions.
-- [ ] Build typed token model for utility declarations aligned to Tailwind naming/variant structure, including extension entry points/properties/functions for the DSL.
-- [ ] Implement collector and parser/generator pipeline with deterministic canonicalization:
-  - split/trim/drop empty tokens
-  - reject `;` and `[...]` tokens
-  - dedupe exact tokens
-  - sort by `(group, variantCount, variantChain, baseUtility, token)`
-  - join with `;`
-- [ ] Add integration path that emits `/css/generated/kolo.css?version=...&kolo=...` links after render-time token collection completes.
-- [ ] Add unit and integration tests for type-safety and deterministic output.
+- [x] Capture consolidated framework constraints from `BA-016`.
+- [x] Split execution scope into two focused tasks:
+  - `BA-021`: CSS endpoint that generates utility stylesheet output from canonical request parameters.
+  - `BA-022`: `kolo { ... }` extension surface, class generation, token collection, and stylesheet link tag integration.
 
 ## Progress Log
 - `2026-05-06 20:15`: Task created to build type-safe utility infrastructure.
@@ -101,6 +91,7 @@ class KoloScope internal constructor(
 - `2026-05-09 00:10`: Added explicit canonical ordering algorithm and side-by-side migration rule for page CSS + `kolo.css`.
 - `2026-05-09 00:25`: Updated canonical sort-key precedence to match BA-016 readability rule.
 - `2026-05-09 00:35`: Added concrete `kolo { ... }` extension/property/function sketch plus request-scoped collection requirement for implementation.
+- `2026-05-09 09:15`: Task cancelled and superseded by `BA-021` (CSS endpoint generation) and `BA-022` (`kolo {}` + class/link integration).
 
 ## How Completed
 _To be filled in on completion._
@@ -109,5 +100,7 @@ _To be filled in on completion._
 _To be filled in on completion._
 
 ## Follow-ups
-- [ ] `BA-019`: Add first margin/padding utilities and remove equivalent rules from `CssController`.
+- [ ] `BA-021`: Implement stylesheet endpoint generation from canonical parameters.
+- [ ] `BA-022`: Implement `kolo {}` extension wiring, element classes, and stylesheet link emission.
+- [ ] `BA-019`: Add first margin/padding utilities and remove equivalent rules from `CssController` after `BA-021` and `BA-022` foundations are in place.
 

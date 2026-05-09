@@ -5,7 +5,7 @@
 - Status: `todo`
 - Owner: `ai`
 - Created: `2026-05-06 20:15`
-- Updated: `2026-05-09 00:00`
+- Updated: `2026-05-09 09:15`
 - Related Human Issue: none
 
 ## Goal
@@ -43,7 +43,8 @@ Introduce the first co-located utility elements (padding and margin), remove equ
 
 ## Progress Log
 - `2026-05-06 20:15`: Task created as first implementation milestone after framework setup.
-- `2026-05-09 00:00`: Synced migration constraints from BA-016/BA-018 decisions (token format, endpoint contract, and cache/versioning strategy).
+- `2026-05-09 00:00`: Synced migration constraints from BA-016 decisions (token format, endpoint contract, and cache/versioning strategy).
+- `2026-05-09 09:15`: Framework dependency split acknowledged: endpoint generation moved to `BA-021`; `kolo {}`/class/link wiring moved to `BA-022`.
 - `2026-05-09 00:10`: Added side-by-side stylesheet migration requirement and explicit canonical token ordering dependency.
 
 ## How Completed

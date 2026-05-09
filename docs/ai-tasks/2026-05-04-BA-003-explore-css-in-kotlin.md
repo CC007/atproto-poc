@@ -5,7 +5,7 @@
 - Status: `completed`
 - Owner: `ai`
 - Created: `2026-05-04 22:56`
-- Updated: `2026-05-06 19:25`
+- Updated: `2026-05-09 09:15`
 - Completed: `2026-05-06 19:25`
 - Related Human Issue: none
 
@@ -56,5 +56,6 @@ Replace the standalone browse/art stylesheet source files with Kotlin CSS DSL ge
 - [ ] `BA-015`: Multi-module Gradle foundation for future styling libraries.
 - [ ] `BA-016`: Tailwind-like co-located styling architecture and design.
 - [ ] `BA-017`: `kolo-styles` library module setup.
-- [ ] `BA-018`: Type-safe style collection/parsing/application framework.
+- [ ] `BA-021`: CSS endpoint generation from canonical `kolo`/`version` request parameters.
+- [ ] `BA-022`: `kolo {}` extension, generated classes, and stylesheet link integration.
 - [ ] `BA-019`: Initial margin/padding utilities with visual parity validation.
