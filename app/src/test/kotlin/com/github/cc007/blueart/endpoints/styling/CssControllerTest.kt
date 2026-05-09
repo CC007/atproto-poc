@@ -1,12 +1,15 @@
 package com.github.cc007.blueart.endpoints.styling
 
+import com.github.cc007.blueart.kolostyles.compiler.KoloCssCompiler
+import org.springframework.http.HttpStatus
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlin.test.fail
 
 class CssControllerTest {
 
-    private val controller = CssController()
+    private val controller = CssController(KoloCssCompiler())
 
     @Test
     fun `browse stylesheet encodes all browse css rules in generated output`() {
@@ -24,6 +27,43 @@ class CssControllerTest {
 
         assertTrue(!css.contains("@import"), "Generated art CSS should not contain @import bridge")
         assertContainsAllRuleHeaders(legacyCss, css)
+    }
+
+    @Test
+    fun `kolo stylesheet accepts valid tokens and emits unsupported comments with placeholder generator`() {
+        val response = controller.koloStylesheet(
+            version = "abc123",
+            kolo = "mt-2;flex;hover:mt-2"
+        )
+
+        assertEquals(HttpStatus.OK, response.statusCode)
+        // Default generator returns null, so tokens are noted as unsupported until BA-019 adds mappings
+        assertEquals(
+            "/* kolo-unsupported: mt-2 *//* kolo-unsupported: flex *//* kolo-unsupported: hover:mt-2 */",
+            response.body
+        )
+    }
+
+    @Test
+    fun `kolo stylesheet notes arbitrary value tokens as unparsed comments`() {
+        val response = controller.koloStylesheet(
+            version = "abc123",
+            kolo = "mt-[2px]"
+        )
+
+        assertEquals(HttpStatus.OK, response.statusCode)
+        assertEquals("/* kolo-unparsed: mt-[2px] */", response.body)
+    }
+
+    @Test
+    fun `kolo stylesheet notes malformed tokens as unparsed comments`() {
+        val response = controller.koloStylesheet(
+            version = "abc123",
+            kolo = "mt- 2"
+        )
+
+        assertEquals(HttpStatus.OK, response.statusCode)
+        assertEquals("/* kolo-unparsed: mt- 2 */", response.body)
     }
 
     private fun assertContainsAllRuleHeaders(legacyCss: String, generatedCss: String) {
