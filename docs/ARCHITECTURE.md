@@ -7,15 +7,15 @@ BlueArt is a Kotlin + Spring Boot web application for browsing Bluesky/ATProto c
 - Server: Spring Boot MVC controllers.
 - Rendering: server-side HTML generation (`kotlinx.html`).
 - Build: Gradle Kotlin DSL with a multi-module layout (`:app`, `:libs`, and `:libs:kolo-styles`).
-- Styling: Kotlin CSS DSL endpoints under `/css/generated/*.css` generate browse/art page stylesheets from Kotlin in `CssController`; Kolo utilities are served from `/css/generated/kolo.css` using tokenized query params during migration.
+- Styling: Kotlin CSS DSL endpoints under `/css/generated/*.css` generate browse/art page stylesheets from Kotlin in `:app` `CssController`; Kolo utilities are served from `/css/generated/kolo.css` by the `:libs:kolo-styles` module using tokenized query params during migration.
 
 ## Module Boundaries
 - `:app`: executable Spring Boot web application module. Contains controllers, HTML renderers, routes, and runtime wiring.
 - `:libs`: reusable-library group module reserved for future shared libraries (including styling modules such as `kolo-styles`).
-- `:libs:kolo-styles`: reusable styling library module for co-located style infrastructure primitives. Currently provides baseline utility/parser/generator contracts and a minimal API placeholder for app wiring.
+- `:libs:kolo-styles`: reusable styling library module for co-located style infrastructure primitives. Provides baseline utility/parser/generator contracts, the Kolo CSS compiler, and the Spring MVC adapter/configuration that owns `/css/generated/kolo.css`.
 
 ## Package Layout (`:app`)
-All endpoint controllers live under `com.github.cc007.blueart.endpoints`, preserving their function-specific subdirectory names:
+App-owned endpoint controllers live under `com.github.cc007.blueart.endpoints`, preserving their function-specific subdirectory names:
 
 | Package | Contents |
 |---|---|

@@ -1,13 +1,14 @@
-package com.github.cc007.blueart.endpoints.styling
+package com.github.cc007.blueart.kolostyles.web
 
 import com.github.cc007.blueart.kolostyles.compiler.KoloCssCompiler
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class KoloCssCompilerConfig {
+open class KoloStylesWebConfiguration {
 
     @Bean
-    fun koloCssCompiler(): KoloCssCompiler = KoloCssCompiler()
+    open fun koloCssCompiler(): KoloCssCompiler = KoloCssCompiler()
 }
+
 
