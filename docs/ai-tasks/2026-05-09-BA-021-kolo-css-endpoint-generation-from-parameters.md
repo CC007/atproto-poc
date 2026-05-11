@@ -2,10 +2,10 @@
 
 ## Metadata
 - ID: `BA-021`
-- Status: `in_progress`
+- Status: `completed`
 - Owner: `ai`
 - Created: `2026-05-09 09:15`
-- Updated: `2026-05-10 22:38`
+- Updated: `2026-05-11 02:49`
 - Related Human Issue: none
 
 ## Goal
@@ -61,9 +61,10 @@ Implement the server-side CSS endpoint behavior for `/css/generated/kolo.css` so
 - `2026-05-09 13:20`: Refactored compiler API to return `String` directly (no sealed result wrapper), inverted compile branching for clearer final generated-rule path, and moved app wiring to Spring bean injection via `KoloCssCompilerConfig` while keeping `:libs:kolo-styles` framework-agnostic.
 - `2026-05-10 19:53`: Removed the parallel token-generator path so CSS generation now uses one mechanism only: `StyleParserHook` + `StyleGeneratorHook`. Updated compiler tests accordingly and re-verified `:libs:kolo-styles` plus targeted `:app` controller tests.
 - `2026-05-10 22:38`: Moved `/css/generated/kolo.css` endpoint ownership from `:app` into `:libs:kolo-styles`, including the Spring MVC controller and compiler bean configuration. Re-verified both focused controller/compiler tests and full app context startup.
+- `2026-05-11 02:49`: Final cleanup completed: removed the obsolete empty `KoloStylesWebConfiguration.kt`, kept `KoloCssCompiler` as the Spring bean (`@Service`), and aligned `:libs:kolo-styles` dependency declarations to grouped scope blocks using the repository dependency DSL helpers.
 
 ## How Completed
-- Added `/css/generated/kolo.css` handling in `libs/kolo-styles/src/main/kotlin/com/github/cc007/blueart/kolostyles/web/KoloCssController.kt` with library-owned Spring bean wiring in `KoloStylesWebConfiguration.kt`.
+- Added `/css/generated/kolo.css` handling in `libs/kolo-styles/src/main/kotlin/com/github/cc007/blueart/kolostyles/web/KoloCssController.kt` with library-owned Spring bean wiring via `KoloCssCompiler` as an `@Service`.
 - Kept browse/art page stylesheet endpoints in `app/src/main/kotlin/com/github/cc007/blueart/endpoints/styling/CssController.kt` while moving Kolo endpoint ownership into `:libs:kolo-styles`.
 - Implemented tolerant token parsing and hook-driven CSS generation in `libs/kolo-styles/src/main/kotlin/com/github/cc007/blueart/kolostyles/compiler/KoloCssCompiler.kt`.
 - Kept malformed tokens observable via `/* kolo-unparsed: ... */` comments and unsupported-but-well-formed tokens observable via `/* kolo-unsupported: ... */` comments.
@@ -73,8 +74,9 @@ Implement the server-side CSS endpoint behavior for `/css/generated/kolo.css` so
 ## Verification
 - Ran:
   - `./gradlew :libs:kolo-styles:test :app:test --tests com.github.cc007.blueart.endpoints.styling.CssControllerTest`
--  - `./gradlew :app:test --tests com.github.cc007.blueart.BlueArtApplicationTests`
-- Result: passed on `2026-05-10` after moving endpoint/config ownership into `:libs:kolo-styles` and making the Spring-managed classes proxyable.
+  - `./gradlew :app:test --tests com.github.cc007.blueart.BlueArtApplicationTests`
+  - `./gradlew :libs:kolo-styles:test --tests com.github.cc007.blueart.kolostyles.compiler.KoloCssCompilerTest --tests com.github.cc007.blueart.kolostyles.web.KoloCssControllerTest`
+- Result: all listed commands passed on `2026-05-11`.
 - Coverage verified:
   - token splitting/trim/drop-empty behavior
   - malformed token diagnostics
