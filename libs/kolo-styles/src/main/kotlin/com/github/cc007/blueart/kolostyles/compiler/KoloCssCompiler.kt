@@ -3,6 +3,7 @@ package com.github.cc007.blueart.kolostyles.compiler
 import com.github.cc007.blueart.kolostyles.api.KoloStylesApi
 import com.github.cc007.blueart.kolostyles.generator.StyleGeneratorHook
 import com.github.cc007.blueart.kolostyles.parser.StyleParserHook
+import org.springframework.stereotype.Service
 
 /**
  * Compiles canonicalized kolo token lists into deterministic CSS output.
@@ -13,6 +14,7 @@ import com.github.cc007.blueart.kolostyles.parser.StyleParserHook
  *
  * Utility-to-CSS mapping is pluggable via parser/generator hooks.
  */
+@Service
 class KoloCssCompiler(
     private val parserHooks: List<StyleParserHook> = emptyList(),
     private val generatorHooks: List<StyleGeneratorHook> = emptyList()

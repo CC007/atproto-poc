@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
 
 @Controller
-open class KoloCssController(
+class KoloCssController(
     private val koloCssCompiler: KoloCssCompiler
 ) {
 
     @GetMapping("/css/generated/kolo.css", produces = ["text/css"])
     @ResponseBody
-    open fun koloStylesheet(
+    fun koloStylesheet(
         @RequestParam(required = false) version: String?,
         @RequestParam(required = false) kolo: String?
     ): ResponseEntity<String> {

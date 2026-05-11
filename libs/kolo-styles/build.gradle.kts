@@ -1,17 +1,23 @@
+import buildsrc.convention.dsl.implementation
+import buildsrc.convention.dsl.kotlin
+import buildsrc.convention.dsl.spring
+import buildsrc.convention.dsl.testImplementation
+
 plugins {
     id("buildsrc.convention.kotlin-jvm")
+    id("buildsrc.convention.spring-boot")
 }
 
 description = "Reusable styling primitives for co-located Kotlin-first style infrastructure"
 
-val springBootVersion = libs.versions.springBoot.get()
-
 dependencies {
-    implementation(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
-    implementation("org.springframework:spring-webmvc")
+    implementation {
+        spring("webmvc")
+    }
 
-    testImplementation(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
-    testImplementation("org.springframework:spring-webmvc")
-    testImplementation(kotlin("test-junit5"))
+    testImplementation {
+        spring("webmvc")
+        kotlin("test-junit5")
+    }
 }
 
