@@ -42,7 +42,7 @@ Use this page as the index for active and completed AI task records under `docs/
 | `BA‑013` | Unified search page for posts, users, feeds, and hashtags | `todo` | `ai` | [📋](ai-tasks/2026-05-05-BA-013-search-page-posts-users-feeds-hashtags.md) |
 | `BA‑014` | Adaptive media embeds across browse/search/gallery/favorites (BA-005 follow-up) | `todo` | `ai` | [📋](ai-tasks/2026-05-05-BA-014-adaptive-media-embeds-followup-ba-005.md) |
 | `BA‑019` | Add first margin/padding utilities and preserve visual parity | `todo` | `ai` | [📋](ai-tasks/2026-05-06-BA-019-margin-padding-elements-csscontroller-cleanup-visual-parity.md) |
-| `BA‑022` | `kolo {}` extension, class generation, and stylesheet link integration | `todo` | `ai` | [📋](ai-tasks/2026-05-09-BA-022-kolo-extension-link-class-generation.md) |
+| `BA‑022` | `kolo {}` extension, class generation, and stylesheet link integration | `partial` | `ai` | [📋](ai-tasks/2026-05-09-BA-022-kolo-extension-link-class-generation.md) |
 
 ## Cancelled Tasks
 | ID | Title | Cancelled On | Notes |

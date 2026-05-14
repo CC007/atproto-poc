@@ -3,10 +3,11 @@ package com.github.cc007.blueart.endpoints.browse
 import com.github.cc007.blueart.components.overview.postSummary
 import com.github.cc007.blueart.components.topBanner
 import com.github.cc007.blueart.endpoints.auth.AtProtoAuthentication
+import com.github.cc007.blueart.kolostyles.render.koloStylesheetLink
+import com.github.cc007.blueart.kolostyles.render.renderKoloHtml
 import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.servlet.http.HttpServletRequest
 import kotlinx.html.*
-import kotlinx.html.stream.createHTML
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import org.springframework.http.MediaType
@@ -42,11 +43,12 @@ class BrowseController {
                 .instance()
                 .feed()
 
-            createHTML().html {
+            renderKoloHtml {
                 head {
                     title("Browse")
                     meta(name = "viewport", content = "width=device-width, initial-scale=1")
                     link(rel = "stylesheet", href = "/css/generated/browse.css")
+                    koloStylesheetLink()
                 }
                 body(classes = "browse-body") {
                     topBanner(csrfToken)

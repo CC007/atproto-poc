@@ -12,6 +12,7 @@ description = "Reusable styling primitives for co-located Kotlin-first style inf
 
 dependencies {
     implementation {
+        +"org.jetbrains.kotlinx:kotlinx-html-jvm:0.12.0"
         spring("webmvc")
     }
 

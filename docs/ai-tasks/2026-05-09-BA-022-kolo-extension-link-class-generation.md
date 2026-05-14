@@ -2,10 +2,10 @@
 
 ## Metadata
 - ID: `BA-022`
-- Status: `todo`
+- Status: `partial`
 - Owner: `ai`
 - Created: `2026-05-09 09:15`
-- Updated: `2026-05-09 09:15`
+- Updated: `2026-05-11 03:18`
 - Related Human Issue: none
 
 ## Goal
@@ -106,16 +106,17 @@ Implementation notes:
   - final `kolo.css` href builder using `version` + canonical `kolo`
 
 ## Plan
-- [ ] Finalize typed DSL surface based on BA-016/BA-018 constraints — extension function, `KoloScope`, token sink.
-- [ ] Implement token properties and function entries for initial utility set (bare properties for zero-arg, functions for parameterized).
-- [ ] Implement nested scope builders for pseudo/media variant chains.
-- [ ] Implement request-scoped token collector and class attachment path.
-- [ ] Implement canonical canonicalization pipeline (dedupe → variant-aware sort → join).
-- [ ] Integrate `kolo.css` link generation into the rendering layout pipeline using the canonical `kolo` param.
-- [ ] Add unit/integration tests for deterministic token/link/class behavior.
+- [x] Finalize typed DSL surface based on BA-016/BA-018 constraints — extension function, `KoloScope`, token sink.
+- [x] Implement token properties and function entries for initial utility set (bare properties for zero-arg, functions for parameterized).
+- [x] Implement nested scope builders for pseudo/media variant chains.
+- [x] Implement request-scoped token collector and class attachment path.
+- [x] Implement canonical canonicalization pipeline (dedupe → variant-aware sort → join).
+- [x] Integrate `kolo.css` link generation into the rendering layout pipeline using the canonical `kolo` param.
+- [x] Add unit/integration tests for deterministic token/link/class behavior.
 
 ## Progress Log
 - `2026-05-09 09:15`: Task created by splitting superseded `BA-018` into focused implementation slices.
+- `2026-05-11 03:18`: Added `renderKoloHtml`, request-scoped token collection, typed `kolo {}` DSL (`flex`, `mt`, `px`, `hover`, `md`, `bg.sky(...)`), canonical `kolo` URL generation, and browse/art head link integration. Production class mapping is intentionally left inert for now (default mapper returns no class names) and only exercised through a test-only mapper path per BA-019 sequencing.
 
 ## How Completed
 _To be filled in on completion._
