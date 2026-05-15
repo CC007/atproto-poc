@@ -2,10 +2,10 @@
 
 ## Metadata
 - ID: `BA-022`
-- Status: `partial`
+- Status: `done`
 - Owner: `ai`
 - Created: `2026-05-09 09:15`
-- Updated: `2026-05-14 00:00`
+- Updated: `2026-05-15 11:52`
 - Related Human Issue: none
 
 ## Goal
@@ -107,8 +107,8 @@ Implementation notes:
 
 ## Plan
 - [x] Finalize render/runtime surface for `kolo { ... }` — extension function, `KoloScope`, token sink.
-- [ ] Implement token properties and function entries for initial utility set (bare properties for zero-arg, functions for parameterized).
-- [ ] Implement nested scope builders for pseudo/media variant chains.
+- [~] Implement token properties and function entries for initial utility set (bare properties for zero-arg, functions for parameterized). → deferred to BA-019.
+- [~] Implement nested scope builders for pseudo/media variant chains. → `variant()` scaffolding exists on `KoloScope` and `KoloVariantScope`; concrete utility entries deferred to BA-019.
 - [x] Implement request-scoped token collector and class attachment path.
 - [x] Implement canonical canonicalization pipeline (dedupe → variant-aware sort → join).
 - [x] Integrate `kolo.css` link generation into the rendering layout pipeline using the canonical `kolo` param.
@@ -118,12 +118,24 @@ Implementation notes:
 - `2026-05-09 09:15`: Task created by splitting superseded `BA-018` into focused implementation slices.
 - `2026-05-11 03:18`: Added `renderKoloHtml`, request-scoped token collection, canonical `kolo` URL generation, and browse/art head link integration. Production class mapping is intentionally left inert for now (default mapper returns no class names) and is only exercised through a test-only mapper path.
 - `2026-05-14 00:00`: Kept variant-aware scaffolding in `KoloScope`/`KoloVariantScope` for future BA-019 work, but removed any concrete production utility members so BA-022 does not pre-implement `flex`, `mt`, `px`, or similar entries.
+- `2026-05-15 11:52`: Upgraded tests from spot-checks to full HTML content assertions. Refactored `KoloScope` to hold only the sink (no variant tracking), moved variant chain ownership entirely into `KoloVariantScope`. Renamed `withVariant`/`recordBaseToken` to concise `variant`/`recordBase`, eliminating the test-only adapter helpers. Added multi-element test covering deduplicated href union and per-element class scoping.
 
 ## How Completed
-_To be filled in on completion._
+The in-scope framework is fully wired:
+- `renderKoloHtml` provides a request-scoped render context via a `ThreadLocal` holder.
+- `kolo { }` collects tokens into the context and attaches mapped class names to the element.
+- `koloStylesheetLink()` emits a placeholder href that is replaced post-render with the canonicalized `/css/generated/kolo.css?version=…&kolo=…` URL.
+- `canonicalizeKoloTokens` deduplicates, rejects unsupported tokens, sorts by `(group, variantCount, variantChain, baseUtility, token)`, and joins with `;`.
+- `KoloScope` / `KoloVariantScope` provide the DSL scaffold; concrete utilities (`flex`, `mt`, `px`, …) are intentionally absent — that work belongs to BA-019.
 
 ## Verification
-_To be filled in on completion._
+All tests in `KoloHtmlRuntimeTest` pass (`./gradlew :libs:kolo-styles:test`):
+- `canonicalize dedupes sorts and drops unsupported tokens`
+- `renderKoloHtml emits canonicalized stylesheet href from collected tokens`
+- `kolo can attach classes via mapper when explicitly provided`
+- `kolo variant scaffold can compose nested variant tokens`
+- `kolo collects tokens across multiple elements deduplicating overlaps in the stylesheet href`
+- `kolo noops when called outside kolo rendering context`
 
 ## Follow-ups
 - [ ] `BA-019`: Apply first margin/padding utilities in pages once framework wiring is complete.
