@@ -118,6 +118,47 @@ class KoloHtmlRuntimeTest {
     }
 
     @Test
+    fun `kolo collects tokens across multiple elements deduplicating overlaps in the stylesheet href`() {
+        val html = renderKoloHtml(
+            version = "abc123",
+            classNameMapper = { token -> "k-$token" },
+        ) {
+            head {
+                koloStylesheetLink()
+            }
+            body {
+                div {
+                    kolo {
+                        recordBase("flex")  // overlapping
+                        recordBase("mt-2")  // unique to this element
+                    }
+                }
+                div {
+                    kolo {
+                        recordBase("flex")  // overlapping
+                        recordBase("px-4")  // unique to this element
+                    }
+                }
+            }
+        }
+
+        // The href contains the deduplicated union of all tokens across all elements
+        // Per-element classes reflect only that element's own tokens
+        val expected = """
+            <html>
+              <head>
+                <link href="/css/generated/kolo.css?version=abc123&kolo=flex%3Bmt-2%3Bpx-4" rel="stylesheet">
+              </head>
+              <body>
+                <div class="k-flex k-mt-2"></div>
+                <div class="k-flex k-px-4"></div>
+              </body>
+            </html>
+        """.trimIndent() + "\n"
+        assertEquals(expected, html)
+    }
+
+    @Test
     fun `kolo noops when called outside kolo rendering context`() {
         val html = createHTML().html {
             body {
