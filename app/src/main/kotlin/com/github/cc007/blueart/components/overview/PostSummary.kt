@@ -1,6 +1,8 @@
 package com.github.cc007.blueart.components.overview
 
 import com.github.cc007.blueart.components.richtext.renderRichText
+import com.github.cc007.blueart.kolostyles.render.kolo
+import com.github.cc007.blueart.kolostyles.render.m
 import kotlinx.html.*
 import work.socialhub.kbsky.model.app.bsky.actor.ActorDefsProfileViewBasic
 import work.socialhub.kbsky.model.app.bsky.embed.*
@@ -138,12 +140,14 @@ private fun HtmlBlockTag.record(record: RecordUnion?) {
     when (record) {
         is FeedPost -> {
             p(classes = "post-text feed-post") {
+                kolo { m(0) }
                 renderRichText(record.text, record.facets)
             }
         }
 
         else -> {
             p(classes = "post-text") {
+                kolo { m(0) }
                 em {
                     +"This type of post is not yet supported${record?.type?.let { ": $it" } ?: ""}"
                 }

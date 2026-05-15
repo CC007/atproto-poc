@@ -34,6 +34,7 @@ For module-scoped verification after the multi-module split:
 - `KoloStylesApiTest` validates baseline `:libs:kolo-styles` placeholder API wiring for utility definitions and parser/generator hook contracts.
 - `KoloStylesModuleWiringTest` validates the `:app` module can consume `:libs:kolo-styles` types without changing runtime behavior.
 - `BlueArtApplicationTests` validates the Spring application context still starts with the Kolo compiler/configuration/controller owned by `:libs:kolo-styles`.
+- `SpacingUtilitiesTest` validates BA-019 spacing utilities: `SpacingParserHook` accepts/rejects tokens correctly, `SpacingGeneratorHook` produces `k-`-prefixed CSS selectors with pseudo-class and media-query variant support, `KoloCssCompiler` with spacing hook lists generates real CSS for spacing tokens, and `spacingUtilityDefinitions` has correct catalog size and `cssDeclaration` content (property declarations only, not full rules).
 
 ## Suggested Additions
 - Lightweight integration tests for `GET /browse` and `GET /art/{cid}` rendering expectations.

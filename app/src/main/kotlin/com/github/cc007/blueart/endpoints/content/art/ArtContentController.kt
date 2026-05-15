@@ -3,6 +3,9 @@ package com.github.cc007.blueart.endpoints.content.art
 import com.github.cc007.blueart.components.richtext.renderRichText
 import com.github.cc007.blueart.components.topBanner
 import com.github.cc007.blueart.endpoints.auth.AtProtoAuthentication
+import com.github.cc007.blueart.kolostyles.render.kolo
+import com.github.cc007.blueart.kolostyles.render.m
+import com.github.cc007.blueart.kolostyles.render.p
 import com.github.cc007.blueart.kolostyles.render.koloStylesheetLink
 import com.github.cc007.blueart.kolostyles.render.renderKoloHtml
 import io.github.oshai.kotlinlogging.KotlinLogging
@@ -80,18 +83,27 @@ class ArtContentController {
                     koloStylesheetLink()
                 }
                 body(classes = "art-body") {
+                    kolo { m(0) }
                     topBanner(csrfToken)
                     main(classes = "art-layout") {
+                        kolo { p(4) }
                         section(classes = "art-content") {
                             div(classes = "content-top") {
-                                h1(classes = "art-title") { +pageTitle }
+                                h1(classes = "art-title") {
+                                    kolo { m(0) }
+                                    +pageTitle
+                                }
                                 post?.author?.handle?.let {
-                                    p(classes = "art-byline") { +"by @$it" }
+                                    p(classes = "art-byline") {
+                                        kolo { m(0) }
+                                        +"by @$it"
+                                    }
                                 }
                             }
 
                             if (post == null) {
                                 section(classes = "art-card") {
+                                    kolo { p(4) }
                                     p(classes = "art-empty") {
                                         +"Could not load this artwork. Try opening it from browse again."
                                     }
@@ -99,16 +111,22 @@ class ArtContentController {
                             } else {
                                 val feedPost = post.record as? FeedPost
                                 section(classes = "art-card") {
+                                    kolo { p(4) }
                                     section(classes = "art-embed") {
+                                        kolo { p(2) }
                                         renderMainEmbed(post.embed)
                                     }
 
                                     section(classes = "art-description") {
                                         h2 { +"Description" }
                                         if (feedPost?.text.isNullOrBlank()) {
-                                            p(classes = "art-text") { +"No description provided." }
+                                            p(classes = "art-text") {
+                                                kolo { m(0) }
+                                                +"No description provided."
+                                            }
                                         } else {
                                             p(classes = "art-text") {
+                                                kolo { m(0) }
                                                 renderRichText(feedPost.text, feedPost.facets)
                                             }
                                         }
@@ -116,9 +134,13 @@ class ArtContentController {
                                 }
 
                                 section(classes = "comments") {
+                                    kolo { p(4) }
                                     h2 { +"Comments" }
                                     if (comments.isEmpty()) {
-                                        p(classes = "art-empty") { +"No comments yet." }
+                                        p(classes = "art-empty") {
+                                            kolo { m(0) }
+                                            +"No comments yet."
+                                        }
                                     } else {
                                         comments.forEach { comment ->
                                             article(classes = "comment depth-${comment.depth.coerceAtMost(4)}") {
@@ -136,6 +158,7 @@ class ArtContentController {
                                                     }
                                                 }
                                                 p(classes = "comment-text") {
+                                                    kolo { m(0) }
                                                     renderRichText(comment.text, comment.facets)
                                                 }
                                             }
@@ -156,7 +179,10 @@ private fun FlowContent.renderMainEmbed(embed: EmbedViewUnion?) {
         is EmbedImagesView -> {
             val images = embed.images.orEmpty()
             if (images.isEmpty()) {
-                p(classes = "art-empty") { +"No artwork media attached." }
+                p(classes = "art-empty") {
+                    kolo { m(0) }
+                    +"No artwork media attached."
+                }
                 return
             }
             div(classes = if (images.size > 1) "art-image-grid" else "art-image-single") {
@@ -173,7 +199,10 @@ private fun FlowContent.renderMainEmbed(embed: EmbedViewUnion?) {
                 img(src = thumb, classes = "art-image") {
                     alt = embed.alt ?: "Artwork video"
                 }
-            } ?: p(classes = "art-empty") { +"Video embed has no thumbnail available." }
+            } ?: p(classes = "art-empty") {
+                kolo { m(0) }
+                +"Video embed has no thumbnail available."
+            }
         }
 
         is EmbedExternalView -> {
@@ -184,12 +213,16 @@ private fun FlowContent.renderMainEmbed(embed: EmbedViewUnion?) {
                 }
             }
             p(classes = "art-external") {
+                kolo { m(0) }
                 +(external?.title?.ifBlank { external.uri } ?: "External embed")
             }
         }
 
         is EmbedRecordWithMediaView -> renderMainEmbed(embed.media)
-        else -> p(classes = "art-empty") { +"This post has no supported artwork embed." }
+        else -> p(classes = "art-empty") {
+            kolo { m(0) }
+            +"This post has no supported artwork embed."
+        }
     }
 }
 

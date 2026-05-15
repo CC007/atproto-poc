@@ -53,6 +53,15 @@ Wrapper around `createHTML()` that installs a request-scoped `KoloRenderContext`
 ### `koloStylesheetLink()`
 `HEAD` extension that emits a `<link rel="stylesheet">` pointing to the current render context's placeholder, which `renderKoloHtml` replaces post-render with the finalized kolo.css href.
 
+### Spacing Utilities
+Margin/padding typed DSL helpers (`m()`, `mt()`, `mb()`, `ml()`, `mr()`, `mx()`, `my()`, `p()`, `pt()`, `pb()`, `pl()`, `pr()`, `px()`, `py()`) available on both `KoloScope` and `KoloVariantScope` via `KoloSpacingDsl.kt`. Each function records a Tailwind-style token (e.g., `m(0)` → `"m-0"`, `p(4)` → `"p-4"`) and generates a `k-`-prefixed CSS class (e.g., `.k-m-0 { margin: 0; }`).
+
+### `SpacingParserHook` / `SpacingGeneratorHook`
+Spring `@Component` implementations in `SpacingUtilities.kt` that provide spacing token parsing (`StyleParserHook`) and CSS rule generation (`StyleGeneratorHook`) for the production compiler pipeline.
+
+### `KoloCssCompiler` bean wiring
+`KoloCssCompiler` is a Spring `@Service` that receives injected `List<StyleParserHook>` and `List<StyleGeneratorHook>`; Spring discovers hook implementations (including spacing hooks) as beans and supplies them automatically.
+
 
 
 

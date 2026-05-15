@@ -41,7 +41,6 @@ Use this page as the index for active and completed AI task records under `docs/
 | `BA‑012` | Feeds, lists, and starter packs page with embed support | `todo` | `ai` | [📋](ai-tasks/2026-05-05-BA-012-feeds-lists-starter-packs-page.md) |
 | `BA‑013` | Unified search page for posts, users, feeds, and hashtags | `todo` | `ai` | [📋](ai-tasks/2026-05-05-BA-013-search-page-posts-users-feeds-hashtags.md) |
 | `BA‑014` | Adaptive media embeds across browse/search/gallery/favorites (BA-005 follow-up) | `todo` | `ai` | [📋](ai-tasks/2026-05-05-BA-014-adaptive-media-embeds-followup-ba-005.md) |
-| `BA‑019` | Add first margin/padding utilities and preserve visual parity | `todo` | `ai` | [📋](ai-tasks/2026-05-06-BA-019-margin-padding-elements-csscontroller-cleanup-visual-parity.md) |
 
 
 ## Cancelled Tasks
@@ -63,3 +62,4 @@ Use this page as the index for active and completed AI task records under `docs/
 | `BA‑020` | Create endpoints folder and move all endpoint controllers to it | `2026-05-07 23:45` | [📋](ai-tasks/2026-05-07-BA-020-move-controllers-to-endpoints-folder.md) |
 | `BA‑021` | CSS endpoint to generate `kolo.css` from request parameters | `2026-05-11 02:49` | [📋](ai-tasks/2026-05-09-BA-021-kolo-css-endpoint-generation-from-parameters.md) |
 | `BA‑022` | `kolo {}` extension, class generation, and stylesheet link integration | `2026-05-15 11:52` | [📋](ai-tasks/2026-05-09-BA-022-kolo-extension-link-class-generation.md) |
+| `BA‑019` | Add first margin/padding utilities and preserve visual parity | `2026-05-15 14:45` | [📋](ai-tasks/2026-05-06-BA-019-margin-padding-elements-csscontroller-cleanup-visual-parity.md) |

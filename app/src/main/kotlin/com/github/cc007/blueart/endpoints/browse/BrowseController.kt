@@ -3,6 +3,10 @@ package com.github.cc007.blueart.endpoints.browse
 import com.github.cc007.blueart.components.overview.postSummary
 import com.github.cc007.blueart.components.topBanner
 import com.github.cc007.blueart.endpoints.auth.AtProtoAuthentication
+import com.github.cc007.blueart.kolostyles.render.kolo
+import com.github.cc007.blueart.kolostyles.render.m
+import com.github.cc007.blueart.kolostyles.render.mb
+import com.github.cc007.blueart.kolostyles.render.p
 import com.github.cc007.blueart.kolostyles.render.koloStylesheetLink
 import com.github.cc007.blueart.kolostyles.render.renderKoloHtml
 import io.github.oshai.kotlinlogging.KotlinLogging
@@ -51,10 +55,15 @@ class BrowseController {
                     koloStylesheetLink()
                 }
                 body(classes = "browse-body") {
+                    kolo { m(0) }
                     topBanner(csrfToken)
                     main(classes = "browse-layout") {
+                        kolo { p(4) }
                         aside(classes = "browse-sidebar") {
-                            h2(classes = "sidebar-title") { +"BlueArt" }
+                            h2(classes = "sidebar-title") {
+                                kolo { m(0); mb(3) }
+                                +"BlueArt"
+                            }
                             nav(classes = "sidebar-nav") {
                                 a(href = "#") { +"Discover" }
                                 a(href = "#") { +"Following" }
@@ -65,7 +74,10 @@ class BrowseController {
                         }
                         section(classes = "browse-content") {
                             div(classes = "content-top") {
-                                h1 { +"Browse Timeline" }
+                                h1 {
+                                    kolo { m(0) }
+                                    +"Browse Timeline"
+                                }
                                 div(classes = "filter-row") {
                                     button(classes = "filter-chip filter-chip-active") { +"Hot" }
                                     button(classes = "filter-chip") { +"New" }

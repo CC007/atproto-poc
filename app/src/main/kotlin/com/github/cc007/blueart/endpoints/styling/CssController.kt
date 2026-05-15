@@ -39,7 +39,6 @@ class CssController {
         }
 
         "body.browse-body" {
-            margin = Margin(0.px)
             height = 100.vh
             overflow = Overflow.hidden
             display = Display.flex
@@ -70,7 +69,6 @@ class CssController {
             color = Color("#f2f8ff")
         }
         ".brand h1" {
-            margin = Margin(0.px)
             fontSize = 1.15.rem
             letterSpacing = 0.04.em
         }
@@ -92,7 +90,6 @@ class CssController {
             raw("grid-template-columns", "245px minmax(0, 1fr)")
             gap = 1.rem
             width = 100.pct
-            padding = Padding(1.rem)
             raw("flex", "1")
             minHeight = 0.px
         }
@@ -106,7 +103,6 @@ class CssController {
             padding = Padding(0.9.rem)
         }
         ".sidebar-title" {
-            margin = Margin(0.px, 0.px, 0.75.rem)
             fontSize = 0.9.rem
             color = cssColorVar("accent")
             textTransform = TextTransform.uppercase
@@ -139,7 +135,6 @@ class CssController {
             raw("margin-bottom", "0.9rem")
         }
         ".content-top h1" {
-            margin = Margin(0.px)
             fontSize = 1.35.rem
         }
         ".filter-row" {
@@ -210,7 +205,6 @@ class CssController {
             overflow = Overflow.hidden
         }
         ".post-text" {
-            margin = Margin(0.px)
             raw("line-height", "1.4")
             raw("overflow-wrap", "anywhere")
             raw("word-break", "break-word")
@@ -397,7 +391,6 @@ class CssController {
         }
 
         "body.art-body" {
-            margin = Margin(0.px)
             minHeight = 100.vh
             background = "radial-gradient(circle at top, #d8effe 0%, ${cssVar("bg")} 48%)"
             color = cssColorVar("text")
@@ -407,7 +400,6 @@ class CssController {
         ".art-layout" {
             maxWidth = 1080.px
             margin = Margin(0.px, LinearDimension.auto)
-            padding = Padding(1.rem)
         }
         ".art-content" {
             display = Display.grid
@@ -418,11 +410,9 @@ class CssController {
             gap = 0.2.rem
         }
         ".art-title" {
-            margin = Margin(0.px)
             fontSize = 1.5.rem
         }
         ".art-byline" {
-            margin = Margin(0.px)
             color = cssColorVar("muted")
             fontSize = 0.9.rem
         }
@@ -431,13 +421,11 @@ class CssController {
             borderRadius = 12.px
             background = "linear-gradient(180deg, ${cssVar("surface-2")}, ${cssVar("surface")})"
             raw("box-shadow", "0 8px 20px rgba(32, 58, 83, 0.12)")
-            padding = Padding(1.rem)
         }
         ".art-embed" {
             borderRadius = 10.px
             background = "#cfe4f4"
             raw("border", "1px solid #b9d3e7")
-            padding = Padding(0.5.rem)
         }
         ".art-image-grid" {
             display = Display.grid
@@ -464,7 +452,6 @@ class CssController {
             color = cssColorVar("accent")
         }
         ".art-text, .comment-text, .art-empty, .art-external" {
-            margin = Margin(0.px)
             raw("line-height", "1.45")
             raw("overflow-wrap", "anywhere")
             raw("word-break", "break-word")
