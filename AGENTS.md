@@ -34,6 +34,7 @@ If any file is missing or stale, propose an update as part of the change.
 - Run relevant Gradle checks for changed code paths.
 - At minimum, run targeted tests; use `./gradlew test` when changes are broad.
 - If validation cannot run, state what was not verified.
+- The terminal starts in the project root; no need to `cd` into the project before running Gradle commands.
 
 ## Handoff Rules
 
