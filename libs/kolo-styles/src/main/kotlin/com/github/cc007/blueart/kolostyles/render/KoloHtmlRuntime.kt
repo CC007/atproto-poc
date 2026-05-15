@@ -80,29 +80,9 @@ class KoloScope internal constructor(
     private val sink: (String) -> Unit,
     private val variants: List<String> = emptyList(),
 ) {
-    val flex: Unit
-        get() = record("flex")
-
-    fun mt(value: Int) {
-        record("mt-$value")
-    }
-
-    fun px(value: Int) {
-        record("px-$value")
-    }
-
-    val hover: KoloVariantScope
-        get() = KoloVariantScope(this, "hover")
-
-    val md: KoloVariantScope
-        get() = KoloVariantScope(this, "md")
-
-    val bg: KoloBackgroundScope
-        get() = KoloBackgroundScope(this)
-
     internal fun withVariant(variant: String): KoloScope = KoloScope(sink, variants + variant)
 
-    internal fun record(baseToken: String) {
+    internal fun recordBaseToken(baseToken: String) {
         val token = if (variants.isEmpty()) {
             baseToken
         } else {
@@ -113,39 +93,12 @@ class KoloScope internal constructor(
 }
 
 class KoloVariantScope internal constructor(
-    private val parent: KoloScope,
-    private val variant: String,
-) {
-    private fun scoped(): KoloScope = parent.withVariant(variant)
-
-    val flex: Unit
-        get() = scoped().flex
-
-    fun mt(value: Int) {
-        scoped().mt(value)
-    }
-
-    fun px(value: Int) {
-        scoped().px(value)
-    }
-
-    val bg: KoloBackgroundScope
-        get() = scoped().bg
-}
-
-class KoloBackgroundScope internal constructor(
     private val scope: KoloScope,
 ) {
-    val sky: KoloShadeScope
-        get() = KoloShadeScope(scope, "bg-sky")
-}
+    internal fun withVariant(variant: String): KoloVariantScope = KoloVariantScope(scope.withVariant(variant))
 
-class KoloShadeScope internal constructor(
-    private val scope: KoloScope,
-    private val prefix: String,
-) {
-    operator fun invoke(shade: Int) {
-        scope.record("$prefix-$shade")
+    internal fun recordBaseToken(baseToken: String) {
+        scope.recordBaseToken(baseToken)
     }
 }
 
@@ -157,7 +110,7 @@ fun canonicalizeKoloTokens(tokens: Iterable<String>): String {
         .filter { part -> isCanonicalizable(part) }
         .distinct()
         .sortedWith(
-            compareBy<String>(
+            compareBy(
                 { tokenGroup(it) },
                 { tokenVariantCount(it) },
                 { tokenVariantChain(it) },

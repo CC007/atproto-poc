@@ -5,7 +5,7 @@
 - Status: `partial`
 - Owner: `ai`
 - Created: `2026-05-09 09:15`
-- Updated: `2026-05-11 03:18`
+- Updated: `2026-05-14 00:00`
 - Related Human Issue: none
 
 ## Goal
@@ -13,7 +13,7 @@ Implement the rendering-side `kolo { ... }` API and integration points that coll
 
 ## Scope
 - In scope:
-  - Implement/complete the `kolo { ... }` extension entry points and typed utility accessors.
+  - Implement/complete the `kolo { ... }` extension entry points and runtime scaffolding for later typed utility accessors.
   - Collect utility tokens at render time in request scope.
   - Attach generated class names to HTML elements transparently.
   - Emit stylesheet link tags referencing `/css/generated/kolo.css?version=...&kolo=...` using canonical token output.
@@ -56,7 +56,7 @@ Implement the rendering-side `kolo { ... }` API and integration points that coll
 - The framework attaches generated class name(s) to the current HTML element behind the scenes.
 - The canonical `kolo.css` href is built after all render-time token collection completes (two-pass render preferred; placeholder URL replacement is an acceptable fallback).
 
-## API Sketch to Implement
+## API Sketch to Implement Later
 
 Intended developer-facing shape:
 
@@ -106,9 +106,9 @@ Implementation notes:
   - final `kolo.css` href builder using `version` + canonical `kolo`
 
 ## Plan
-- [x] Finalize typed DSL surface based on BA-016/BA-018 constraints — extension function, `KoloScope`, token sink.
-- [x] Implement token properties and function entries for initial utility set (bare properties for zero-arg, functions for parameterized).
-- [x] Implement nested scope builders for pseudo/media variant chains.
+- [x] Finalize render/runtime surface for `kolo { ... }` — extension function, `KoloScope`, token sink.
+- [ ] Implement token properties and function entries for initial utility set (bare properties for zero-arg, functions for parameterized).
+- [ ] Implement nested scope builders for pseudo/media variant chains.
 - [x] Implement request-scoped token collector and class attachment path.
 - [x] Implement canonical canonicalization pipeline (dedupe → variant-aware sort → join).
 - [x] Integrate `kolo.css` link generation into the rendering layout pipeline using the canonical `kolo` param.
@@ -116,7 +116,8 @@ Implementation notes:
 
 ## Progress Log
 - `2026-05-09 09:15`: Task created by splitting superseded `BA-018` into focused implementation slices.
-- `2026-05-11 03:18`: Added `renderKoloHtml`, request-scoped token collection, typed `kolo {}` DSL (`flex`, `mt`, `px`, `hover`, `md`, `bg.sky(...)`), canonical `kolo` URL generation, and browse/art head link integration. Production class mapping is intentionally left inert for now (default mapper returns no class names) and only exercised through a test-only mapper path per BA-019 sequencing.
+- `2026-05-11 03:18`: Added `renderKoloHtml`, request-scoped token collection, canonical `kolo` URL generation, and browse/art head link integration. Production class mapping is intentionally left inert for now (default mapper returns no class names) and is only exercised through a test-only mapper path.
+- `2026-05-14 00:00`: Kept variant-aware scaffolding in `KoloScope`/`KoloVariantScope` for future BA-019 work, but removed any concrete production utility members so BA-022 does not pre-implement `flex`, `mt`, `px`, or similar entries.
 
 ## How Completed
 _To be filled in on completion._
