@@ -51,7 +51,7 @@ class KoloHtmlRuntimeTest {
                 <link href="/css/generated/kolo.css?version=abc123&kolo=hover%3Abg-sky-500%3Bflex%3Bmd%3Amt-2" rel="stylesheet">
               </head>
               <body>
-                <div></div>
+                <div class="k-md:mt-2 k-flex k-hover:bg-sky-500"></div>
               </body>
             </html>
         """.trimIndent() + "\n"
@@ -110,7 +110,7 @@ class KoloHtmlRuntimeTest {
                 <link href="/css/generated/kolo.css?version=abc123&kolo=dark%3Amd%3Abg-sky-500" rel="stylesheet">
               </head>
               <body>
-                <div></div>
+                <div class="k-dark:md:bg-sky-500"></div>
               </body>
             </html>
         """.trimIndent() + "\n"

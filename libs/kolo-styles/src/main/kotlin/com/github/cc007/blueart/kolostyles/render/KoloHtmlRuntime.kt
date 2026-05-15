@@ -35,7 +35,7 @@ private object KoloRenderContextHolder {
 
 fun renderKoloHtml(
     version: String = defaultKoloVersion(),
-    classNameMapper: (String) -> String? = { null },
+    classNameMapper: (String) -> String? = { token -> "k-${token}" },
     block: HTML.() -> Unit,
 ): String {
     val context = KoloRenderContext(
