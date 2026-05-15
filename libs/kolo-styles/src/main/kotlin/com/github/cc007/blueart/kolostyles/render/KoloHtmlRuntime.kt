@@ -78,27 +78,22 @@ fun HTMLTag.kolo(block: KoloScope.() -> Unit) {
 
 class KoloScope internal constructor(
     private val sink: (String) -> Unit,
-    private val variants: List<String> = emptyList(),
 ) {
-    internal fun withVariant(variant: String): KoloScope = KoloScope(sink, variants + variant)
+    internal fun variant(name: String): KoloVariantScope = KoloVariantScope(sink, listOf(name))
 
-    internal fun recordBaseToken(baseToken: String) {
-        val token = if (variants.isEmpty()) {
-            baseToken
-        } else {
-            variants.joinToString(separator = ":", postfix = ":") + baseToken
-        }
+    internal fun recordBase(token: String) {
         sink(token)
     }
 }
 
 class KoloVariantScope internal constructor(
-    private val scope: KoloScope,
+    private val sink: (String) -> Unit,
+    private val variants: List<String>,
 ) {
-    internal fun withVariant(variant: String): KoloVariantScope = KoloVariantScope(scope.withVariant(variant))
+    internal fun variant(name: String): KoloVariantScope = KoloVariantScope(sink, variants + name)
 
-    internal fun recordBaseToken(baseToken: String) {
-        scope.recordBaseToken(baseToken)
+    internal fun recordBase(token: String) {
+        sink(variants.joinToString(separator = ":", postfix = ":") + token)
     }
 }
 

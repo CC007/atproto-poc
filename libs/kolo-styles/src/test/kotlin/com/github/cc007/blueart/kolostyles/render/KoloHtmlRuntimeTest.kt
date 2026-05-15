@@ -140,19 +140,5 @@ class KoloHtmlRuntimeTest {
     }
 }
 
-private fun KoloScope.recordBase(token: String) {
-    recordBaseToken(token)
-}
 
-private fun KoloScope.variant(name: String): KoloVariantScope {
-    return KoloVariantScope(withVariant(name))
-}
-
-private fun KoloVariantScope.recordBase(token: String) {
-    recordBaseToken(token)
-}
-
-private fun KoloVariantScope.variant(name: String): KoloVariantScope {
-    return withVariant(name)
-}
 
