@@ -1,10 +1,11 @@
 package com.github.cc007.blueart.kolostyles.compiler
 
-import com.github.cc007.blueart.kolostyles.api.KoloStylesApi
 import com.github.cc007.blueart.kolostyles.generator.StyleGeneratorHook
 import com.github.cc007.blueart.kolostyles.parser.StyleParserHook
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.stereotype.Service
 
+val logger = KotlinLogging.logger {}
 /**
  * Compiles canonicalized kolo token lists into deterministic CSS output.
  *
@@ -19,11 +20,10 @@ class KoloCssCompiler(
     private val parserHooks: List<StyleParserHook> = emptyList(),
     private val generatorHooks: List<StyleGeneratorHook> = emptyList()
 ) {
-
-    constructor(api: KoloStylesApi) : this(
-        parserHooks = api.parserHooks,
-        generatorHooks = api.generatorHooks
-    )
+    init {
+        logger.info { "Parser hooks loaded: ${parserHooks.map { it::class.simpleName }}" }
+        logger.info { "Generator hooks loaded: ${generatorHooks.map { it::class.simpleName }}" }
+    }
 
     fun compile(rawKolo: String?): String {
         val tokens = parseTokens(rawKolo)

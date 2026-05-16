@@ -1,6 +1,7 @@
 package com.github.cc007.blueart.kolostyles.web
 
 import com.github.cc007.blueart.kolostyles.compiler.KoloCssCompiler
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
@@ -8,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
 
+
+val logger = KotlinLogging.logger {}
 @Controller
 class KoloCssController(
     private val koloCssCompiler: KoloCssCompiler
@@ -21,7 +24,7 @@ class KoloCssController(
     ): ResponseEntity<String> {
         version?.length // kept for endpoint contract compatibility (`version` participates in URL cache keys)
         val css = koloCssCompiler.compile(kolo)
-
+        logger.info { "KoloStylesheet: $css" }
         return ResponseEntity
             .ok()
             .contentType(MediaType.valueOf("text/css"))

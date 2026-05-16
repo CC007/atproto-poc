@@ -1,6 +1,5 @@
 package com.github.cc007.blueart.kolostyles.compiler
 
-import com.github.cc007.blueart.kolostyles.api.KoloStylesApi
 import com.github.cc007.blueart.kolostyles.generator.StyleGeneratorHook
 import com.github.cc007.blueart.kolostyles.parser.StyleParserHook
 import com.github.cc007.blueart.kolostyles.utility.StyleUtilityDefinition
@@ -120,26 +119,6 @@ class KoloCssCompilerTest {
         val result = compiler.compile("mt-2")
 
         assertEquals("/* kolo-unsupported: mt-2 */", result)
-    }
-
-    @Test
-    fun `compile supports constructing from api hook container`() {
-        val parserHook = StyleParserHook { token ->
-            if (token == "api-token") StyleUtilityDefinition(token, "opacity:1;") else null
-        }
-        val generatorHook = StyleGeneratorHook { definition ->
-            if (definition.token == "api-token") ".api-token { ${definition.cssDeclaration} }" else null
-        }
-        val compiler = KoloCssCompiler(
-            KoloStylesApi(
-                parserHooks = listOf(parserHook),
-                generatorHooks = listOf(generatorHook)
-            )
-        )
-
-        val result = compiler.compile("api-token")
-
-        assertEquals(".api-token { opacity:1; }", result)
     }
 
     @Test
