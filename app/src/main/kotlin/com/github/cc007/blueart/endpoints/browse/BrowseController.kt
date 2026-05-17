@@ -52,31 +52,19 @@ class BrowseController {
                 topBanner(csrfToken)
                 main(classes = "browse-layout") {
                     kolo { p(4) }
-                    aside(classes = "browse-sidebar") {
-                    h2(classes = "sidebar-title") {
-                                kolo { m(0); mb(3) }
-                                +"BlueArt"
-                            }
-                            nav(classes = "sidebar-nav") {
-                                a(href = "#") { +"Discover" }
-                                a(href = "#") { +"Following" }
-                                a(href = "#") { +"Traditional" }
-                                a(href = "#") { +"Digital" }
-                                a(href = "#") { +"Photography" }
-                            }
-                        }
+                    sidebar()
                     section(classes = "browse-content") {
                         div(classes = "content-top") {
-
+                            kolo { mb(4) }
                             h1 {
                                 kolo { m(0) }
                                 +"Browse Timeline"
                             }
                             div(classes = "filter-row") {
-                                button(classes = "filter-chip filter-chip-active") { +"Hot" }
-                                button(classes = "filter-chip") { +"New" }
-                                button(classes = "filter-chip") { +"Artists" }
-                                button(classes = "filter-chip") { +"Commissions" }
+                                filterChip(active = true) { +"Hot" }
+                                filterChip { +"New" }
+                                filterChip { +"Artists" }
+                                filterChip { +"Commissions" }
                             }
                         }
                         section(classes = "feed-grid") {
@@ -121,3 +109,30 @@ private fun getTimeline(
     logger.info { "Cursor: ${it.data.cursor}" }
 }.data
 
+private fun MAIN.sidebar() {
+    aside(classes = "browse-sidebar") {
+        kolo { p(4) }
+        nav(classes = "sidebar-nav") {
+            navLink { +"Discover" }
+            navLink { +"Following" }
+            navLink { +"Traditional" }
+            navLink { +"Digital" }
+            navLink { +"Photography" }
+        }
+    }
+}
+
+private fun NAV.navLink(block: A.() -> Unit) {
+    a(href = "#") {
+        kolo { p(2) }
+        block()
+    }
+}
+
+private fun DIV.filterChip(active: Boolean = false, block: BUTTON.() -> Unit) {
+    val activeClass = if (active) " filter-chip-active" else ""
+    button(classes = "filter-chip$activeClass") {
+        kolo { px(3); py(1) }
+        block()
+    }
+}

@@ -60,29 +60,22 @@ class CssController {
             display = Display.flex
             justifyContent = JustifyContent.spaceBetween
             alignItems = Align.center
-            padding = Padding(0.85.rem, 1.2.rem)
             raw("border-bottom", "1px solid #1a6eb5")
             background = "linear-gradient(90deg, #0a5fa8 0%, #1478cc 50%, #0e6ec0 100%)"
             backdropFilter = "blur(10px)"
         }
-        ".top-banner, .top-banner .brand p, .top-banner .brand h1" {
+        ".top-banner, .top-banner .brand h1" {
             color = Color("#f2f8ff")
         }
         ".brand h1" {
             fontSize = 1.15.rem
             letterSpacing = 0.04.em
         }
-        ".brand p" {
-            margin = Margin(0.1.rem, 0.px, 0.px)
-            color = Color("#b8dbff")
-            fontSize = 0.8.rem
-        }
         ".logout-button" {
             raw("border", "1px solid #9bcfff")
             borderRadius = 999.px
             background = "linear-gradient(135deg, #0f73e0, ${cssVar("primary")})"
             color = Color("#eef6ff")
-            padding = Padding(0.45.rem, 0.95.rem)
             cursor = Cursor.pointer
         }
         ".browse-layout" {
@@ -100,7 +93,6 @@ class CssController {
             raw("border", "1px solid ${cssVar("border")}")
             borderRadius = 12.px
             background = "linear-gradient(180deg, #dbe8f4, #d3e2f0)"
-            padding = Padding(0.9.rem)
         }
         ".sidebar-title" {
             fontSize = 0.9.rem
@@ -113,7 +105,6 @@ class CssController {
             gap = 0.35.rem
         }
         ".sidebar-nav a" {
-            padding = Padding(0.5.rem, 0.65.rem)
             borderRadius = 8.px
             color = cssColorVar("muted")
         }
@@ -132,7 +123,6 @@ class CssController {
             justifyContent = JustifyContent.spaceBetween
             gap = 1.rem
             alignItems = Align.center
-            raw("margin-bottom", "0.9rem")
         }
         ".content-top h1" {
             fontSize = 1.35.rem
@@ -147,7 +137,6 @@ class CssController {
             background = "#e5eef6"
             color = cssColorVar("muted")
             borderRadius = 999.px
-            padding = Padding(0.35.rem, 0.75.rem)
             cursor = Cursor.pointer
         }
         ".filter-chip-active, .filter-chip:hover, .filter-chip:focus-visible" {
@@ -165,7 +154,6 @@ class CssController {
         ".post-card" {
             raw("border", "1px solid ${cssVar("border")}")
             borderRadius = 12.px
-            padding = Padding(0.75.rem)
             background = "linear-gradient(180deg, ${cssVar("surface-2")}, ${cssVar("surface")})"
             raw("box-shadow", "0 8px 20px rgba(32, 58, 83, 0.12)")
             raw("height", cssVar("card-height"))
@@ -199,7 +187,6 @@ class CssController {
             fontSize = 0.8.rem
         }
         ".post-content" {
-            marginTop = 0.6.rem
             raw("flex", "1")
             minHeight = 0.px
             overflow = Overflow.hidden
@@ -232,13 +219,7 @@ class CssController {
         ".richtext-link:hover, .richtext-link:focus-visible, .richtext-mention:hover, .richtext-mention:focus-visible, .richtext-tag:hover, .richtext-tag:focus-visible" {
             opacity = 0.85
         }
-        ".post-labels" {
-            margin = Margin(0.55.rem, 0.px, 0.px)
-            color = cssColorVar("muted")
-            fontSize = 0.83.rem
-        }
         ".embed-media" {
-            marginTop = 0.px
             borderRadius = 8.px
             width = 100.pct
             height = 100.pct
@@ -247,7 +228,6 @@ class CssController {
             objectFit = ObjectFit.cover
         }
         ".post-card-media .embed-media-single, .post-card-media .embed-blur-clip" {
-            marginTop = 0.5.rem
             height = 170.px
         }
         ".embed-media-grid" {
@@ -276,9 +256,6 @@ class CssController {
             overflow = Overflow.hidden
             width = 100.pct
         }
-        ".embed-blur-clip .embed-media" {
-            marginTop = 0.px
-        }
         ".embed-media-blur" {
             filter = "blur(18px)"
             raw("transition", "filter 0.25s ease")
@@ -286,17 +263,12 @@ class CssController {
         ".embed-blur-clip:hover .embed-media-blur" {
             filter = "blur(0)"
         }
-        ".embed-record" {
-            marginTop = 0.5.rem
-        }
         ".parent-post .post-card" {
-            marginTop = 0.65.rem
             background = "#eaf3fa"
             raw("height", "auto")
             overflow = Overflow.visible
         }
         ".post-stats" {
-            marginTop = 0.7.rem
             display = Display.flex
             alignItems = Align.center
             gap = 0.85.rem
@@ -308,7 +280,6 @@ class CssController {
             raw("flex-shrink", "0")
         }
         ".post-open-link" {
-            margin = Margin(0.55.rem, 0.px, 0.px)
             fontSize = 0.8.rem
             color = cssColorVar("accent")
         }

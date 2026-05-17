@@ -1,8 +1,7 @@
 package com.github.cc007.blueart.components.overview
 
 import com.github.cc007.blueart.components.richtext.renderRichText
-import com.github.cc007.blueart.kolostyles.render.kolo
-import com.github.cc007.blueart.kolostyles.render.m
+import com.github.cc007.blueart.kolostyles.render.*
 import kotlinx.html.*
 import work.socialhub.kbsky.model.app.bsky.actor.ActorDefsProfileViewBasic
 import work.socialhub.kbsky.model.app.bsky.embed.*
@@ -52,17 +51,15 @@ private fun HtmlBlockTag.postSummary(
     postCid: String? = null,
     parentPost: FeedDefsPostView? = null
 ) {
-    val hasEmbeds = embeds.isNotEmpty()
-    val cardClasses = if (hasEmbeds) "post-card post-card-media" else "post-card post-card-text-only"
-    article(classes = cardClasses) {
+    article(classes = "post-card post-card-media") {
+        kolo { p(1) }
         author?.let { authorBanner(it) }
         div(classes = "post-content") {
-            if (!hasEmbeds) {
-                record(record)
-            }
             embeds.forEach { embed(it, needsBlur) }
+            record(record)
         }
         div(classes = "post-stats") {
+            kolo { mt(3) }
             statItem("Likes", LIKE_ICON, likeCount, "post-stat-icon-like")
             statItem("Quotes", QUOTE_ICON, quoteCount, "post-stat-icon-quote")
             statItem("Reposts", REPOST_ICON, repostCount, "post-stat-icon-repost")
@@ -72,9 +69,11 @@ private fun HtmlBlockTag.postSummary(
         postLink(author?.handle, postUri, postCid, embeds)
         parentPost?.let {
             div(classes = "parent-post") {
-                br()
-                em {
-                    +"Reply to:"
+                p {
+                    kolo { my(2) }
+                    em {
+                        +"Reply to:"
+                    }
                 }
                 postSummary(it, null)
             }
@@ -96,6 +95,7 @@ private fun FlowContent.postLink(
     val encodedUri = URLEncoder.encode(postUri, StandardCharsets.UTF_8)
 
     p(classes = "post-open-link") {
+        kolo { m(2) }
         a(href = "/art/$postCid?uri=$encodedUri") {
             +"Open artwork"
         }
@@ -140,7 +140,7 @@ private fun HtmlBlockTag.record(record: RecordUnion?) {
     when (record) {
         is FeedPost -> {
             p(classes = "post-text feed-post") {
-                kolo { m(0) }
+                kolo { m(2) }
                 renderRichText(record.text, record.facets)
             }
         }
@@ -191,7 +191,7 @@ private fun HtmlBlockTag.embed(
         }
 
         is EmbedRecordView -> {
-            div(classes = "embed-record") {
+            div {
                 embed.record?.asRecord?.let {
                     val needsBlur = needsBlur(it.labels)
                     postSummary(
@@ -214,7 +214,7 @@ private fun HtmlBlockTag.embed(
         is EmbedRecordWithMediaView -> {
             embed.media?.let { embed(it, needsBlur) }
 
-            div(classes = "embed-record") {
+            div {
                 embed.record?.record?.asRecord?.let {
                     val recordNeedsBlur = needsBlur(it.labels)
                     postSummary(
@@ -235,9 +235,12 @@ private fun HtmlBlockTag.embed(
         }
 
         else -> {
-            p(classes = "embed-media") {
-                em {
-                    +"This type of embed is not supported: ${embed.type}"
+            div(classes = "embed-media") {
+                p {
+                    kolo { m(2) }
+                    em {
+                        +"This type of embed is not supported: ${embed.type}"
+                    }
                 }
             }
         }
@@ -275,9 +278,13 @@ private fun HtmlBlockTag.embedThumbnail(src: String, blur: Boolean, mediaClass: 
 
     if (blur) {
         div(classes = "embed-blur-clip") {
+            kolo { m(0) }
             img(src = src, classes = "$classes embed-media-blur")
         }
     } else {
-        img(src = src, classes = classes)
+        div {
+            kolo { m(0) }
+            img(src = src, classes = classes)
+        }
     }
 }

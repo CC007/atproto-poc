@@ -48,7 +48,6 @@ a {
 }
 
 .top-banner,
-.top-banner .brand p,
 .top-banner .brand h1 {
     color: #f2f8ff;
 }
@@ -57,12 +56,6 @@ a {
     margin: 0;
     font-size: 1.15rem;
     letter-spacing: 0.04em;
-}
-
-.brand p {
-    margin: 0.1rem 0 0;
-    color: #b8dbff;
-    font-size: 0.8rem;
 }
 
 .logout-button {
@@ -263,12 +256,6 @@ a {
     opacity: 0.85;
 }
 
-.post-labels {
-    margin: 0.55rem 0 0;
-    color: var(--muted);
-    font-size: 0.83rem;
-}
-
 .embed-media {
     margin-top: 0;
     border-radius: 8px;
@@ -318,9 +305,6 @@ a {
     width: 100%;
 }
 
-.embed-blur-clip .embed-media {
-    margin-top: 0;
-}
 
 .embed-media-blur {
     filter: blur(18px);
@@ -329,10 +313,6 @@ a {
 
 .embed-blur-clip:hover .embed-media-blur {
     filter: blur(0);
-}
-
-.embed-record {
-    margin-top: 0.5rem;
 }
 
 .parent-post .post-card {

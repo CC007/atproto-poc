@@ -8,7 +8,6 @@ import work.socialhub.kbsky.model.app.bsky.embed.EmbedViewUnion
 import work.socialhub.kbsky.model.app.bsky.feed.FeedDefsPostView
 import work.socialhub.kbsky.model.app.bsky.feed.FeedPost
 import kotlin.test.Test
-import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class PostSummaryTest {
@@ -28,25 +27,6 @@ class PostSummaryTest {
         }
 
         assertTrue(html.contains("plain text only"))
-    }
-
-    @Test
-    fun `suppresses record text when embed exists`() {
-        val html = createHTML().div {
-            postSummary(
-                post = postView(
-                    recordText = "this should be hidden",
-                    embed = imageEmbed("https://example.com/image-1.jpg"),
-                    uri = "at://did:example/post/2",
-                    cid = "cid-2"
-                ),
-                parentPost = null
-            )
-        }
-
-        assertFalse(html.contains("this should be hidden"))
-        assertTrue(html.contains("Open artwork"))
-        assertTrue(html.contains("post-card-media"))
     }
 
     @Test
