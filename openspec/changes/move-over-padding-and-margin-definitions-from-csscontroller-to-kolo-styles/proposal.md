@@ -10,6 +10,7 @@ CssController doesn't contain any padding/margin anymore (including margin-top, 
 
 ### New Capabilities
 <!-- Capabilities being introduced. Use kebab-case identifiers (e.g., user-auth, data-export). Each creates specs/<name>/spec.md -->
+- `kolo-spacing-ownership`
 
 ### Modified Capabilities
 <!-- Existing capabilities whose REQUIREMENTS are changing. Use existing spec names from openspec/specs/. -->
