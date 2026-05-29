@@ -7,7 +7,7 @@ BlueArt is a Kotlin + Spring Boot web application for browsing Bluesky/ATProto c
 - Server: Spring Boot MVC controllers.
 - Rendering: server-side HTML generation (`kotlinx.html`).
 - Build: Gradle Kotlin DSL with a multi-module layout (`:app`, `:libs`, and `:libs:kolo-styles`).
-- Styling: Kotlin CSS DSL endpoints under `/css/generated/*.css` generate browse/art page stylesheets from Kotlin in `:app` `CssController`; Kolo utilities are served from `/css/generated/kolo.css` by the `:libs:kolo-styles` module using tokenized query params during migration. Render-side collection/link plumbing lives in `:libs:kolo-styles` (`renderKoloHtml`, `kolo { ... }`, `koloStylesheetLink()`), with typed margin/padding DSL helpers in `KoloSpacingDsl.kt` (functions: `m()`, `mt()`, `mb()`, `p()`, `px()`, etc. on both `KoloScope` and `KoloVariantScope`). Spacing hook implementations (`SpacingParserHook`, `SpacingGeneratorHook`) are registered as Spring `@Component` beans, and `KoloCssCompiler` is a Spring `@Service` that consumes the injected `List<StyleParserHook>` + `List<StyleGeneratorHook>`.
+- Styling: Kotlin CSS DSL endpoints under `/css/generated/*.css` generate browse/art page stylesheets from Kotlin in `:app` `CssController`; Kolo utilities are served from `/css/generated/kolo.css` by the `:libs:kolo-styles` module using tokenized query params during migration. Render-side collection/link plumbing lives in `:libs:kolo-styles` (`renderKoloHtml`, `kolo { ... }`, `koloStylesheetLink()`), with typed margin/padding DSL helpers in `KoloSpacingDsl.kt` (functions: `m()`, `mt()`, `mb()`, `ml()`, `mx()`, `mxAuto()`, `p()`, `pt()`, `px()`, etc. on both `KoloScope` and `KoloVariantScope`). Spacing hook implementations (`SpacingParserHook`, `SpacingGeneratorHook`) are registered as Spring `@Component` beans, and `KoloCssCompiler` is a Spring `@Service` that consumes the injected `List<StyleParserHook>` + `List<StyleGeneratorHook>`. For migrated browse/art elements, spacing ownership is now in Kolo tokens rather than `CssController`; `CssController` only keeps two tracked responsive spacing exceptions in `@media (max-width: 700px)`.
 
 ## Module Boundaries
 - `:app`: executable Spring Boot web application module. Contains controllers, HTML renderers, routes, and runtime wiring.
@@ -43,7 +43,7 @@ App-owned endpoint controllers live under `com.github.cc007.blueart.endpoints`, 
 2. Domain objects are mapped directly into HTML views.
 3. Controllers render with `renderKoloHtml { ... }`; `kolo { ... }` calls record tokens in a request-local collector during element rendering.
 4. The renderer canonicalizes tokens and finalizes the `kolo.css` href (`/css/generated/kolo.css?version=...&kolo=...`) after HTML generation (placeholder replacement fallback).
-5. Controllers link page stylesheet endpoints plus `kolo.css`; utility-covered declarations are removed incrementally from page CSS as migration progresses.
+5. Controllers link page stylesheet endpoints plus `kolo.css`; utility-covered declarations are removed incrementally from page CSS as migration progresses, with remaining spacing exceptions documented inline in `CssController`.
 
 ## Current Gaps
 - `/art/{cid}` fallback lookup is best-effort when only CID is provided.

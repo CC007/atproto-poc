@@ -54,3 +54,12 @@ Track technical decisions and rationale in one place. Use this file for concise 
   - Use versioned URL caching as the primary cache strategy (`ETag` optional).
 - Consequences: Implementation tasks must preserve canonical token ordering and URL stability, and migration work should be incremental to avoid regressions while both stylesheet paths coexist.
 
+### D-008: Move browse/art spacing ownership to Kolo utilities with max-width exceptions
+- Status: accepted
+- Context: Browse/art spacing migration removed most margin/padding declarations from `CssController`, but two responsive spacing rules still rely on `@media (max-width: 700px)` while Kolo currently supports min-width media variants only.
+- Decision:
+  - Add `mx-auto` as a first-class spacing utility token and DSL helper (`mxAuto()`) for centering cases previously expressed as `margin: 0 auto`.
+  - Author migrated browse/art spacing via typed Kolo helpers at render call sites.
+  - Keep only the two max-width responsive spacing declarations in `CssController` as explicitly tagged `kolo-exception` rules until Kolo gains max-width variant support.
+- Consequences: Spacing ownership is clearer and co-located for migrated elements, and future cleanup can target only the documented responsive exceptions when max-width variants are implemented.
+
