@@ -149,6 +149,19 @@ Rollback:
 - Keep fixture assets inert (unused) or remove in follow-up cleanup.
 - No database/data migration rollback is required for this change as designed.
 
+## Specifications
+
+### Dummy Account Credentials
+- **Username:** `dummy.localhost`
+- **Password:** `1234`
+
+### Network URL
+- **Localhost network identifier:** `localhost` (no scheme or port required; recognized as a literal string in the login form's network selector)
+
+### Controllers
+- Dummy auth endpoint: responds to login requests targeting the localhost network
+- Dummy timeline endpoint: serves deterministic fixture feed data for authenticated dummy accounts
+
 ## Open Questions
 
 - None for this design revision. The current plan assumes a reserved localhost network URL, always-available localhost ATProto-compatible controllers, no URL health-check work in this change, and deterministic controller-backed fixture payloads in production runtime code.
