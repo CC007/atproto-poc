@@ -11,9 +11,17 @@ You can log in with a dummy account that doesn't actually log into bluesky and i
 ### New Capabilities
 <!-- Capabilities being introduced. Use kebab-case identifiers (e.g., user-auth, data-export). Each creates specs/<name>/spec.md -->
 
+- `dummy-account-login`
+- `dummy-content-preview`
+
 ### Modified Capabilities
 <!-- Existing capabilities whose REQUIREMENTS are changing. Use existing spec names from openspec/specs/. -->
 
 ## Impact
 
 <!-- Affected code, APIs, dependencies, systems -->
+
+- Login/auth selection when the submitted network URL targets the reserved localhost dummy network
+- Runtime localhost controllers and fixture-backed responses for dummy authentication and content browsing
+- Deterministic dummy browse/detail content coverage for supported post types, including remote media variants
+
