@@ -16,9 +16,12 @@ class SecurityConfig {
     ): SecurityFilterChain {
         http
             .authenticationProvider(atprotoAuthenticationProvider)
+            .csrf { csrf ->
+                csrf.ignoringRequestMatchers("/xrpc/**")
+            }
             .authorizeHttpRequests { requests ->
                 requests
-                    .requestMatchers("/login", "/").permitAll()
+                    .requestMatchers("/login", "/", "/xrpc/com.atproto.server.createSession").permitAll()
                     .anyRequest().authenticated()
             }
             .formLogin { login ->
