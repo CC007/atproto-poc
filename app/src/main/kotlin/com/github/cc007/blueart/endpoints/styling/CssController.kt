@@ -168,7 +168,6 @@ class CssController {
             background = cssVar("author-surface")
             raw("border", "1px solid #d2e0eb")
             borderRadius = 10.px
-            padding = Padding(0.35.rem, 0.45.rem)
         }
         ".author-avatar" {
             raw("border-radius", "50%")
@@ -231,7 +230,6 @@ class CssController {
             height = 170.px
         }
         ".embed-media-grid" {
-            marginTop = 0.5.rem
             display = Display.grid
             raw("grid-template-columns", "2fr 1fr")
             gap = 0.35.rem
@@ -247,7 +245,6 @@ class CssController {
             raw("grid-template-rows", "repeat(3, minmax(0, 1fr))")
         }
         ".embed-media-grid-main .embed-blur-clip, .embed-media-grid-side .embed-blur-clip" {
-            marginTop = 0.px
             height = 100.pct
         }
         ".embed-blur-clip" {
@@ -276,7 +273,6 @@ class CssController {
             color = cssColorVar("muted")
             fontSize = 0.78.rem
             raw("border-top", "1px solid rgba(90, 115, 137, 0.26)")
-            raw("padding-top", "0.5rem")
             raw("flex-shrink", "0")
         }
         ".post-open-link" {
@@ -370,7 +366,6 @@ class CssController {
 
         ".art-layout" {
             maxWidth = 1080.px
-            margin = Margin(0.px, LinearDimension.auto)
         }
         ".art-content" {
             display = Display.grid
@@ -415,10 +410,8 @@ class CssController {
             background = "#d7e8f6"
         }
         ".art-description" {
-            marginTop = 0.9.rem
         }
         ".art-description h2, .comments h2" {
-            margin = Margin(0.px, 0.px, 0.6.rem)
             fontSize = 1.rem
             color = cssColorVar("accent")
         }
@@ -452,21 +445,8 @@ class CssController {
             raw("border", "1px solid #bcd4e5")
             borderRadius = 10.px
             background = "#e8f3fc"
-            padding = Padding(0.6.rem)
             display = Display.grid
             gap = 0.45.rem
-        }
-        ".comment.depth-1" {
-            raw("margin-left", "0.8rem")
-        }
-        ".comment.depth-2" {
-            raw("margin-left", "1.6rem")
-        }
-        ".comment.depth-3" {
-            raw("margin-left", "2.4rem")
-        }
-        ".comment.depth-4" {
-            raw("margin-left", "3.2rem")
         }
         ".comment-header" {
             display = Display.flex
@@ -491,9 +471,11 @@ class CssController {
 
         media("(max-width: 700px)") {
             ".art-layout" {
+                // kolo-exception: max-width responsive - migrate when kolo gains max-width variant support
                 padding = Padding(0.75.rem)
             }
             ".art-card, .comments" {
+                // kolo-exception: max-width responsive - migrate when kolo gains max-width variant support
                 padding = Padding(0.8.rem)
             }
         }

@@ -55,6 +55,14 @@ class SpacingUtilitiesTest {
     }
 
     @Test
+    fun `parser accepts mx-auto and generates auto horizontal margins`() {
+        val def = parser.parse("mx-auto")
+        assertNotNull(def)
+        assertEquals("mx-auto", def.token)
+        assertEquals("margin-left: auto; margin-right: auto;", def.cssDeclaration)
+    }
+
+    @Test
     fun `parser accepts py-2 and generates vertical shorthand`() {
         val def = parser.parse("py-2")
         assertNotNull(def)
@@ -137,6 +145,12 @@ class SpacingUtilitiesTest {
     fun `compiler generates real CSS for p-2 with spacing hooks`() {
         val css = compiler.compile("p-2")
         assertEquals(".k-p-2 { padding: 0.5rem; }", css)
+    }
+
+    @Test
+    fun `compiler generates real CSS for mx-auto with spacing hooks`() {
+        val css = compiler.compile("mx-auto")
+        assertEquals(".k-mx-auto { margin-left: auto; margin-right: auto; }", css)
     }
 
     @Test

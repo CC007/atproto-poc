@@ -3,8 +3,13 @@ package com.github.cc007.blueart.endpoints.content.art
 import com.github.cc007.blueart.components.richtext.renderRichText
 import com.github.cc007.blueart.components.topBanner
 import com.github.cc007.blueart.endpoints.auth.AtProtoAuthentication
+import com.github.cc007.blueart.kolostyles.render.mb
 import com.github.cc007.blueart.kolostyles.render.kolo
 import com.github.cc007.blueart.kolostyles.render.m
+import com.github.cc007.blueart.kolostyles.render.ml
+import com.github.cc007.blueart.kolostyles.render.mt
+import com.github.cc007.blueart.kolostyles.render.mx
+import com.github.cc007.blueart.kolostyles.render.mxAuto
 import com.github.cc007.blueart.kolostyles.render.p
 import com.github.cc007.blueart.kolostyles.render.koloStylesheetLink
 import com.github.cc007.blueart.kolostyles.render.renderKoloHtml
@@ -72,6 +77,7 @@ class ArtContentController {
                     collectComments(reply, 0, list)
                 }
             }
+            val commentDepthMarginSteps = mapOf(1 to 3, 2 to 6, 3 to 10, 4 to 13)
 
             val pageTitle = buildPageTitle(post)
 
@@ -86,7 +92,7 @@ class ArtContentController {
                     kolo { m(0) }
                     topBanner(csrfToken)
                     main(classes = "art-layout") {
-                        kolo { p(4) }
+                        kolo { p(4); mxAuto() }
                         section(classes = "art-content") {
                             div(classes = "content-top") {
                                 h1(classes = "art-title") {
@@ -118,7 +124,11 @@ class ArtContentController {
                                     }
 
                                     section(classes = "art-description") {
-                                        h2 { +"Description" }
+                                        kolo { mt(4) }
+                                        h2 {
+                                            kolo { mt(0); mx(0); mb(2) }
+                                            +"Description"
+                                        }
                                         if (feedPost?.text.isNullOrBlank()) {
                                             p(classes = "art-text") {
                                                 kolo { m(0) }
@@ -135,7 +145,10 @@ class ArtContentController {
 
                                 section(classes = "comments") {
                                     kolo { p(4) }
-                                    h2 { +"Comments" }
+                                    h2 {
+                                        kolo { mt(0); mx(0); mb(2) }
+                                        +"Comments"
+                                    }
                                     if (comments.isEmpty()) {
                                         p(classes = "art-empty") {
                                             kolo { m(0) }
@@ -143,7 +156,10 @@ class ArtContentController {
                                         }
                                     } else {
                                         comments.forEach { comment ->
-                                            article(classes = "comment depth-${comment.depth.coerceAtMost(4)}") {
+                                            val depthClass = comment.depth.coerceAtMost(4)
+                                            val marginLeftStep = commentDepthMarginSteps[depthClass] ?: 0
+                                            article(classes = "comment depth-$depthClass") {
+                                                kolo { p(2); ml(marginLeftStep) }
                                                 div(classes = "comment-header") {
                                                     comment.avatar?.let { avatar ->
                                                         img(src = avatar, classes = "comment-avatar") {

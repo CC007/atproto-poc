@@ -59,7 +59,7 @@ private fun HtmlBlockTag.postSummary(
             record(record)
         }
         div(classes = "post-stats") {
-            kolo { mt(3) }
+            kolo { mt(3); pt(2) }
             statItem("Likes", LIKE_ICON, likeCount, "post-stat-icon-like")
             statItem("Quotes", QUOTE_ICON, quoteCount, "post-stat-icon-quote")
             statItem("Reposts", REPOST_ICON, repostCount, "post-stat-icon-repost")
@@ -123,6 +123,7 @@ private fun FlowContent.statItem(label: String, iconSvg: String, count: Int?, ic
 
 private fun HtmlBlockTag.authorBanner(author: ActorDefsProfileViewBasic) {
     div(classes = "post-author") {
+        kolo { py(1); px(2) }
         author.avatar?.let {
             img(src = it, classes = "author-avatar") {
                 height = "30"
@@ -260,6 +261,7 @@ private fun HtmlBlockTag.renderImageGallery(imageThumbs: List<String>, blur: Boo
     }
 
     div(classes = "embed-media-grid") {
+        kolo { mt(2) }
         div(classes = "embed-media-grid-main") {
             embedThumbnail(imageThumbs.first(), blur, "embed-media-grid-primary")
         }

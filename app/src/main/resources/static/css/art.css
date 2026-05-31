@@ -148,21 +148,6 @@ body.art-body {
     gap: 0.45rem;
 }
 
-.comment.depth-1 {
-    margin-left: 0.8rem;
-}
-
-.comment.depth-2 {
-    margin-left: 1.6rem;
-}
-
-.comment.depth-3 {
-    margin-left: 2.4rem;
-}
-
-.comment.depth-4 {
-    margin-left: 3.2rem;
-}
 
 .comment-header {
     display: flex;

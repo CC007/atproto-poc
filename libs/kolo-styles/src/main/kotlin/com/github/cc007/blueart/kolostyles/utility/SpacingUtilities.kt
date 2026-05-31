@@ -29,6 +29,13 @@ internal fun spacingUtilityDefinitions(): List<StyleUtilityDefinition> {
 @Component
 class SpacingParserHook : StyleParserHook {
     override fun parse(token: String): StyleUtilityDefinition? {
+        if (token == "mx-auto") {
+            return StyleUtilityDefinition(
+                token = token,
+                cssDeclaration = "margin-left: auto; margin-right: auto;"
+            )
+        }
+
         return parseSpacingToken(token)?.let { spacingToken ->
             StyleUtilityDefinition(
                 token = token,
