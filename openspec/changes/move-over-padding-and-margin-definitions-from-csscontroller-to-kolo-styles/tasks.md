@@ -136,7 +136,7 @@ The two remaining declarations:
 - [x] 6.3 **Run `./gradlew :app:test :libs:kolo-styles:test`** — confirm
   BUILD SUCCESSFUL after all migrations.
 
-- [ ] 6.4 **Manual visual parity check** — start the application and compare
+- [x] 6.4 **Manual visual parity check** — start the application and compare
   `/browse` and `/art/{cid}` before and after each migration group; confirm no
   visible layout regressions on browse cards, art detail, and comment threads.
 
