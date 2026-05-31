@@ -9,7 +9,7 @@
 ## 2. Runtime dummy auth and timeline fixtures
 
 - [x] 2.1 Add a Spring controller that handles login requests targeting `localhost` and authenticates the dummy account (username: `dummy.localhost`, password: `1234`).
-- [ ] 2.2 Add a Spring controller that serves the deterministic dummy timeline fixture in ATProto response format for authenticated dummy-account requests.
+- [x] 2.2 Add a Spring controller that serves the deterministic dummy timeline fixture in ATProto response format for authenticated dummy-account requests.
 - [ ] 2.3 Ensure both controllers are always available when the application runs and do not require a feature flag or separate deployment mode.
 
 ## 3. Dummy content coverage and media stability

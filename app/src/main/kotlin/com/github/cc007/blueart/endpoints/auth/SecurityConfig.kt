@@ -21,7 +21,12 @@ class SecurityConfig {
             }
             .authorizeHttpRequests { requests ->
                 requests
-                    .requestMatchers("/login", "/", "/xrpc/com.atproto.server.createSession").permitAll()
+                    .requestMatchers(
+                        "/login",
+                        "/",
+                        "/xrpc/com.atproto.server.createSession",
+                        "/xrpc/app.bsky.feed.getTimeline",
+                    ).permitAll()
                     .anyRequest().authenticated()
             }
             .formLogin { login ->

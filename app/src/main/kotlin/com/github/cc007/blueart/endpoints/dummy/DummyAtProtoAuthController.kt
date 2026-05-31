@@ -9,9 +9,6 @@ import org.springframework.web.bind.annotation.RestController
 import work.socialhub.kbsky.api.entity.com.atproto.server.ServerCreateSessionRequest
 import work.socialhub.kbsky.api.entity.com.atproto.server.ServerCreateSessionResponse
 
-private const val DUMMY_HANDLE = "dummy.localhost"
-private const val DUMMY_PASSWORD = "1234"
-
 @RestController
 class DummyAtProtoAuthController {
 
@@ -37,14 +34,13 @@ class DummyAtProtoAuthController {
 
     private fun dummySessionResponse(): ServerCreateSessionResponse {
         return ServerCreateSessionResponse(
-            accessJwt = "dummy-access-token",
-            refreshJwt = "dummy-refresh-token",
+            accessJwt = DUMMY_ACCESS_TOKEN,
+            refreshJwt = DUMMY_REFRESH_TOKEN,
             handle = DUMMY_HANDLE,
-            did = "did:plc:blueart-dummy",
-            email = "dummy.localhost@localhost",
+            did = DUMMY_DID,
+            email = DUMMY_EMAIL,
             emailConfirmed = true,
             active = true,
         )
     }
 }
-

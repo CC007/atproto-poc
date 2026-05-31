@@ -22,6 +22,7 @@ App-owned endpoint controllers live under `com.github.cc007.blueart.endpoints`, 
 | `endpoints/auth` | `LoginController` |
 | `endpoints/browse` | `BrowseController` |
 | `endpoints/content/art` | `ArtContentController` |
+| `endpoints/dummy` | `DummyAtProtoAuthController`, `DummyAtProtoTimelineController` |
 | `endpoints/error` | `ErrorController` |
 | `endpoints/styling` | `CssController` |
 | `auth` | `AtProtoAuthentication`, `AtProtoAuthenticationProvider`, `SecurityConfig` (non-controller auth wiring) |
@@ -37,6 +38,8 @@ App-owned endpoint controllers live under `com.github.cc007.blueart.endpoints`, 
 ## Primary Routes
 - `GET /browse` timeline cards.
 - `GET /art/{cid}?uri=...` art detail page.
+- `POST /xrpc/com.atproto.server.createSession` localhost dummy session endpoint.
+- `GET /xrpc/app.bsky.feed.getTimeline` localhost dummy timeline endpoint.
 
 ## Data Flow (High Level)
 1. Controller fetches Bluesky/ATProto content through `work.socialhub.kbsky` APIs.
@@ -48,4 +51,3 @@ App-owned endpoint controllers live under `com.github.cc007.blueart.endpoints`, 
 ## Current Gaps
 - `/art/{cid}` fallback lookup is best-effort when only CID is provided.
 - Comment rendering is flattened instead of a fully nested tree.
-
