@@ -86,7 +86,7 @@ private fun getTimelineFeed(
     return with(SecurityContextHolder.getContext().authentication as AtProtoAuthentication) {
         val auth = BearerTokenAuthProvider(accessToken)
         val feed = BlueskyFactory
-            .instance()
+            .instance(socialUrl)
             .feed()
         val timeline1 = getTimeline(feed, auth, null)
         val timelineFeed = timeline1.feed.toMutableList()

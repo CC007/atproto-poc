@@ -4,6 +4,7 @@ import org.springframework.security.authentication.AbstractAuthenticationToken
 import org.springframework.security.core.GrantedAuthority
 
 class AtProtoAuthentication(
+    val socialUrl: String,
     val username: String,
     val accessToken: String,
     val refreshToken: String,
