@@ -11,10 +11,12 @@ The only thing that should be left in docs are ai-tasks that aren't completed ye
 ## Capabilities
 
 ### New Capabilities
-<!-- Capabilities being introduced. Use kebab-case identifiers (e.g., user-auth, data-export). Each creates specs/<name>/spec.md -->
+- `completed-ai-task-archive-migration`
+- `capability-spec-consolidation`
+- `ai-task-docs-active-only`
 
 ### Modified Capabilities
-<!-- Existing capabilities whose REQUIREMENTS are changing. Use existing spec names from openspec/specs/. -->
+None.
 
 ## Impact
 
