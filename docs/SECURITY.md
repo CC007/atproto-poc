@@ -12,8 +12,8 @@
 ## Authentication Notes
 - Any ATProto/Bluesky auth handling should avoid leaking tokens in logs or rendered pages.
 - Validate and sanitize external input used in route parameters and query strings.
+- The `localhost` dummy account path is explicit in the login form and should remain read-only; real-network auth keeps using the existing Bluesky path.
 
 ## Follow-Ups
 - Add explicit threat model notes once auth/session strategy is stabilized.
 - Document hardening and deployment security requirements before production use.
-

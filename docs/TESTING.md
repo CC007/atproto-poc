@@ -27,6 +27,11 @@ For module-scoped verification after the multi-module split:
 ## Recent Coverage Additions
 - `RichTextFacetRendererTest` validates UTF-8 byte-offset slicing plus defensive handling of malformed/overlapping link, tag, and mention facets.
 - `PostSummaryTest` validates browse card rendering rules for BA-005 (text-only card text rendering, text suppression when embeds exist, and split gallery wrappers for multi-image embeds).
+- `LoginControllerTest` validates the login form exposes the `localhost` network option.
+- `LoginNetworkSelectionTest` validates localhost network selection resolves to the running host and port while non-localhost selections stay on the existing path.
+- `DummyLoginFlowTest` validates localhost form login, dummy browse rendering, and dummy detail-page rendering through the live app.
+- `DummyAtProtoAuthControllerTest` validates localhost dummy auth credentials and deterministic session payloads for `com.atproto.server.createSession`.
+- `DummyAtProtoTimelineControllerTest` validates localhost dummy timeline paging/content shape plus bearer-token rejection for `app.bsky.feed.getTimeline`.
 - `CssControllerTest` validates BA-003 step 2 stylesheet endpoints no longer use `@import` and preserve complete rule-header coverage from `static/css/browse.css` and `static/css/art.css` in generated Kotlin CSS DSL output.
 - `KoloCssCompilerTest` validates BA-021 permissive token handling: preserve token order, annotate unsupported/unparsed tokens with CSS comments, and generate CSS through the `StyleParserHook` + `StyleGeneratorHook` pipeline.
 - `KoloCssControllerTest` validates BA-021 `/css/generated/kolo.css` from `:libs:kolo-styles` always returns `200 text/css` and emits comment diagnostics for unsupported/unparsed tokens.
@@ -38,4 +43,3 @@ For module-scoped verification after the multi-module split:
 
 ## Suggested Additions
 - Lightweight integration tests for `GET /browse` and `GET /art/{cid}` rendering expectations.
-

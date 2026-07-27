@@ -17,6 +17,9 @@ Canonical post identity used for reliable fetch and thread lookup.
 ### Feed Card
 A compact timeline item rendered on `/browse`.
 
+### Localhost Dummy Network
+The reserved `localhost` login-network option that routes form login through the in-app dummy ATProto controllers.
+
 ### Art Detail Page
 Route `/art/{cid}` that renders the primary embed, post text, and comments.
 
@@ -61,7 +64,6 @@ Spring `@Component` implementations in `SpacingUtilities.kt` that provide spacin
 
 ### `KoloCssCompiler` bean wiring
 `KoloCssCompiler` is a Spring `@Service` that receives injected `List<StyleParserHook>` and `List<StyleGeneratorHook>`; Spring discovers hook implementations (including spacing hooks) as beans and supplies them automatically.
-
 
 
 

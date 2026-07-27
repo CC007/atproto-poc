@@ -25,18 +25,18 @@ class AtProtoAuthenticationProvider : AuthenticationProvider {
         if (!handle.contains(".")) {
             throw BadCredentialsException("Username should be of the form handle")
         }
-        val result = authenticate(handle, password, "https://${handle.toSocialUrl()}")
-        return when(result) {
-            is Success<ServerCreateSessionResponse> -> result.data.toAuthentication()
+        val authenticationUrl = handle.toAuthenticationUrl()
+        return when (val result = authenticate(handle, password, authenticationUrl)) {
+            is Success<ServerCreateSessionResponse> -> result.data.toAuthentication(authenticationUrl)
             is Failure<*> -> {
                 // it is valid for the whole handle to be the domain name
-                val onlyDomainResult = authenticate(handle, password, "https://$handle")
-                when(onlyDomainResult) {
-                    is Success<ServerCreateSessionResponse> -> onlyDomainResult.data.toAuthentication()
+                when (val onlyDomainResult = authenticate(handle, password, "https://$handle")) {
+                    is Success<ServerCreateSessionResponse> -> onlyDomainResult.data.toAuthentication("https://$handle")
                     is Failure<*> -> throw BadCredentialsException(result.message)
                     is Error<*> -> throw BadCredentialsException(result.message)
                 }
             }
+
             is Error<*> -> throw InternalAuthenticationServiceException(result.message ?: "Unknown error")
         }
 
@@ -46,8 +46,9 @@ class AtProtoAuthenticationProvider : AuthenticationProvider {
         UsernamePasswordAuthenticationToken::class.java.isAssignableFrom(authentication)
 }
 
-private fun ServerCreateSessionResponse.toAuthentication(): AtProtoAuthentication {
+private fun ServerCreateSessionResponse.toAuthentication(uri: String): AtProtoAuthentication {
     return AtProtoAuthentication(
+        uri,
         handle,
         accessJwt,
         refreshJwt,
@@ -55,10 +56,10 @@ private fun ServerCreateSessionResponse.toAuthentication(): AtProtoAuthenticatio
     )
 }
 
-private fun authenticate(username: String, password: String, networkUrl: String): Result<ServerCreateSessionResponse> {
+private fun authenticate(username: String, password: String, authenticationUrl: String): Result<ServerCreateSessionResponse> {
     val response: Response<ServerCreateSessionResponse> = try {
         BlueskyFactory
-            .instance(networkUrl)
+            .instance(authenticationUrl)
             .server()
             .createSessionBlocking(
                 ServerCreateSessionRequest().also {
@@ -67,7 +68,7 @@ private fun authenticate(username: String, password: String, networkUrl: String)
                 }
             )
     } catch (e: ATProtocolException) {
-        logger.warn { "Failed login attempt: ${e.status}: ${e.message} (${e.body})" }
+        logger.warn(e) { "Failed login attempt: ${e.status}: ${e.message} (${e.body})" }
         return when {
             e.status == 401 -> e.message.toFailure()
             e.message == "Input must have the property \"password\"" -> e.message.toFailure()

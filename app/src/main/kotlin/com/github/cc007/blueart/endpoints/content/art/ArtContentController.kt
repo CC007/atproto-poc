@@ -3,16 +3,7 @@ package com.github.cc007.blueart.endpoints.content.art
 import com.github.cc007.blueart.components.richtext.renderRichText
 import com.github.cc007.blueart.components.topBanner
 import com.github.cc007.blueart.endpoints.auth.AtProtoAuthentication
-import com.github.cc007.blueart.kolostyles.render.mb
-import com.github.cc007.blueart.kolostyles.render.kolo
-import com.github.cc007.blueart.kolostyles.render.m
-import com.github.cc007.blueart.kolostyles.render.ml
-import com.github.cc007.blueart.kolostyles.render.mt
-import com.github.cc007.blueart.kolostyles.render.mx
-import com.github.cc007.blueart.kolostyles.render.mxAuto
-import com.github.cc007.blueart.kolostyles.render.p
-import com.github.cc007.blueart.kolostyles.render.koloStylesheetLink
-import com.github.cc007.blueart.kolostyles.render.renderKoloHtml
+import com.github.cc007.blueart.kolostyles.render.*
 import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.servlet.http.HttpServletRequest
 import kotlinx.html.*
@@ -53,7 +44,7 @@ class ArtContentController {
             val csrfToken = (request.getAttribute("_csrf") as? CsrfToken)?.token
 
             val feed = BlueskyFactory
-                .instance()
+                .instance(socialUrl)
                 .feed()
 
             val requestedUri = if (!uri.isNullOrBlank()) uri else null
