@@ -116,3 +116,27 @@ Rollback strategy:
 - If migration quality checks fail, restore deleted completed-task files and docs Completed links, and revert newly generated archive/spec artifacts as one unit.
 - If only a subset is problematic, rollback the affected task mappings/capability specs while keeping already-validated migrated items.
 - Because this is documentation/spec migration only, rollback is repository-state rollback (no runtime/data migration rollback required).
+
+## Completed Task Mapping (Deterministic)
+
+Only `completed` entries from `docs/AI_TASKS.md` are eligible for archive migration.
+
+| Task ID | Title | Source file | Archive slug | Capability spec(s) |
+| --- | --- | --- | --- | --- |
+| `BA-001` | Add in-repo AI task tracker | `docs/ai-tasks/2026-05-04-BA-001-add-ai-task-tracker.md` | `add-in-repo-ai-task-tracker` | `ai-task-tracking` |
+| `BA-002` | Remove proof-of-concept framing | `docs/ai-tasks/2026-05-04-BA-002-remove-poc-framing.md` | `remove-proof-of-concept-framing` | `project-branding-and-identity` |
+| `BA-003` | Complete Kotlin CSS DSL stylesheet migration | `docs/ai-tasks/2026-05-04-BA-003-explore-css-in-kotlin.md` | `complete-kotlin-css-dsl-stylesheet-migration` | `generated-page-stylesheets` |
+| `BA-004` | Rich-text facet rendering (links, hashtags, and mentions) | `docs/ai-tasks/2026-05-04-BA-004-rich-text-facets.md` | `rich-text-facet-rendering` | `atproto-rich-text-rendering` |
+| `BA-005` | Uniform browse card height with multi-image layout | `docs/ai-tasks/2026-05-04-BA-005-uniform-browse-card-layout.md` | `uniform-browse-card-height-with-multi-image-layout` | `browse-card-media-layout` |
+| `BA-015` | Multi-module Gradle prep for styling platform | `docs/ai-tasks/2026-05-06-BA-015-multi-module-gradle-prep-for-styling-platform.md` | `multi-module-gradle-prep-for-styling-platform` | `modular-gradle-architecture` |
+| `BA-016` | Co-located tailwind-like styling architecture and design | `docs/ai-tasks/2026-05-06-BA-016-co-located-tailwind-like-styling-architecture.md` | `co-located-tailwind-like-styling-architecture-and-design` | `kolo-utility-architecture` |
+| `BA-017` | Setup `kolo-styles` library module | `docs/ai-tasks/2026-05-06-BA-017-setup-kolo-styles-library-module.md` | `setup-kolo-styles-library-module` | `kolo-styles-module-foundation` |
+| `BA-019` | Add first margin/padding utilities and preserve visual parity | `docs/ai-tasks/2026-05-06-BA-019-margin-padding-elements-csscontroller-cleanup-visual-parity.md` | `add-first-margin-padding-utilities-and-preserve-visual-parity` | `kolo-spacing-ownership` |
+| `BA-020` | Create endpoints folder and move all endpoint controllers to it | `docs/ai-tasks/2026-05-07-BA-020-move-controllers-to-endpoints-folder.md` | `create-endpoints-folder-and-move-all-endpoint-controllers` | `endpoint-controller-packaging` |
+| `BA-021` | CSS endpoint to generate `kolo.css` from request parameters | `docs/ai-tasks/2026-05-09-BA-021-kolo-css-endpoint-generation-from-parameters.md` | `css-endpoint-to-generate-kolo-css-from-request-parameters` | `kolo-css-generation` |
+| `BA-022` | `kolo {}` extension, class generation, and stylesheet link integration | `docs/ai-tasks/2026-05-09-BA-022-kolo-extension-link-class-generation.md` | `kolo-extension-class-generation-and-stylesheet-link-integration` | `kolo-html-runtime-integration` |
+
+## Migration Eligibility Rules
+
+- Included: `completed`
+- Explicitly excluded: `todo`, `in_progress`, `partial`, `blocked`, `cancelled`

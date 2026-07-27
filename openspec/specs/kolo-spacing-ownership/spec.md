@@ -25,3 +25,8 @@ The system MUST preserve effective spacing layout for browse and art pages while
 #### Scenario: Equivalent spacing after ownership transfer
 - **WHEN** a spacing rule is replaced by an equivalent Kolo spacing utility and the old `CssController` declaration is removed
 - **THEN** the affected rendered page section keeps equivalent visual spacing behavior for margin and padding
+
+## Provenance
+- `BA-019` (`docs/ai-tasks/2026-05-06-BA-019-margin-padding-elements-csscontroller-cleanup-visual-parity.md`)
+- `docs/ARCHITECTURE.md`
+- `docs/DECISIONS.md` (D-008)

@@ -6,6 +6,7 @@
 
 ## Practices
 - Do not commit secrets, credentials, or private tokens.
+- Exception: the reserved localhost dummy user credentials for read-only dummy mode are intentionally allowed to be committed.
 - Prefer environment variables or external secret managers for sensitive values.
 - Review dependencies periodically for known vulnerabilities.
 

@@ -8,16 +8,20 @@ Before planning or editing, read these files in order:
 
 1. `README.md`
 2. `.github/copilot-instructions.md`
-3. `docs/ARCHITECTURE.md`
-4. `docs/DECISIONS.md`
-5. `docs/AI_TASKS.md`
-6. `docs/TESTING.md`
-7. `docs/SECURITY.md`
-8. `docs/GLOSSARY.md`
-9. `CONTRIBUTING.md`
-10. `HELP.md`
+3. `openspec/specs/*` (primary requirement source)
+4. `openspec/archive/*` (historical completed-change context)
+5. `docs/ARCHITECTURE.md`
+6. `docs/DECISIONS.md`
+7. `docs/AI_TASKS.md`
+8. `docs/TESTING.md`
+9. `docs/SECURITY.md`
+10. `docs/GLOSSARY.md`
+11. `CONTRIBUTING.md`
+12. `HELP.md`
 
 If any file is missing or stale, propose an update as part of the change.
+
+Requirement discovery MUST come from `openspec/specs/*` and `openspec/archive/*`; `docs/*` pages are supplemental implementation/operations context.
 
 ## Repo Rules
 
@@ -33,6 +37,7 @@ If any file is missing or stale, propose an update as part of the change.
 
 - Run relevant Gradle checks for changed code paths.
 - At minimum, run targeted tests; use `./gradlew test` when changes are broad.
+- For OpenSpec work, after completing all change tasks run `openspec validate --all` and fix every reported validation issue before handoff.
 - If validation cannot run, state what was not verified.
 - The terminal starts in the project root; no need to `cd` into the project before running Gradle commands.
 
@@ -49,4 +54,3 @@ After significant changes, update or create the relevant docs pages:
 
 
 If the page does not exist and the change clearly impacts that area, create a minimal version.
-

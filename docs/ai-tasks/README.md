@@ -19,5 +19,5 @@ Example:
 4. Update `docs/AI_TASKS.md` tables to reflect final state.
 
 ## Archival Rule
-Do not delete old task files. They are historical records.
-
+- Keep non-completed task files (`todo`, `in_progress`, `partial`, `blocked`, `cancelled`) in this directory.
+- After a task is migrated to OpenSpec archive as `completed`, remove its file from this directory and keep the historical link in `docs/AI_TASKS.md` pointing to `openspec/archive/<slug>/`.
