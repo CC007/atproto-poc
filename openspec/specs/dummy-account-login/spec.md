@@ -1,6 +1,7 @@
 # Dummy Account Login
 
 ## Purpose
+Define the dummy-account authentication behavior in the existing login flow so local development and demo sessions can authenticate without live Bluesky credentials while keeping real-network login behavior unchanged.
 
 ## Requirements
 

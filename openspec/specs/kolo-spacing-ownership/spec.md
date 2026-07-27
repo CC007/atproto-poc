@@ -1,6 +1,7 @@
 # Kolo Spacing Ownership
 
 ## Purpose
+Define spacing-ownership migration so browse/art margin and padding behavior is authored via typed Kolo utilities instead of `CssController`, while preserving layout parity.
 
 ## Requirements
 

@@ -1,6 +1,7 @@
 # Dummy Content Preview
 
 ## Purpose
+Define a deterministic dummy-content preview experience that exercises all supported timeline/detail post variants (including follow activity and media embeds) through the standard browse and detail routes.
 
 ## Requirements
 
