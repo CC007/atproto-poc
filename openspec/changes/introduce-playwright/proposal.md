@@ -20,10 +20,10 @@ Snapshot baseline updates require **explicit developer approval in-editor** duri
 ## Capabilities
 
 ### New Capabilities
-<!-- Capabilities being introduced. Use kebab-case identifiers (e.g., user-auth, data-export). Each creates specs/<name>/spec.md -->
+- playwright-visual-regression-testing
 
 ### Modified Capabilities
-<!-- Existing capabilities whose REQUIREMENTS are changing. Use existing spec names from openspec/specs/. -->
+- testing-verification-practices
 
 ## Impact
 
