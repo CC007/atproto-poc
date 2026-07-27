@@ -10,7 +10,7 @@ package com.github.cc007.blueart.util
  * @receiver the user handle
  * @return the social URL
  */
-fun String.toSocialUrl(): String {
+fun String.toAuthenticationUrl(): String {
     return when (val url = split(".", limit = 2).last()) {
         "localhost" -> "http://$url:8080"
         else -> "https://$url"

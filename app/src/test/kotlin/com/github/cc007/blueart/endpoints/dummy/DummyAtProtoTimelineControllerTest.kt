@@ -35,9 +35,10 @@ class DummyAtProtoTimelineControllerTest(
         // Keep order assertions for deterministic fixture pages.
         assertEquals("at://dummy.localhost/app.bsky.feed.post/text", feed[0].post.uri)
         assertEquals("at://dummy.localhost/app.bsky.feed.post/image", feed[1].post.uri)
-        assertEquals("at://dummy.localhost/app.bsky.feed.post/video", feed[2].post.uri)
+        assertEquals("at://dummy.localhost/app.bsky.feed.post/image-gallery", feed[2].post.uri)
 
         assertTrue(feed.any { it.post.embed is EmbedImagesView })
+        assertTrue(feed.any { it.post.embed is EmbedImagesView && (it.post.embed as EmbedImagesView).images.orEmpty().size > 1 })
         assertTrue(feed.any { it.post.embed is EmbedVideoView })
         assertTrue(feed.any { it.post.embed is EmbedExternalView })
         assertTrue(feed.any { it.post.embed is EmbedRecordView })

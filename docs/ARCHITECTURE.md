@@ -30,6 +30,7 @@ App-owned endpoint controllers live under `com.github.cc007.blueart.endpoints`, 
 | `util` | `Result`, `User` |
 
 ## Main Components
+- `LoginController` renders the existing login form, including the `pdsUrl` selector that can switch the app into dummy localhost mode.
 - `BrowseController` (`endpoints/browse`) renders timeline browsing routes.
 - `PostSummary` renders feed-card snippets and navigation links, including media-aware card behavior (text-only cards clamp overflow; cards with embeds hide body text and use thumbnail/gallery layouts).
 - `ArtContentController` (`endpoints/content/art`) renders art detail pages and comments.
@@ -38,6 +39,7 @@ App-owned endpoint controllers live under `com.github.cc007.blueart.endpoints`, 
 ## Primary Routes
 - `GET /browse` timeline cards.
 - `GET /art/{cid}?uri=...` art detail page.
+- `GET /login` and `POST /login` shared login flow with a `localhost` dummy PDS support (running on localhost:8080).
 - `POST /xrpc/com.atproto.server.createSession` localhost dummy session endpoint.
 - `GET /xrpc/app.bsky.feed.getTimeline` localhost dummy timeline endpoint.
 

@@ -39,15 +39,18 @@ class LoginController {
                     }
                     p {
                         label { +"Username: " }
+                        br()
                         textInput(name = "username") { required = true }
                     }
                     p {
                         label { +"Password: " }
+                        br()
                         passwordInput(name = "password") { required = true }
                     }
                     p {
-                        label { +"Network URL: " }
-                        textInput(name = "serviceUrl") {
+                        label { +"(Personal) Data Server URL: " }
+                        br()
+                        textInput(name = "pdsUrl") {
                             placeholder = Service.BSKY_SOCIAL.uri
                         }
                         span { +" (default: ${Service.BSKY_SOCIAL.uri})" }
@@ -60,4 +63,3 @@ class LoginController {
         }
     }
 }
-

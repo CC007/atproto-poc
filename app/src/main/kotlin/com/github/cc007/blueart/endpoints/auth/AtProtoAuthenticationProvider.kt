@@ -25,9 +25,9 @@ class AtProtoAuthenticationProvider : AuthenticationProvider {
         if (!handle.contains(".")) {
             throw BadCredentialsException("Username should be of the form handle")
         }
-        val socialUrl = handle.toSocialUrl()
-        return when (val result = authenticate(handle, password, socialUrl)) {
-            is Success<ServerCreateSessionResponse> -> result.data.toAuthentication(socialUrl)
+        val authenticationUrl = handle.toAuthenticationUrl()
+        return when (val result = authenticate(handle, password, authenticationUrl)) {
+            is Success<ServerCreateSessionResponse> -> result.data.toAuthentication(authenticationUrl)
             is Failure<*> -> {
                 // it is valid for the whole handle to be the domain name
                 when (val onlyDomainResult = authenticate(handle, password, "https://$handle")) {
@@ -56,10 +56,10 @@ private fun ServerCreateSessionResponse.toAuthentication(uri: String): AtProtoAu
     )
 }
 
-private fun authenticate(username: String, password: String, networkUrl: String): Result<ServerCreateSessionResponse> {
+private fun authenticate(username: String, password: String, authenticationUrl: String): Result<ServerCreateSessionResponse> {
     val response: Response<ServerCreateSessionResponse> = try {
         BlueskyFactory
-            .instance(networkUrl)
+            .instance(authenticationUrl)
             .server()
             .createSessionBlocking(
                 ServerCreateSessionRequest().also {

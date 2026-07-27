@@ -75,11 +75,29 @@ private val timelinePosts = listOf(
         ),
     ),
     timelinePost(
+        suffix = "image-gallery",
+        text = "Multi-image embed to exercise the gallery layout.",
+        embed = EmbedImagesView(
+            images = listOf(
+                EmbedImagesViewImage(
+                    thumb = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Golde33443.jpg/640px-Golde33443.jpg",
+                    fullsize = "https://upload.wikimedia.org/wikipedia/commons/6/6e/Golde33443.jpg",
+                    alt = "Gallery image one fixture",
+                ),
+                EmbedImagesViewImage(
+                    thumb = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Blue_Flower_%2829384028856%29.jpg/640px-Blue_Flower_%2829384028856%29.jpg",
+                    fullsize = "https://upload.wikimedia.org/wikipedia/commons/9/9d/Blue_Flower_%2829384028856%29.jpg",
+                    alt = "Gallery image two fixture",
+                ),
+            )
+        ),
+    ),
+    timelinePost(
         suffix = "video",
         text = "Video-style post represented by a stable thumbnail.",
         embed = EmbedVideoView(
             cid = "bafyreidummytimelinevideo",
-            playlist = "https://example.com/dummy/video/playlist.m3u8",
+            playlist = "https://media.w3.org/2010/05/sintel/trailer.mp4",
             thumbnail = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Black.png/640px-Black.png",
             alt = "Video thumbnail fixture",
         ),
@@ -180,7 +198,7 @@ internal fun timelineFixtureForCursor(cursor: String?): FeedGetTimelineResponse 
         null -> FeedGetTimelineResponse(CURSOR_PAGE_2, timelinePosts.subList(0, 3))
         CURSOR_PAGE_2 -> FeedGetTimelineResponse(CURSOR_PAGE_3, timelinePosts.subList(3, 6))
         CURSOR_PAGE_3 -> FeedGetTimelineResponse(CURSOR_PAGE_4, timelinePosts.subList(6, 9))
-        CURSOR_PAGE_4 -> FeedGetTimelineResponse(null, timelinePosts.subList(9, 10))
+        CURSOR_PAGE_4 -> FeedGetTimelineResponse(null, timelinePosts.subList(9, 11))
         else -> FeedGetTimelineResponse(null, emptyList())
     }
 }
@@ -229,4 +247,3 @@ private fun postView(
         indexedAt = FIXTURE_TIMESTAMP,
     )
 }
-
