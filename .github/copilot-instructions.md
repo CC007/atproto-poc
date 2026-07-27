@@ -4,14 +4,16 @@ Use this repository guidance hierarchy:
 
 1. `AGENTS.md`
 2. `README.md`
-3. `docs/ARCHITECTURE.md`
-4. `docs/DECISIONS.md`
-5. `docs/AI_TASKS.md`
-6. `docs/TESTING.md`
-7. `docs/SECURITY.md`
-8. `docs/GLOSSARY.md`
-9. `CONTRIBUTING.md`
-10. `HELP.md`
+3. `openspec/specs/*` (primary requirements)
+4. `openspec/archive/*` (historical completed-change requirements/provenance)
+5. `docs/ARCHITECTURE.md`
+6. `docs/DECISIONS.md`
+7. `docs/AI_TASKS.md`
+8. `docs/TESTING.md`
+9. `docs/SECURITY.md`
+10. `docs/GLOSSARY.md`
+11. `CONTRIBUTING.md`
+12. `HELP.md`
 
 ## Copilot Behavior Requirements
 
@@ -25,7 +27,8 @@ Use this repository guidance hierarchy:
 
 - Tech stack: Kotlin + Spring Boot + Gradle Kotlin DSL.
 - UI rendering style: server-side `kotlinx.html`.
-- Existing routes, decisions, testing notes, security notes, and terminology are tracked in the docs pages under `docs/`.
+- Requirement-level behavior is tracked in `openspec/specs/*` and historical completed work in `openspec/archive/*`.
+- `docs/*` pages remain implementation, testing, security, and terminology context.
 
 ## Documentation Maintenance
 
@@ -39,4 +42,3 @@ When your change impacts one of these domains, create or update the page:
 - `docs/GLOSSARY.md`
 
 If missing, generate a minimal first version with clear headings and actionable content.
-

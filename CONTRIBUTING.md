@@ -8,7 +8,10 @@ Use small, reviewable changes and keep behavior changes explicit.
 
 1. Read `AGENTS.md`.
 2. Read `.github/copilot-instructions.md`.
-3. Read these docs pages for current project state:
+3. Read OpenSpec requirement sources:
+   - `openspec/specs/*`
+   - `openspec/archive/*`
+4. Read these docs pages for current project state and implementation context:
    - `docs/ARCHITECTURE.md`
    - `docs/DECISIONS.md`
    - `docs/AI_TASKS.md`
@@ -53,6 +56,7 @@ When using GitHub Copilot for edits, ensure prompts include:
 - The files to modify
 - A request to follow `AGENTS.md` and `.github/copilot-instructions.md`
 - A request to update relevant docs pages under `docs/` if project state changes
+- A request to use `openspec/specs/*` and `openspec/archive/*` as requirement sources
 
 ## AI Task Tracking
 
@@ -60,4 +64,3 @@ When using GitHub Copilot for edits, ensure prompts include:
 - Create one task file per AI work item using `docs/ai-tasks/_TEMPLATE.md`.
 - Keep status and progress current while work is in-flight.
 - Record completion details in each task file under `How Completed`.
-
