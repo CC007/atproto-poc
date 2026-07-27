@@ -10,7 +10,6 @@ import work.socialhub.kbsky.api.entity.app.bsky.feed.FeedGetTimelineRequest
 import work.socialhub.kbsky.api.entity.app.bsky.feed.FeedGetTimelineResponse
 import work.socialhub.kbsky.auth.BearerTokenAuthProvider
 import work.socialhub.kbsky.model.app.bsky.embed.*
-import work.socialhub.kbsky.model.app.bsky.feed.FeedDefsFeedViewPost
 import work.socialhub.kbsky.model.app.bsky.graph.GraphFollow
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -30,7 +29,24 @@ class DummyAtProtoTimelineControllerTest(
 
     @Test
     fun `dummy timeline endpoint returns deterministic paged feed`() {
-        val feed = getAllTimelinePosts()
+        val firstPage = getTimeline(cursor = null)
+        assertEquals("dummy-cursor-2", firstPage.cursor)
+        assertEquals(3, firstPage.feed.size)
+
+        val secondPage = getTimeline(cursor = firstPage.cursor)
+        assertEquals("dummy-cursor-3", secondPage.cursor)
+        assertEquals(3, secondPage.feed.size)
+
+        val thirdPage = getTimeline(cursor = secondPage.cursor)
+        assertEquals("dummy-cursor-4", thirdPage.cursor)
+        assertEquals(3, thirdPage.feed.size)
+
+        val fourthPage = getTimeline(cursor = thirdPage.cursor)
+        assertEquals(null, fourthPage.cursor)
+        assertEquals(2, fourthPage.feed.size)
+
+        val feed = firstPage.feed + secondPage.feed + thirdPage.feed + fourthPage.feed
+        assertEquals(11, feed.size)
 
         // Keep order assertions for deterministic fixture pages.
         assertEquals("at://dummy.localhost/app.bsky.feed.post/text", feed[0].post.uri)
@@ -44,6 +60,14 @@ class DummyAtProtoTimelineControllerTest(
         assertTrue(feed.any { it.post.embed is EmbedRecordView })
         assertTrue(feed.any { it.post.embed is EmbedRecordWithMediaView })
         assertTrue(feed.any { it.post.record is GraphFollow })
+
+        val imageEmbeds = feed.mapNotNull { it.post.embed as? EmbedImagesView }
+        val allImages = imageEmbeds.flatMap { it.images.orEmpty() }
+        assertTrue(allImages.isNotEmpty())
+        allImages.forEach { image ->
+            assertDirectHttpsMediaUrl(image.thumb)
+            assertDirectHttpsMediaUrl(image.fullsize)
+        }
 
         val threadRootUri = "at://dummy.localhost/app.bsky.feed.post/conversation-root"
         val firstReplyUri = "at://dummy.localhost/app.bsky.feed.post/conversation-reply-1"
@@ -67,6 +91,12 @@ class DummyAtProtoTimelineControllerTest(
         assertEquals(401, exception.status)
     }
 
+    private fun assertDirectHttpsMediaUrl(url: String?) {
+        assertTrue(!url.isNullOrBlank())
+        assertTrue(url.startsWith("https://"))
+        assertTrue(DIRECT_MEDIA_URL_REGEX.matches(url))
+    }
+
     private fun getTimeline(accessToken: String = DUMMY_ACCESS_TOKEN, cursor: String?): FeedGetTimelineResponse {
         return BlueskyFactory
             .instance(networkUrl)
@@ -80,19 +110,10 @@ class DummyAtProtoTimelineControllerTest(
             .data
     }
 
-    private fun getAllTimelinePosts(): List<FeedDefsFeedViewPost> {
-        val all = mutableListOf<FeedDefsFeedViewPost>()
-        var cursor: String? = null
-
-        while (true) {
-            val page = getTimeline(cursor = cursor)
-            all += page.feed
-            cursor = page.cursor
-            if (cursor == null) {
-                break
-            }
-        }
-
-        return all
+    companion object {
+        private val DIRECT_MEDIA_URL_REGEX = Regex(
+            pattern = "^https://.+\\.(png|jpg|jpeg|gif|webp)(\\?.*)?$",
+            option = RegexOption.IGNORE_CASE,
+        )
     }
 }

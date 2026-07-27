@@ -2,11 +2,13 @@ package com.github.cc007.blueart.components.overview
 
 import kotlinx.html.div
 import kotlinx.html.stream.createHTML
+import work.socialhub.kbsky.model.app.bsky.actor.ActorDefsProfileViewBasic
 import work.socialhub.kbsky.model.app.bsky.embed.EmbedImagesView
 import work.socialhub.kbsky.model.app.bsky.embed.EmbedImagesViewImage
 import work.socialhub.kbsky.model.app.bsky.embed.EmbedViewUnion
 import work.socialhub.kbsky.model.app.bsky.feed.FeedDefsPostView
 import work.socialhub.kbsky.model.app.bsky.feed.FeedPost
+import work.socialhub.kbsky.model.app.bsky.graph.GraphFollow
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
@@ -52,6 +54,29 @@ class PostSummaryTest {
         assertTrue(html.contains("embed-media-grid-secondary"))
     }
 
+    @Test
+    fun `renders follow activity for graph follow record`() {
+        val html = createHTML().div {
+            postSummary(
+                post = FeedDefsPostView().apply {
+                    author = ActorDefsProfileViewBasic().apply {
+                        handle = "dummy.localhost"
+                    }
+                    record = GraphFollow(
+                        subject = "did:plc:dummy-follow-target",
+                        createdAt = "2026-06-01T00:00:00Z",
+                    )
+                    uri = "at://did:example/post/4"
+                    cid = "cid-4"
+                },
+                parentPost = null
+            )
+        }
+
+        assertTrue(html.contains("@dummy.localhost followed @dummy-follow-target"))
+        assertTrue(!html.contains("This type of post is not yet supported"))
+    }
+
     private fun postView(
         recordText: String,
         embed: EmbedViewUnion?,
@@ -74,6 +99,5 @@ class PostSummaryTest {
         }
     }
 }
-
 
 
