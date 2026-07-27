@@ -7,6 +7,7 @@ import work.socialhub.kbsky.model.app.bsky.actor.ActorDefsProfileViewBasic
 import work.socialhub.kbsky.model.app.bsky.embed.*
 import work.socialhub.kbsky.model.app.bsky.feed.FeedDefsPostView
 import work.socialhub.kbsky.model.app.bsky.feed.FeedPost
+import work.socialhub.kbsky.model.app.bsky.graph.GraphFollow
 import work.socialhub.kbsky.model.com.atproto.label.LabelDefsLabel
 import work.socialhub.kbsky.model.share.RecordUnion
 import java.net.URLEncoder
@@ -56,7 +57,7 @@ private fun HtmlBlockTag.postSummary(
         author?.let { authorBanner(it) }
         div(classes = "post-content") {
             embeds.forEach { embed(it, needsBlur) }
-            record(record)
+            record(author, record)
         }
         div(classes = "post-stats") {
             kolo { mt(3); pt(2) }
@@ -137,12 +138,23 @@ private fun HtmlBlockTag.authorBanner(author: ActorDefsProfileViewBasic) {
     }
 }
 
-private fun HtmlBlockTag.record(record: RecordUnion?) {
+private fun HtmlBlockTag.record(author: ActorDefsProfileViewBasic?, record: RecordUnion?) {
     when (record) {
         is FeedPost -> {
             p(classes = "post-text feed-post") {
                 kolo { m(2) }
                 renderRichText(record.text, record.facets)
+            }
+        }
+
+        is GraphFollow -> {
+            p(classes = "post-text feed-follow") {
+                kolo { m(2) }
+                val actorHandle = author?.handle
+                    ?.takeIf { it.isNotBlank() }
+                    ?.let { "@$it" }
+                    ?: "@unknown"
+                +"$actorHandle followed ${followTarget(record.subject)}"
             }
         }
 
@@ -162,6 +174,18 @@ private fun HtmlBlockTag.record(record: RecordUnion?) {
 //                is GraphListItem -> {}
 //                is GraphList -> {}
 //                is GraphStarterPack -> {}
+    }
+}
+
+private fun followTarget(subject: String?): String {
+    val value = subject?.trim().orEmpty()
+    if (value.isBlank()) {
+        return "@unknown"
+    }
+    return when {
+        value.startsWith("did:") -> "@${value.substringAfterLast(':')}"
+        value.startsWith("@") -> value
+        else -> "@$value"
     }
 }
 

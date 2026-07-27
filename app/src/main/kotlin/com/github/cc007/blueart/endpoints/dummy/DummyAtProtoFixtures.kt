@@ -36,8 +36,8 @@ private val conversationRootPost = postView(
     embed = EmbedImagesView(
         images = listOf(
             EmbedImagesViewImage(
-                thumb = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Fronalpstock_big.jpg/640px-Fronalpstock_big.jpg",
-                fullsize = "https://upload.wikimedia.org/wikipedia/commons/3/3f/Fronalpstock_big.jpg",
+                thumb = "https://raw.githubusercontent.com/github/explore/main/topics/github/github.png",
+                fullsize = "https://raw.githubusercontent.com/github/explore/main/topics/github/github.png",
                 alt = "Thread root artwork fixture",
             )
         )
@@ -67,8 +67,8 @@ private val timelinePosts = listOf(
         embed = EmbedImagesView(
             images = listOf(
                 EmbedImagesViewImage(
-                    thumb = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Example.jpg/640px-Example.jpg",
-                    fullsize = "https://upload.wikimedia.org/wikipedia/commons/a/a9/Example.jpg",
+                    thumb = "https://raw.githubusercontent.com/github/explore/main/topics/kotlin/kotlin.png",
+                    fullsize = "https://raw.githubusercontent.com/github/explore/main/topics/kotlin/kotlin.png",
                     alt = "Example image fixture",
                 )
             )
@@ -80,13 +80,13 @@ private val timelinePosts = listOf(
         embed = EmbedImagesView(
             images = listOf(
                 EmbedImagesViewImage(
-                    thumb = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Golde33443.jpg/640px-Golde33443.jpg",
-                    fullsize = "https://upload.wikimedia.org/wikipedia/commons/6/6e/Golde33443.jpg",
+                    thumb = "https://raw.githubusercontent.com/github/explore/main/topics/spring-boot/spring-boot.png",
+                    fullsize = "https://raw.githubusercontent.com/github/explore/main/topics/spring-boot/spring-boot.png",
                     alt = "Gallery image one fixture",
                 ),
                 EmbedImagesViewImage(
-                    thumb = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Blue_Flower_%2829384028856%29.jpg/640px-Blue_Flower_%2829384028856%29.jpg",
-                    fullsize = "https://upload.wikimedia.org/wikipedia/commons/9/9d/Blue_Flower_%2829384028856%29.jpg",
+                    thumb = "https://raw.githubusercontent.com/github/explore/main/topics/docker/docker.png",
+                    fullsize = "https://raw.githubusercontent.com/github/explore/main/topics/docker/docker.png",
                     alt = "Gallery image two fixture",
                 ),
             )
@@ -98,7 +98,7 @@ private val timelinePosts = listOf(
         embed = EmbedVideoView(
             cid = "bafyreidummytimelinevideo",
             playlist = "https://media.w3.org/2010/05/sintel/trailer.mp4",
-            thumbnail = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Black.png/640px-Black.png",
+            thumbnail = "https://raw.githubusercontent.com/github/explore/main/topics/java/java.png",
             alt = "Video thumbnail fixture",
         ),
     ),
@@ -142,8 +142,8 @@ private val timelinePosts = listOf(
             media = EmbedImagesView(
                 images = listOf(
                     EmbedImagesViewImage(
-                        thumb = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Tiger.50.jpg/640px-Tiger.50.jpg",
-                        fullsize = "https://upload.wikimedia.org/wikipedia/commons/5/56/Tiger.50.jpg",
+                        thumb = "https://raw.githubusercontent.com/github/explore/main/topics/gradle/gradle.png",
+                        fullsize = "https://raw.githubusercontent.com/github/explore/main/topics/gradle/gradle.png",
                         alt = "Record-with-media image fixture",
                     )
                 )

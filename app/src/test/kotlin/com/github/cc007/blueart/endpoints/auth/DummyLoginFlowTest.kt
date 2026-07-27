@@ -55,6 +55,8 @@ class DummyLoginFlowTest(
         assertContains(browse.body(), "BlueArt Dummy")
         assertContains(browse.body(), "embed-media-grid")
         assertContains(browse.body(), "Open artwork")
+        assertContains(browse.body(), "@dummy.localhost followed @dummy-follow-target")
+        assertTrue(!browse.body().contains("This type of post is not yet supported"))
 
         val detailUri = "at://dummy.localhost/app.bsky.feed.post/image-gallery"
         val detail = get("/art/bafyreidummyimage-gallery?uri=${URLEncoder.encode(detailUri, StandardCharsets.UTF_8)}")
