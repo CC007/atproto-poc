@@ -22,6 +22,7 @@ Use this repository guidance hierarchy:
 - Do not revert unrelated local edits.
 - Preserve current behavior unless explicitly asked to change it.
 - For substantial changes, propose or add tests and update relevant pages in `docs/`.
+- For OpenSpec design docs: if there are no open questions, remove the `## Open Questions` section instead of leaving placeholder or "none" content.
 
 ## Project-Specific Guidance
 

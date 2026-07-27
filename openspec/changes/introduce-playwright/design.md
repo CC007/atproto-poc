@@ -134,7 +134,3 @@ Stakeholders:
 **Rollback strategy:**
 - Disable the visual lane in local verification flow and keep existing Gradle verification unchanged.
 - Revert Playwright Kotlin test additions if needed; no data/schema migration rollback is required.
-
-## Open Questions
-
-- None for this change. Persistence, cache, database, and wiremock environment expansion questions are explicitly deferred to future changes.
