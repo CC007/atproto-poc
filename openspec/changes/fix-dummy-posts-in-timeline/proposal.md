@@ -14,6 +14,8 @@ Make sure that all images load and all dummy types are supported in the timeline
 ### Modified Capabilities
 <!-- Existing capabilities whose REQUIREMENTS are changing. Use existing spec names from openspec/specs/. -->
 
+- `dummy-content-preview`
+
 ## Impact
 
 <!-- Affected code, APIs, dependencies, systems -->
