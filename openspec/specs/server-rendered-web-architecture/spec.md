@@ -1,5 +1,9 @@
 # Server Rendered Web Architecture
 
+## Provenance
+- `docs/ARCHITECTURE.md`
+- `docs/DECISIONS.md` (D-001, D-003)
+
 ## Purpose
 Define the core server-rendered web architecture and route-model expectations for browse/detail experiences.
 
@@ -18,7 +22,3 @@ The system MUST maintain route availability for timeline browsing and art detail
 #### Scenario: User navigates from browse to detail
 - **WHEN** a timeline item is opened
 - **THEN** navigation resolves through the established browse/detail route model
-
-## Provenance
-- `docs/ARCHITECTURE.md`
-- `docs/DECISIONS.md` (D-001, D-003)

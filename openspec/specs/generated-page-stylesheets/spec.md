@@ -1,5 +1,9 @@
 # Generated Page Stylesheets
 
+## Provenance
+- `BA-003` (`docs/ai-tasks/2026-05-04-BA-003-explore-css-in-kotlin.md`)
+- `docs/ARCHITECTURE.md`
+
 ## Purpose
 Define generated CSS endpoint behavior for browse and art page stylesheets.
 
@@ -11,7 +15,3 @@ The system SHALL serve browse and art stylesheets from generated CSS endpoints.
 #### Scenario: Generated endpoint is requested
 - **WHEN** a client requests `/css/generated/browse.css` or `/css/generated/art.css`
 - **THEN** the system returns generated CSS built from Kotlin-side stylesheet definitions
-
-## Provenance
-- `BA-003` (`docs/ai-tasks/2026-05-04-BA-003-explore-css-in-kotlin.md`)
-- `docs/ARCHITECTURE.md`

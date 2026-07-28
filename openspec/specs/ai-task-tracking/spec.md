@@ -1,5 +1,9 @@
 # AI Task Tracking
 
+## Provenance
+- `BA-001` (`docs/ai-tasks/2026-05-04-BA-001-add-ai-task-tracker.md`)
+- `docs/AI_TASKS.md`
+
 ## Purpose
 Define how AI tasks are tracked in docs while completed work is referenced through OpenSpec archive entries.
 
@@ -18,7 +22,3 @@ The system MUST reference migrated completed AI work through OpenSpec archived c
 #### Scenario: Completed task entry points to archive
 - **WHEN** a task is listed as completed in `docs/AI_TASKS.md`
 - **THEN** the entry links to the corresponding `openspec/archive/<slug>/` change directory
-
-## Provenance
-- `BA-001` (`docs/ai-tasks/2026-05-04-BA-001-add-ai-task-tracker.md`)
-- `docs/AI_TASKS.md`
