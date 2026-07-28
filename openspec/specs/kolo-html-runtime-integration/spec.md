@@ -1,5 +1,9 @@
 # Kolo HTML Runtime Integration
 
+## Provenance
+- `BA-022` (`docs/ai-tasks/2026-05-09-BA-022-kolo-extension-link-class-generation.md`)
+- `docs/TESTING.md`
+
 ## Purpose
 Define render-time Kolo token collection, class attachment, and stylesheet-link emission behavior.
 
@@ -18,7 +22,3 @@ The system MUST allow `kolo { ... }` usage outside Kolo render scope without int
 #### Scenario: Kolo call happens outside render context
 - **WHEN** no active Kolo render context exists
 - **THEN** token collection and stylesheet-link side effects are skipped safely
-
-## Provenance
-- `BA-022` (`docs/ai-tasks/2026-05-09-BA-022-kolo-extension-link-class-generation.md`)
-- `docs/TESTING.md`

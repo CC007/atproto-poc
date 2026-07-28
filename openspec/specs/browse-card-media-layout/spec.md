@@ -1,5 +1,9 @@
 # Browse Card Media Layout
 
+## Provenance
+- `BA-005` (`docs/ai-tasks/2026-05-04-BA-005-uniform-browse-card-layout.md`)
+- `docs/ARCHITECTURE.md`
+
 ## Purpose
 Define timeline-card layout behavior for consistent card height and media-aware rendering.
 
@@ -18,7 +22,3 @@ The system SHALL suppress card body text when embeds are present and apply media
 #### Scenario: Card includes multi-image embed
 - **WHEN** a card has 2-4 image embeds
 - **THEN** the first image renders as the primary slot and remaining images render as stacked supporting slots
-
-## Provenance
-- `BA-005` (`docs/ai-tasks/2026-05-04-BA-005-uniform-browse-card-layout.md`)
-- `docs/ARCHITECTURE.md`

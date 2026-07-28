@@ -63,3 +63,11 @@ Track technical decisions and rationale in one place. Use this file for concise 
   - Keep only the two max-width responsive spacing declarations in `CssController` as explicitly tagged `kolo-exception` rules until Kolo gains max-width variant support.
 - Consequences: Spacing ownership is clearer and co-located for migrated elements, and future cleanup can target only the documented responsive exceptions when max-width variants are implemented.
 
+### D-009: Add a dedicated Playwright visual regression lane
+- Status: accepted
+- Context: CSS-to-Kolo migration needs deterministic visual regression coverage on key user-facing routes without introducing a JavaScript test stack.
+- Decision:
+  - Add dedicated `:visual-tests` module for black-box visual tests.
+  - Run snapshots in headless Chromium and Firefox with normalized rendering settings.
+  - Keep visual execution as a separate Gradle lane (`visualTest`) with explicit developer-gated baseline updates (`updateVisualBaselines`).
+- Consequences: Visual regressions now emit expected/actual/diff artifacts for route-level review, and baseline updates require explicit developer acknowledgement.

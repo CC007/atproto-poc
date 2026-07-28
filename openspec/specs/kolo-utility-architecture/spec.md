@@ -1,5 +1,9 @@
 # Kolo Utility Architecture
 
+## Provenance
+- `BA-016` (`docs/ai-tasks/2026-05-06-BA-016-co-located-tailwind-like-styling-architecture.md`)
+- `docs/DECISIONS.md` (D-007)
+
 ## Purpose
 Define core Kolo utility-token architecture, canonicalization rules, and migration-era stylesheet coexistence.
 
@@ -18,7 +22,3 @@ The system SHALL support side-by-side delivery of `kolo.css` and page-specific C
 #### Scenario: Utility migration is partial
 - **WHEN** only a subset of declarations has moved to Kolo utilities
 - **THEN** both utility and page stylesheet paths remain active without requiring full migration cutover
-
-## Provenance
-- `BA-016` (`docs/ai-tasks/2026-05-06-BA-016-co-located-tailwind-like-styling-architecture.md`)
-- `docs/DECISIONS.md` (D-007)

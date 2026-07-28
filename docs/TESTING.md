@@ -14,15 +14,38 @@ For module-scoped verification after the multi-module split:
 ./gradlew :app:test
 ```
 
+Visual regression lane:
+
+```bash
+./gradlew visualTest
+```
+
+Baseline refresh (developer approval required):
+
+```bash
+./gradlew updateVisualBaselines -PvisualBaselineApprover=<developer-name>
+```
+
 ## Change-Focused Guidance
 - Prefer targeted tests for narrow changes.
 - Run `./gradlew test` when edits are broad or touch shared code paths.
+- Run `./gradlew visualTest` whenever AI diagnosis needs visual evidence for UI changes and before completing any change.
 - Document any unverified areas in handoff notes when checks cannot run.
 
-## Current Gaps
-- No dedicated automated tests currently cover:
-  - browse cards containing `Open artwork` links
-  - `/art/{cid}` rendering media, description, and comments
+## Visual Baseline Policy
+- Baseline updates require explicit in-editor developer approval.
+- `-PvisualBaselineApprover` is mandatory for baseline updates.
+- Approval strings that identify AI/Copilot are rejected by the visual baseline task.
+
+## Visual Failure Triage
+When `visualTest` fails, inspect expected/actual/diff artifacts under:
+
+`visual-tests/build/reports/visual-regression/<browser>/<scenario>/`
+
+Files:
+- `expected.png` (committed baseline)
+- `actual.png` (current run)
+- `diff.png` (highlighted mismatch areas)
 
 ## Recent Coverage Additions
 - `RichTextFacetRendererTest` validates UTF-8 byte-offset slicing plus defensive handling of malformed/overlapping link, tag, and mention facets.
@@ -40,6 +63,7 @@ For module-scoped verification after the multi-module split:
 - `KoloStylesModuleWiringTest` validates the `:app` module can consume `:libs:kolo-styles` types without changing runtime behavior.
 - `BlueArtApplicationTests` validates the Spring application context still starts with the Kolo compiler/configuration/controller owned by `:libs:kolo-styles`.
 - `SpacingUtilitiesTest` validates BA-019 spacing utilities: `SpacingParserHook` accepts/rejects tokens correctly, `SpacingGeneratorHook` produces `k-`-prefixed CSS selectors with pseudo-class and media-query variant support, `KoloCssCompiler` with spacing hook lists generates real CSS for spacing tokens, and `spacingUtilityDefinitions` has correct catalog size and `cssDeclaration` content (property declarations only, not full rules).
+- `PlaywrightVisualRegressionTest` in `:visual-tests` validates login, browse timeline card rendering, and art detail rendering in headless Chromium and Firefox against committed per-browser snapshots.
 
 ## Suggested Additions
 - Lightweight integration tests for `GET /browse` and `GET /art/{cid}` rendering expectations.

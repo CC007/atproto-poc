@@ -6,13 +6,14 @@ BlueArt is a Kotlin + Spring Boot web application for browsing Bluesky/ATProto c
 ## Runtime Shape
 - Server: Spring Boot MVC controllers.
 - Rendering: server-side HTML generation (`kotlinx.html`).
-- Build: Gradle Kotlin DSL with a multi-module layout (`:app`, `:libs`, and `:libs:kolo-styles`).
+- Build: Gradle Kotlin DSL with a multi-module layout (`:app`, `:libs`, `:libs:kolo-styles`, and `:visual-tests`).
 - Styling: Kotlin CSS DSL endpoints under `/css/generated/*.css` generate browse/art page stylesheets from Kotlin in `:app` `CssController`; Kolo utilities are served from `/css/generated/kolo.css` by the `:libs:kolo-styles` module using tokenized query params during migration. Render-side collection/link plumbing lives in `:libs:kolo-styles` (`renderKoloHtml`, `kolo { ... }`, `koloStylesheetLink()`), with typed margin/padding DSL helpers in `KoloSpacingDsl.kt` (functions: `m()`, `mt()`, `mb()`, `ml()`, `mx()`, `mxAuto()`, `p()`, `pt()`, `px()`, etc. on both `KoloScope` and `KoloVariantScope`). Spacing hook implementations (`SpacingParserHook`, `SpacingGeneratorHook`) are registered as Spring `@Component` beans, and `KoloCssCompiler` is a Spring `@Service` that consumes the injected `List<StyleParserHook>` + `List<StyleGeneratorHook>`. For migrated browse/art elements, spacing ownership is now in Kolo tokens rather than `CssController`; `CssController` only keeps two tracked responsive spacing exceptions in `@media (max-width: 700px)`.
 
 ## Module Boundaries
 - `:app`: executable Spring Boot web application module. Contains controllers, HTML renderers, routes, and runtime wiring.
 - `:libs`: reusable-library group module reserved for future shared libraries (including styling modules such as `kolo-styles`).
 - `:libs:kolo-styles`: reusable styling library module for co-located style infrastructure primitives. Provides baseline utility/parser/generator contracts, the Kolo CSS compiler, and the Spring MVC adapter/configuration that owns `/css/generated/kolo.css`.
+- `:visual-tests`: dedicated black-box visual regression module using Playwright + JUnit against localhost dummy-mode flows in headless Chromium/Firefox.
 
 ## Package Layout (`:app`)
 App-owned endpoint controllers live under `com.github.cc007.blueart.endpoints`, preserving their function-specific subdirectory names:

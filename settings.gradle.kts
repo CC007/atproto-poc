@@ -8,4 +8,4 @@ rootProject.name = "BlueArt"
 include(":app")
 include(":libs")
 include(":libs:kolo-styles")
-
+include(":visual-tests")

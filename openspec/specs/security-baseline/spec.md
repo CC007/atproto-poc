@@ -1,5 +1,8 @@
 # Security Baseline
 
+## Provenance
+- `docs/SECURITY.md`
+
 ## Purpose
 Define baseline repository security requirements for credential handling and input validation.
 
@@ -23,6 +26,3 @@ The system SHALL validate and sanitize external input that influences authentica
 #### Scenario: Request includes route or query input
 - **WHEN** user-supplied route parameters or query values are processed
 - **THEN** those inputs are validated and sanitized before use
-
-## Provenance
-- `docs/SECURITY.md`
