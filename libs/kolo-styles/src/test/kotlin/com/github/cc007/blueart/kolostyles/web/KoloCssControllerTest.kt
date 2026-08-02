@@ -29,7 +29,14 @@ class KoloCssControllerTest {
 
         assertEquals(HttpStatus.OK, response.statusCode)
         assertEquals(
-            "/* kolo-unsupported: mt-2 *//* kolo-unsupported: flex *//* kolo-unsupported: hover:mt-2 */",
+            """
+            :root {
+            --kolo-unsupported-0: "mt-2";
+            --kolo-unsupported-1: "flex";
+            --kolo-unsupported-2: "hover:mt-2";
+            }
+            
+            """.trimIndent(),
             response.body
         )
     }
@@ -42,7 +49,15 @@ class KoloCssControllerTest {
         )
 
         assertEquals(HttpStatus.OK, response.statusCode)
-        assertEquals("/* kolo-unparsed: mt-[2px] */", response.body)
+        assertEquals(
+            """
+            :root {
+            --kolo-unparsed-0: "mt-[2px]";
+            }
+            
+            """.trimIndent(),
+            response.body
+        )
     }
 
     @Test
@@ -53,7 +68,15 @@ class KoloCssControllerTest {
         )
 
         assertEquals(HttpStatus.OK, response.statusCode)
-        assertEquals("/* kolo-unparsed: mt- 2 */", response.body)
+        assertEquals(
+            """
+            :root {
+            --kolo-unparsed-0: "mt- 2";
+            }
+            
+            """.trimIndent(),
+            response.body
+        )
     }
 
     @Test
@@ -64,7 +87,18 @@ class KoloCssControllerTest {
         )
 
         assertEquals(HttpStatus.OK, response.statusCode)
-        assertEquals(".k-m-0 { margin: 0; }.k-p-4 { padding: 1rem; }", response.body)
+        assertEquals(
+            """
+            .k-m-0 {
+            margin: 0.0rem;
+            }
+            .k-p-4 {
+            padding: 1.0rem;
+            }
+            
+            """.trimIndent(),
+            response.body
+        )
     }
 
     @Test
@@ -73,9 +107,16 @@ class KoloCssControllerTest {
             version = "abc123",
             kolo = "flex"
         )
-
         assertEquals(HttpStatus.OK, response.statusCode)
-        assertEquals("/* kolo-unsupported: flex */", response.body)
+        assertEquals(HttpStatus.OK, response.statusCode)
+        assertEquals(
+            """
+            :root {
+            --kolo-unsupported-0: "flex";
+            }
+            
+            """.trimIndent(),
+            response.body
+        )
     }
 }
-

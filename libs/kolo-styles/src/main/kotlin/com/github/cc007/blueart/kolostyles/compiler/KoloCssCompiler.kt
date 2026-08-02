@@ -3,6 +3,7 @@ package com.github.cc007.blueart.kolostyles.compiler
 import com.github.cc007.blueart.kolostyles.generator.StyleGeneratorHook
 import com.github.cc007.blueart.kolostyles.parser.StyleParserHook
 import io.github.oshai.kotlinlogging.KotlinLogging
+import kotlinx.css.CssBuilder
 import org.springframework.stereotype.Service
 
 val logger = KotlinLogging.logger {}
@@ -27,21 +28,24 @@ class KoloCssCompiler(
 
     fun compile(rawKolo: String?): String {
         val tokens = parseTokens(rawKolo)
-        return tokens.joinToString(separator = "") { token ->
+        val builder = CssBuilder()
+        tokens.forEachIndexed { index, token ->
             if (isMalformedToken(token)) {
-                return@joinToString "/* kolo-unparsed: ${escapeCommentBody(token)} */"
+                builder.appendDiagnostic("unparsed", index, token)
+            } else if (!generateViaHooks(token, builder)) {
+                builder.appendDiagnostic("unsupported", index, token)
             }
-            generateViaHooks(token) ?: "/* kolo-unsupported: ${escapeCommentBody(token)} */"
         }
+        return builder.toString()
     }
 
-    private fun generateViaHooks(token: String): String? {
+    private fun generateViaHooks(token: String, builder: CssBuilder): Boolean {
         if (parserHooks.isEmpty() || generatorHooks.isEmpty()) {
-            return null
+            return false
         }
 
-        val parsed = parserHooks.firstNotNullOfOrNull { hook -> hook.parse(token) } ?: return null
-        return generatorHooks.firstNotNullOfOrNull { hook -> hook.generate(parsed) }
+        val parsed = parserHooks.firstNotNullOfOrNull { hook -> hook.parse(token) } ?: return false
+        return generatorHooks.any { hook -> hook.generate(parsed, builder) }
     }
 
     private fun parseTokens(rawKolo: String?): List<String> {
@@ -61,10 +65,24 @@ class KoloCssCompiler(
         return parts.any { it.isBlank() }
     }
 
-    private fun escapeCommentBody(value: String): String {
-        return value
-            .replace("*/", "* /")
-            .replace("\n", " ")
-            .replace("\r", " ")
+    private fun CssBuilder.appendDiagnostic(kind: String, index: Int, token: String) {
+        root {
+            put("--kolo-$kind-$index", token.toCssQuotedString())
+        }
+    }
+
+    private fun String.toCssQuotedString(): String {
+        val escaped = buildString(length + 2) {
+            for (char in this@toCssQuotedString) {
+                when (char) {
+                    '\\' -> append("\\\\")
+                    '"' -> append("\\\"")
+                    '\n' -> append("\\A ")
+                    '\r' -> append("\\D ")
+                    else -> append(char)
+                }
+            }
+        }
+        return "\"$escaped\""
     }
 }

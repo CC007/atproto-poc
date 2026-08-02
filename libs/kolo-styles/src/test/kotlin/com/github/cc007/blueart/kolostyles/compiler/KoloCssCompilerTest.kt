@@ -11,10 +11,17 @@ class KoloCssCompilerTest {
     @Test
     fun `compile parses and generates css through hooks`() {
         val parserHook = StyleParserHook { token ->
-            StyleUtilityDefinition(token = token, cssDeclaration = "display:block;")
+            StyleUtilityDefinition(token = token, cssDeclaration = {
+                put("display", "block")
+            })
         }
-        val generatorHook = StyleGeneratorHook { definition ->
-            ".${definition.token.replace(":", "\\:")} { ${definition.cssDeclaration} }"
+        val generatorHook = StyleGeneratorHook { definition, builder ->
+            builder.apply {
+                ".${definition.token.replace(":", "\\:")}" {
+                    definition.cssDeclaration.let { this.it() }
+                }
+            }
+            true
         }
         val compiler = KoloCssCompiler(
             parserHooks = listOf(parserHook),
@@ -24,7 +31,21 @@ class KoloCssCompilerTest {
         val result = compiler.compile("flex;mt-2;hover:mt-2;md:mt-2")
 
         assertEquals(
-            ".flex { display:block; }.mt-2 { display:block; }.hover\\:mt-2 { display:block; }.md\\:mt-2 { display:block; }",
+            """
+            .flex {
+            display: block;
+            }
+            .mt-2 {
+            display: block;
+            }
+            .hover\:mt-2 {
+            display: block;
+            }
+            .md\:mt-2 {
+            display: block;
+            }
+            
+            """.trimIndent(),
             result
         )
     }
@@ -36,7 +57,7 @@ class KoloCssCompilerTest {
             tokens.add(token)
             null
         }
-        val noopGenerator = StyleGeneratorHook { null }
+        val noopGenerator = StyleGeneratorHook { _, _ -> false }
         val compiler = KoloCssCompiler(
             parserHooks = listOf(recordingParser),
             generatorHooks = listOf(noopGenerator)
@@ -54,7 +75,15 @@ class KoloCssCompilerTest {
 
         val result = compiler.compile("mt-[4px]")
 
-        assertEquals("/* kolo-unparsed: mt-[4px] */", result)
+        assertEquals(
+            """
+            :root {
+            --kolo-unparsed-0: "mt-[4px]";
+            }
+            
+            """.trimIndent(),
+            result
+        )
     }
 
     @Test
@@ -63,7 +92,15 @@ class KoloCssCompilerTest {
 
         val result = compiler.compile("mt- 2")
 
-        assertEquals("/* kolo-unparsed: mt- 2 */", result)
+        assertEquals(
+            """
+            :root {
+            --kolo-unparsed-0: "mt- 2";
+            }
+            
+            """.trimIndent(),
+            result
+        )
     }
 
     @Test
@@ -81,20 +118,40 @@ class KoloCssCompilerTest {
 
         val result = compiler.compile("flex;mt-2")
 
-        assertEquals("/* kolo-unsupported: flex *//* kolo-unsupported: mt-2 */", result)
+        assertEquals(
+            """
+            :root {
+            --kolo-unsupported-0: "flex";
+            --kolo-unsupported-1: "mt-2";
+            }
+            
+            """.trimIndent(),
+            result
+        )
     }
 
     @Test
     fun `compile uses parser and generator hooks when token is supported via hooks`() {
         val parserHook = StyleParserHook { token ->
             if (token == "x-hook") {
-                StyleUtilityDefinition(token = token, cssDeclaration = "display:block;")
+                StyleUtilityDefinition(token = token, cssDeclaration = {
+                    put("display", "block")
+                })
             } else {
                 null
             }
         }
-        val generatorHook = StyleGeneratorHook { definition ->
-            if (definition.token == "x-hook") ".x-hook { ${definition.cssDeclaration} }" else null
+        
+        val generatorHook = StyleGeneratorHook { definition, builder ->
+            if (definition.token != "x-hook") {
+                return@StyleGeneratorHook false
+            }
+            builder.apply {
+                ".x-hook" {
+                    definition.cssDeclaration.let { this.it() }
+                }
+            }
+            true
         }
 
         val compiler = KoloCssCompiler(
@@ -104,13 +161,21 @@ class KoloCssCompilerTest {
 
         val result = compiler.compile("x-hook")
 
-        assertEquals(".x-hook { display:block; }", result)
+        assertEquals(
+            """
+            .x-hook {
+            display: block;
+            }
+            
+            """.trimIndent(),
+            result
+        )
     }
 
     @Test
     fun `compile marks token unsupported when hooks do not support token`() {
         val parserHook = StyleParserHook { null }
-        val generatorHook = StyleGeneratorHook { null }
+        val generatorHook = StyleGeneratorHook { _, _ -> false }
         val compiler = KoloCssCompiler(
             parserHooks = listOf(parserHook),
             generatorHooks = listOf(generatorHook)
@@ -118,7 +183,15 @@ class KoloCssCompilerTest {
 
         val result = compiler.compile("mt-2")
 
-        assertEquals("/* kolo-unsupported: mt-2 */", result)
+        assertEquals(
+            """
+            :root {
+            --kolo-unsupported-0: "mt-2";
+            }
+            
+            """.trimIndent(),
+            result
+        )
     }
 
     @Test
@@ -127,7 +200,14 @@ class KoloCssCompilerTest {
 
         val result = compiler.compile("broken*/token")
 
-        assertEquals("/* kolo-unsupported: broken* /token */", result)
+        assertEquals(
+            """
+            :root {
+            --kolo-unsupported-0: "broken*/token";
+            }
+            
+            """.trimIndent(),
+            result
+        )
     }
 }
-

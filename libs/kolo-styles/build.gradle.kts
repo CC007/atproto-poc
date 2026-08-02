@@ -20,6 +20,7 @@ description = "Reusable styling primitives for co-located Kotlin-first style inf
 dependencies {
     implementation {
         kotlinx("html-jvm", version = "0.12.0")
+        +libs.kotlinCss
         spring("webmvc")
         +"org.slf4j:slf4j-api"
         +"io.github.oshai:kotlin-logging-jvm:5.1.0"
@@ -30,4 +31,3 @@ dependencies {
         kotlin("test-junit5")
     }
 }
-

@@ -83,7 +83,7 @@ class ArtContentController {
                     kolo { m(0) }
                     topBanner(csrfToken)
                     main(classes = "art-layout") {
-                        kolo { p(4); mxAuto() }
+                        kolo { p(4); mxAuto }
                         section(classes = "art-content") {
                             div(classes = "content-top") {
                                 h1(classes = "art-title") {
@@ -303,4 +303,3 @@ private fun collectComments(
     }
     reply.replies.orEmpty().forEach { child -> collectComments(child, depth + 1, into) }
 }
-
