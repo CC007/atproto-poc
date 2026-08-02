@@ -1,7 +1,8 @@
 package com.github.cc007.blueart.components.overview
 
 import com.github.cc007.blueart.components.richtext.renderRichText
-import com.github.cc007.blueart.kolostyles.render.*
+import com.github.cc007.blueart.kolostyles.dsl.kolo
+import com.github.cc007.blueart.kolostyles.dsl.spacing.*
 import kotlinx.html.*
 import work.socialhub.kbsky.model.app.bsky.actor.ActorDefsProfileViewBasic
 import work.socialhub.kbsky.model.app.bsky.embed.*

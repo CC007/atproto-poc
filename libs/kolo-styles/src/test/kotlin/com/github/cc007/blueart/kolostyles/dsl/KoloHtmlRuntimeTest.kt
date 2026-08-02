@@ -1,5 +1,6 @@
-package com.github.cc007.blueart.kolostyles.render
+package com.github.cc007.blueart.kolostyles.dsl
 
+import com.github.cc007.blueart.kolostyles.dsl.spacing.*
 import kotlinx.html.body
 import kotlinx.html.div
 import kotlinx.html.head

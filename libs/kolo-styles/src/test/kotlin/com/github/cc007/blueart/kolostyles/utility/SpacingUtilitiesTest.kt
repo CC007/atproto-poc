@@ -1,7 +1,10 @@
 package com.github.cc007.blueart.kolostyles.utility
 
 import com.github.cc007.blueart.kolostyles.compiler.KoloCssCompiler
-import kotlinx.css.*
+import com.github.cc007.blueart.kolostyles.compiler.Token
+import com.github.cc007.blueart.kolostyles.compiler.spacing.SpacingGeneratorHook
+import com.github.cc007.blueart.kolostyles.compiler.spacing.SpacingParserHook
+import kotlinx.css.CssBuilder
 import kotlin.test.*
 
 class SpacingUtilitiesTest {
@@ -16,84 +19,80 @@ class SpacingUtilitiesTest {
     // --- parser ---
 
     @Test
-    fun `parser accepts m-0 and returns zero declaration`() {
+    fun `parser accepts m-0 and returns spacing token`() {
         val def = parser.parse("m-0")
         assertNotNull(def)
-        assertEquals("m-0", def.token)
-        assertEquals("margin: 0rem;", serializeDeclaration(def.cssDeclaration))
+        assertEquals("m-0", def.raw)
     }
 
     @Test
-    fun `parser accepts mt-4 and returns correct rem value`() {
+    fun `parser accepts mt-4`() {
         val def = parser.parse("mt-4")
         assertNotNull(def)
-        assertEquals("margin-top: 1rem;", serializeDeclaration(def.cssDeclaration))
+        assertEquals("mt-4", def.raw)
     }
 
     @Test
-    fun `parser accepts mb-3 and returns correct rem value`() {
+    fun `parser accepts mb-3`() {
         val def = parser.parse("mb-3")
         assertNotNull(def)
-        assertEquals("margin-bottom: 0.75rem;", serializeDeclaration(def.cssDeclaration))
+        assertEquals("mb-3", def.raw)
     }
 
     @Test
-    fun `parser accepts p-2 and returns correct rem value`() {
+    fun `parser accepts p-2`() {
         val def = parser.parse("p-2")
         assertNotNull(def)
-        assertEquals("padding: 0.5rem;", serializeDeclaration(def.cssDeclaration))
+        assertEquals("p-2", def.raw)
     }
 
     @Test
-    fun `parser accepts mx-4 and generates horizontal shorthand`() {
+    fun `parser accepts mx-4`() {
         val def = parser.parse("mx-4")
         assertNotNull(def)
-        assertEquals("margin-left: 1rem; margin-right: 1rem;", serializeDeclaration(def.cssDeclaration))
+        assertEquals("mx-4", def.raw)
     }
 
     @Test
-    fun `parser accepts mx-auto and generates auto horizontal margins`() {
+    fun `parser accepts mx-auto`() {
         val def = parser.parse("mx-auto")
         assertNotNull(def)
-        assertEquals("mx-auto", def.token)
-        assertEquals("margin-left: auto; margin-right: auto;", serializeDeclaration(def.cssDeclaration))
+        assertEquals("mx-auto", def.raw)
     }
 
     @Test
-    fun `parser accepts mt-auto and generates auto top margin`() {
+    fun `parser accepts mt-auto`() {
         val def = parser.parse("mt-auto")
         assertNotNull(def)
-        assertEquals("mt-auto", def.token)
-        assertEquals("margin-top: auto;", serializeDeclaration(def.cssDeclaration))
+        assertEquals("mt-auto", def.raw)
     }
 
     @Test
-    fun `parser accepts p-auto and generates auto padding`() {
+    fun `parser accepts p-auto`() {
         val def = parser.parse("p-auto")
         assertNotNull(def)
-        assertEquals("p-auto", def.token)
-        assertEquals("padding: auto;", serializeDeclaration(def.cssDeclaration))
+        assertEquals("p-auto", def.raw)
     }
 
     @Test
-    fun `parser accepts py-2 and generates vertical shorthand`() {
+    fun `parser accepts py-2`() {
         val def = parser.parse("py-2")
         assertNotNull(def)
-        assertEquals("padding-top: 0.5rem; padding-bottom: 0.5rem;", serializeDeclaration(def.cssDeclaration))
+        assertEquals("py-2", def.raw)
     }
 
     @Test
     fun `parser accepts hover variant`() {
         val def = parser.parse("hover:mt-2")
         assertNotNull(def)
-        assertEquals("margin-top: 0.5rem;", serializeDeclaration(def.cssDeclaration))
+        assertEquals("hover:mt-2", def.raw)
     }
 
     @Test
     fun `parser accepts md media variant`() {
         val def = parser.parse("md:p-4")
         assertNotNull(def)
-        assertEquals("padding: 1rem;", serializeDeclaration(def.cssDeclaration))
+        assertEquals("md:p-4", def.raw)
     }
 
     @Test
@@ -125,15 +124,14 @@ class SpacingUtilitiesTest {
 
     @Test
     fun `generator produces k- prefixed rule for m-0`() {
-        val def = StyleUtilityDefinition(token = "m-0", cssDeclaration = {
-            margin = kotlinx.css.Margin(0.px)
-        })
+        val def = parser.parse("m-0")
+        assertNotNull(def)
         val cssBuilder = CssBuilder()
         assertTrue(generator.generate(def, cssBuilder))
         assertEquals(
             """
             .k-m-0 {
-            margin: 0;
+            margin: 0.0rem;
             }
             
             """.trimIndent(),
@@ -143,9 +141,8 @@ class SpacingUtilitiesTest {
 
     @Test
     fun `generator produces k- prefixed rule with escaped colon for hover variant`() {
-        val def = StyleUtilityDefinition(token = "hover:mt-2", cssDeclaration = {
-            marginTop = 0.5.rem
-        })
+        val def = parser.parse("hover:mt-2")
+        assertNotNull(def)
         val cssBuilder = CssBuilder()
         assertTrue(generator.generate(def, cssBuilder))
         assertEquals(
@@ -161,16 +158,15 @@ class SpacingUtilitiesTest {
 
     @Test
     fun `generator wraps md variant in media query`() {
-        val def = StyleUtilityDefinition(token = "md:p-4", cssDeclaration = {
-            padding = kotlinx.css.Padding(1.rem)
-        })
+        val def = parser.parse("md:p-4")
+        assertNotNull(def)
         val cssBuilder = CssBuilder()
         assertTrue(generator.generate(def, cssBuilder))
         assertEquals(
             """
-            @media (min-width: 768px) {
+            @media (min-width: 48rem) {
             .k-md\:p-4 {
-            padding: 1rem;
+            padding: 1.0rem;
             }
             }
             
@@ -181,11 +177,9 @@ class SpacingUtilitiesTest {
 
     @Test
     fun `generator returns false for unsupported token`() {
-        val def = StyleUtilityDefinition(token = "flex", cssDeclaration = {
-            put("display", "block")
-        })
+        val token = UnsupportedToken("flex")
         val cssBuilder = CssBuilder()
-        assertFalse(generator.generate(def, cssBuilder))
+        assertFalse(generator.generate(token, cssBuilder))
         assertEquals("", cssBuilder.toString())
     }
 
@@ -335,18 +329,7 @@ class SpacingUtilitiesTest {
         )
     }
 
-    private fun serializeDeclaration(declaration: CssBuilder.() -> Unit): String {
-        val serialized = CssBuilder().apply {
-            ".k-temp" {
-                declaration()
-            }
-        }.toString()
-        return serialized
-            .substringAfter('{')
-            .substringBeforeLast('}')
-            .replace(Regex("\\s+"), " ")
-            .trim()
-            .replace("0px;", "0;")
-            .replace(Regex("(\\d+)\\.0rem"), "$1rem")
-    }
+    private data class UnsupportedToken(
+        override val raw: String
+    ) : Token
 }

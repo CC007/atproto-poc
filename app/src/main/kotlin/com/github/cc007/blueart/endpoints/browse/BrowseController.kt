@@ -3,7 +3,10 @@ package com.github.cc007.blueart.endpoints.browse
 import com.github.cc007.blueart.components.overview.postSummary
 import com.github.cc007.blueart.components.topBanner
 import com.github.cc007.blueart.endpoints.auth.AtProtoAuthentication
-import com.github.cc007.blueart.kolostyles.render.*
+import com.github.cc007.blueart.kolostyles.dsl.kolo
+import com.github.cc007.blueart.kolostyles.dsl.koloStylesheetLink
+import com.github.cc007.blueart.kolostyles.dsl.renderKoloHtml
+import com.github.cc007.blueart.kolostyles.dsl.spacing.*
 import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.servlet.http.HttpServletRequest
 import kotlinx.html.*

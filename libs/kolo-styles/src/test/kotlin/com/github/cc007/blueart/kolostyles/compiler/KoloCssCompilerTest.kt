@@ -1,8 +1,5 @@
 package com.github.cc007.blueart.kolostyles.compiler
 
-import com.github.cc007.blueart.kolostyles.generator.StyleGeneratorHook
-import com.github.cc007.blueart.kolostyles.parser.StyleParserHook
-import com.github.cc007.blueart.kolostyles.utility.StyleUtilityDefinition
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -11,14 +8,13 @@ class KoloCssCompilerTest {
     @Test
     fun `compile parses and generates css through hooks`() {
         val parserHook = StyleParserHook { token ->
-            StyleUtilityDefinition(token = token, cssDeclaration = {
-                put("display", "block")
-            })
+            TestToken(token)
         }
-        val generatorHook = StyleGeneratorHook { definition, builder ->
+        val generatorHook = StyleGeneratorHook { token, builder ->
+            val parsedToken = token as? TestToken ?: return@StyleGeneratorHook false
             builder.apply {
-                ".${definition.token.replace(":", "\\:")}" {
-                    definition.cssDeclaration.let { this.it() }
+                ".${parsedToken.raw.replace(":", "\\:")}" {
+                    put("display", "block")
                 }
             }
             true
@@ -134,21 +130,20 @@ class KoloCssCompilerTest {
     fun `compile uses parser and generator hooks when token is supported via hooks`() {
         val parserHook = StyleParserHook { token ->
             if (token == "x-hook") {
-                StyleUtilityDefinition(token = token, cssDeclaration = {
-                    put("display", "block")
-                })
+                TestToken(token)
             } else {
                 null
             }
         }
         
-        val generatorHook = StyleGeneratorHook { definition, builder ->
-            if (definition.token != "x-hook") {
+        val generatorHook = StyleGeneratorHook { token, builder ->
+            val parsedToken = token as? TestToken ?: return@StyleGeneratorHook false
+            if (parsedToken.raw != "x-hook") {
                 return@StyleGeneratorHook false
             }
             builder.apply {
                 ".x-hook" {
-                    definition.cssDeclaration.let { this.it() }
+                    put("display", "block")
                 }
             }
             true
@@ -210,4 +205,8 @@ class KoloCssCompilerTest {
             result
         )
     }
+
+    private data class TestToken(
+        override val raw: String
+    ) : Token
 }

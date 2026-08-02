@@ -1,4 +1,7 @@
-package com.github.cc007.blueart.kolostyles.render
+package com.github.cc007.blueart.kolostyles.dsl.spacing
+
+import com.github.cc007.blueart.kolostyles.dsl.KoloScope
+import com.github.cc007.blueart.kolostyles.dsl.KoloVariantScope
 
 private fun KoloScope.recordSpacing(prefix: String, value: Int) {
     require(value >= 0) { "Spacing utilities require non-negative values" }

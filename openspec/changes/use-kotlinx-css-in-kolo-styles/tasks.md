@@ -16,7 +16,7 @@
 
 ## 3. Spacing Utility Migration to CssBuilder DSL
 
-- [x] 3.1 Refactor spacing declaration construction in `SpacingUtilities.kt` from string templates to a private `CssBuilder.() -> Unit` typed declaration builder.
+- [x] 3.1 Refactor spacing declaration construction in `SpacingHooks.kt` from string templates to a private `CssBuilder.() -> Unit` typed declaration builder.
 - [x] 3.2 Update spacing rule emission to write selector blocks directly into the shared `CssBuilder`.
 - [x] 3.3 Update media-query-wrapped spacing generation to use `CssBuilder.media(...)` while preserving current selector/media output shape.
 

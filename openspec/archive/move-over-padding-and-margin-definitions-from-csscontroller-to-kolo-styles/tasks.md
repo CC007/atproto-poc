@@ -86,11 +86,11 @@ values that are not clean steps but fall within the ≤0.10 rem tolerance.
 `.art-layout { margin: 0 auto }` cannot be expressed with a numeric step token;
 `auto` is a semantic layout value, not a spacing scale step.
 
-- [x] 4.1 **Add `mx-auto` parser entry in `SpacingUtilities.kt`** — extend
+- [x] 4.1 **Add `mx-auto` parser entry in `SpacingHooks.kt`** — extend
   `SpacingParserHook.parse()` to recognise the literal token `"mx-auto"` and
   return `StyleUtilityDefinition(token = "mx-auto", cssDeclaration = "margin-left: auto; margin-right: auto;")`.
 
-- [x] 4.2 **Add `mx-auto` DSL helper in `KoloSpacingDsl.kt`** — add
+- [x] 4.2 **Add `mx-auto` DSL helper in `SpacingDsl.kt`** — add
   `fun KoloScope.mxAuto() = recordBase("mx-auto")` so render code can call
   `kolo { mxAuto() }`.
 

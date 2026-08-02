@@ -1,7 +1,5 @@
 package com.github.cc007.blueart.kolostyles.compiler
 
-import com.github.cc007.blueart.kolostyles.generator.StyleGeneratorHook
-import com.github.cc007.blueart.kolostyles.parser.StyleParserHook
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.css.CssBuilder
 import org.springframework.stereotype.Service
@@ -27,7 +25,7 @@ class KoloCssCompiler(
     }
 
     fun compile(rawKolo: String?): String {
-        val tokens = parseTokens(rawKolo)
+        val tokens = splitTokens(rawKolo)
         val builder = CssBuilder()
         tokens.forEachIndexed { index, token ->
             if (isMalformedToken(token)) {
@@ -40,15 +38,11 @@ class KoloCssCompiler(
     }
 
     private fun generateViaHooks(token: String, builder: CssBuilder): Boolean {
-        if (parserHooks.isEmpty() || generatorHooks.isEmpty()) {
-            return false
-        }
-
         val parsed = parserHooks.firstNotNullOfOrNull { hook -> hook.parse(token) } ?: return false
         return generatorHooks.any { hook -> hook.generate(parsed, builder) }
     }
 
-    private fun parseTokens(rawKolo: String?): List<String> {
+    private fun splitTokens(rawKolo: String?): List<String> {
         return rawKolo
             .orEmpty()
             .split(';')

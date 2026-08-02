@@ -1,8 +1,8 @@
 package com.github.cc007.blueart.kolostyles.web
 
 import com.github.cc007.blueart.kolostyles.compiler.KoloCssCompiler
-import com.github.cc007.blueart.kolostyles.utility.SpacingGeneratorHook
-import com.github.cc007.blueart.kolostyles.utility.SpacingParserHook
+import com.github.cc007.blueart.kolostyles.compiler.spacing.SpacingGeneratorHook
+import com.github.cc007.blueart.kolostyles.compiler.spacing.SpacingParserHook
 import org.springframework.http.HttpStatus
 import kotlin.test.Test
 import kotlin.test.assertEquals

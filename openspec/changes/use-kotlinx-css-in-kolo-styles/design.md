@@ -75,4 +75,4 @@ With a shared `CssBuilder`, each generator hook receives the builder and writes 
 7. Run `./gradlew :libs:kolo-styles:test` and fix any output-format mismatches (e.g. `0px` vs `0`).
 8. Run `./gradlew :app:test` and visual tests to confirm no regression.
 
-**Rollback:** Revert the `kolo-styles/build.gradle.kts` dependency addition and the `SpacingUtilities.kt` changes. No database, API contract, or CSS output changes are expected, so rollback is a pure code revert.
+**Rollback:** Revert the `kolo-styles/build.gradle.kts` dependency addition and the `SpacingHooks.kt` changes. No database, API contract, or CSS output changes are expected, so rollback is a pure code revert.
