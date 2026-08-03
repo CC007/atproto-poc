@@ -10,7 +10,7 @@ Define endpoint-side Kolo CSS generation, including parser/generator flow and di
 ## Requirements
 
 ### Requirement: Kolo CSS endpoint handles tokenized requests deterministically
-The system SHALL generate CSS from `/css/generated/kolo.css` requests using the parser/generator hook pipeline. Parser hooks SHALL parse raw token strings into typed compiler tokens, generator hooks SHALL emit rules into a shared `kotlinx.css.CssBuilder` instance owned by the compiler instead of returning raw CSS strings, and the compiler SHALL return final CSS by serializing that shared builder.
+The system SHALL generate CSS from `/css/generated/kolo.css` requests using the parser/generator hook pipeline. Parser hooks SHALL parse raw token strings into typed compiler tokens, generator hooks SHALL emit rules into a shared `kotlinx.css.CssBuilder` instance owned by the compiler instead of returning raw CSS strings, and the compiler SHALL return final CSS by serializing that shared builder. The endpoint MUST generate rules for supported spacing and display utility tokens through the same deterministic pipeline.
 
 #### Scenario: Valid Kolo tokens are provided
 - **WHEN** a request includes supported Kolo tokens
@@ -24,7 +24,9 @@ The system SHALL generate CSS from `/css/generated/kolo.css` requests using the 
 - **WHEN** a parser hook supports a token string
 - **THEN** it returns a typed compiler token consumed by generator hooks
 
-### Requirement: Unsupported and malformed tokens are surfaced diagnostically
+#### Scenario: Display utility token is included in request
+- **WHEN** a request includes a supported display utility token
+- **THEN** the endpoint emits the corresponding display CSS rule through the same parser/generator pipeline used by other utilities### Requirement: Unsupported and malformed tokens are surfaced diagnostically
 The system MUST preserve permissive behavior by returning CSS with explicit diagnostics for unparsed or unsupported tokens. When parsing fails or no generator hook handles a parsed token, the compiler MUST append deterministic diagnostics to the shared `CssBuilder` as `:root` CSS custom properties with the forms `--kolo-unparsed-<index>` and `--kolo-unsupported-<index>`.
 
 #### Scenario: Request includes malformed token
