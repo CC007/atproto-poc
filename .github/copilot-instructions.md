@@ -21,6 +21,7 @@ Use this repository guidance hierarchy:
 - Keep changes minimal and directly scoped to the task.
 - Do not revert unrelated local edits.
 - Preserve current behavior unless explicitly asked to change it.
+- Prefer built-in tool calls (`glob`, `rg`, `view`, `apply_patch`, etc.) over shell commands when either approach works, because built-in calls are easier for developers to review and approve.
 - For substantial changes, propose or add tests and update relevant pages in `docs/`.
 - For OpenSpec design docs: if there are no open questions, remove the `## Open Questions` section instead of leaving placeholder or "none" content.
 

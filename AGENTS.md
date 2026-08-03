@@ -29,6 +29,7 @@ Requirement discovery MUST come from `openspec/specs/*` and `openspec/archive/*`
 - Prefer focused edits with minimal diff size.
 - Do not revert unrelated local changes.
 - Preserve existing behavior unless the task explicitly requires a change.
+- Prefer built-in tool calls (`glob`, `rg`, `view`, `apply_patch`, etc.) over shell commands when they can do the same work, because they are easier for developers to review and approve.
 - For non-trivial code changes, add or update tests where practical.
 - The AI does not push code; only the user pushes to remote repositories.
 - The AI only creates commits or amends commits when the user explicitly asks.
