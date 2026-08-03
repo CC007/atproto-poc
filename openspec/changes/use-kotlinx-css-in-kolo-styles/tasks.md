@@ -31,3 +31,10 @@
 - [x] 5.1 Run `./gradlew :libs:kolo-styles:test` and resolve failures from formatting/signature changes.
 - [x] 5.2 Run `./gradlew :app:test` to confirm integration compatibility with shared classpath usage.
 - [x] 5.3 Run existing visual/regression checks used by the project for stylesheet output to confirm no browser-visible CSS behavior change.
+
+## 6. Additional Refactors Captured After The Fact
+
+- [x] 6.1 **(Added after implementation)** Replace the old `StyleUtilityDefinition`-centric compiler contracts with a typed `Token` interface plus compiler-local `StyleParserHook`/`StyleGeneratorHook` contracts.
+- [x] 6.2 **(Added after implementation)** Move spacing parser/generator implementations under `compiler/spacing` with typed `SpacingToken` parsing and generation flow.
+- [x] 6.3 **(Added after implementation)** Reorganize Kolo runtime/DSL package layout from `kolostyles.render` to `kolostyles.dsl` (including spacing DSL under `dsl.spacing`) and update app call sites/imports.
+- [x] 6.4 **(Added after implementation)** Standardize permissive diagnostic output as deterministic `:root` custom properties (`--kolo-unparsed-*`, `--kolo-unsupported-*`) instead of comment literals.
