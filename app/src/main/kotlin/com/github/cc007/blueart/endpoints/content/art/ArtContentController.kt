@@ -3,6 +3,9 @@ package com.github.cc007.blueart.endpoints.content.art
 import com.github.cc007.blueart.components.richtext.renderRichText
 import com.github.cc007.blueart.components.topBanner
 import com.github.cc007.blueart.endpoints.auth.AtProtoAuthentication
+import com.github.cc007.blueart.kolostyles.dsl.display.block
+import com.github.cc007.blueart.kolostyles.dsl.display.flex
+import com.github.cc007.blueart.kolostyles.dsl.display.grid
 import com.github.cc007.blueart.kolostyles.dsl.kolo
 import com.github.cc007.blueart.kolostyles.dsl.koloStylesheetLink
 import com.github.cc007.blueart.kolostyles.dsl.renderKoloHtml
@@ -88,7 +91,9 @@ class ArtContentController {
                     main(classes = "art-layout") {
                         kolo { p(4); mxAuto }
                         section(classes = "art-content") {
+                            kolo { grid }
                             div(classes = "content-top") {
+                                kolo { grid }
                                 h1(classes = "art-title") {
                                     kolo { m(0) }
                                     +pageTitle
@@ -138,7 +143,7 @@ class ArtContentController {
                                 }
 
                                 section(classes = "comments") {
-                                    kolo { p(4) }
+                                    kolo { grid; p(4) }
                                     h2 {
                                         kolo { mt(0); mx(0); mb(2) }
                                         +"Comments"
@@ -153,8 +158,9 @@ class ArtContentController {
                                             val depthClass = comment.depth.coerceAtMost(4)
                                             val marginLeftStep = commentDepthMarginSteps[depthClass] ?: 0
                                             article(classes = "comment depth-$depthClass") {
-                                                kolo { p(2); ml(marginLeftStep) }
+                                                kolo { grid; p(2); ml(marginLeftStep) }
                                                 div(classes = "comment-header") {
+                                                    kolo { flex }
                                                     comment.avatar?.let { avatar ->
                                                         img(src = avatar, classes = "comment-avatar") {
                                                             alt = ""
@@ -163,6 +169,7 @@ class ArtContentController {
                                                         }
                                                     }
                                                     div(classes = "comment-meta") {
+                                                        kolo { grid }
                                                         strong(classes = "comment-author") { +comment.displayName }
                                                         span(classes = "comment-handle") { +"@${comment.handle}" }
                                                     }
@@ -196,8 +203,16 @@ private fun FlowContent.renderMainEmbed(embed: EmbedViewUnion?) {
                 return
             }
             div(classes = if (images.size > 1) "art-image-grid" else "art-image-single") {
+                kolo {
+                    if (images.size > 1) {
+                        grid
+                    } else {
+                        block
+                    }
+                }
                 images.forEach { image ->
                     img(src = image.fullsize ?: image.thumb ?: "", classes = "art-image") {
+                        kolo { block }
                         alt = image.alt ?: "Artwork image"
                     }
                 }
@@ -207,6 +222,7 @@ private fun FlowContent.renderMainEmbed(embed: EmbedViewUnion?) {
         is EmbedVideoView -> {
             embed.thumbnail?.let { thumb ->
                 img(src = thumb, classes = "art-image") {
+                    kolo { block }
                     alt = embed.alt ?: "Artwork video"
                 }
             } ?: p(classes = "art-empty") {
@@ -219,6 +235,7 @@ private fun FlowContent.renderMainEmbed(embed: EmbedViewUnion?) {
             val external = embed.external
             if (external?.thumb != null) {
                 img(src = external.thumb!!, classes = "art-image") {
+                    kolo { block }
                     alt = external.title.ifBlank { "Artwork link" }
                 }
             }

@@ -1,6 +1,10 @@
 package com.github.cc007.blueart.components.overview
 
 import com.github.cc007.blueart.components.richtext.renderRichText
+import com.github.cc007.blueart.kolostyles.dsl.display.block
+import com.github.cc007.blueart.kolostyles.dsl.display.flex
+import com.github.cc007.blueart.kolostyles.dsl.display.grid
+import com.github.cc007.blueart.kolostyles.dsl.display.inlineFlex
 import com.github.cc007.blueart.kolostyles.dsl.kolo
 import com.github.cc007.blueart.kolostyles.dsl.spacing.*
 import kotlinx.html.*
@@ -54,14 +58,14 @@ private fun HtmlBlockTag.postSummary(
     parentPost: FeedDefsPostView? = null
 ) {
     article(classes = "post-card post-card-media") {
-        kolo { p(1) }
+        kolo { flex; p(1) }
         author?.let { authorBanner(it) }
         div(classes = "post-content") {
             embeds.forEach { embed(it, needsBlur) }
             record(author, record)
         }
         div(classes = "post-stats") {
-            kolo { mt(3); pt(2) }
+            kolo { flex; mt(3); pt(2) }
             statItem("Likes", LIKE_ICON, likeCount, "post-stat-icon-like")
             statItem("Quotes", QUOTE_ICON, quoteCount, "post-stat-icon-quote")
             statItem("Reposts", REPOST_ICON, repostCount, "post-stat-icon-repost")
@@ -109,10 +113,12 @@ private fun FlowContent.postLink(
 
 private fun FlowContent.statItem(label: String, iconSvg: String, count: Int?, iconClass: String) {
     span(classes = "post-stat-item") {
+        kolo { inlineFlex }
         val statLabel = "$label: ${count ?: 0}"
         attributes["aria-label"] = statLabel
         attributes["title"] = statLabel
         span(classes = "post-stat-icon $iconClass") {
+            kolo { inlineFlex }
             unsafe {
                 +iconSvg
             }
@@ -125,7 +131,7 @@ private fun FlowContent.statItem(label: String, iconSvg: String, count: Int?, ic
 
 private fun HtmlBlockTag.authorBanner(author: ActorDefsProfileViewBasic) {
     div(classes = "post-author") {
-        kolo { py(1); px(2) }
+        kolo { flex; py(1); px(2) }
         author.avatar?.let {
             img(src = it, classes = "author-avatar") {
                 height = "30"
@@ -133,7 +139,13 @@ private fun HtmlBlockTag.authorBanner(author: ActorDefsProfileViewBasic) {
             }
         }
         div(classes = "author-meta") {
-            author.displayName?.let { strong(classes = "author-name") { +it } }
+            kolo { grid }
+            author.displayName?.let {
+                strong(classes = "author-name") {
+                    kolo { block }
+                    +it
+                }
+            }
             span(classes = "author-handle") { +"@${author.handle}" }
         }
     }
@@ -286,11 +298,12 @@ private fun HtmlBlockTag.renderImageGallery(imageThumbs: List<String>, blur: Boo
     }
 
     div(classes = "embed-media-grid") {
-        kolo { mt(2) }
+        kolo { grid; mt(2) }
         div(classes = "embed-media-grid-main") {
             embedThumbnail(imageThumbs.first(), blur, "embed-media-grid-primary")
         }
         div(classes = "embed-media-grid-side") {
+            kolo { grid }
             imageThumbs.drop(1).take(3).forEach { thumb ->
                 embedThumbnail(thumb, blur, "embed-media-grid-secondary")
             }
@@ -305,13 +318,17 @@ private fun HtmlBlockTag.embedThumbnail(src: String, blur: Boolean, mediaClass: 
 
     if (blur) {
         div(classes = "embed-blur-clip") {
-            kolo { m(0) }
-            img(src = src, classes = "$classes embed-media-blur")
+            kolo { block; m(0) }
+            img(src = src, classes = "$classes embed-media-blur") {
+                kolo { block }
+            }
         }
     } else {
         div {
             kolo { m(0) }
-            img(src = src, classes = classes)
+            img(src = src, classes = classes) {
+                kolo { block }
+            }
         }
     }
 }
