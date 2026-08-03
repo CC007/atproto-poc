@@ -71,3 +71,14 @@ Track technical decisions and rationale in one place. Use this file for concise 
   - Run snapshots in headless Chromium and Firefox with normalized rendering settings.
   - Keep visual execution as a separate Gradle lane (`visualTest`) with explicit developer-gated baseline updates (`updateVisualBaselines`).
 - Consequences: Visual regressions now emit expected/actual/diff artifacts for route-level review, and baseline updates require explicit developer acknowledgement.
+
+### D-010: Add allow-listed Kolo display utilities and migrate browse/art display ownership
+- Status: accepted
+- Context: Display declarations for browse/art were still split between page CSS and Kolo tokenized utility rendering, unlike spacing ownership that already migrated into Kolo.
+- Decision:
+  - Add a dedicated display utility family in `:libs:kolo-styles` via `DisplayToken`, `DisplayParserHook`, and `DisplayGeneratorHook`.
+  - Freeze the explicit Tailwind-compatible display allow-list (`block`, `inline`, `inline-block`, `flow-root`, `flex`, `inline-flex`, `grid`, `inline-grid`, `contents`, `list-item`, `hidden`, `table`, `inline-table`, `table-caption`, `table-cell`, `table-column`, `table-column-group`, `table-header-group`, `table-row-group`, `table-row`, `table-footer-group`).
+  - Add typed Kotlin display DSL helpers under `kolostyles.dsl.display` on both `KoloScope` and `KoloVariantScope`, including one-to-one camelCase mappings for hyphenated tokens (for example `inlineBlock -> inline-block`, `flowRoot -> flow-root`, `tableRowGroup -> table-row-group`).
+  - Reuse existing state/media variant semantics (`hover`, `focus`, `focus-visible`, `active`, `visited`, `sm`/`md`/`lg`/`xl`/`2xl`) across spacing and display parser/generator families.
+  - Migrate browse/art render paths to display DSL usage and remove duplicate `display` declarations from generated page CSS for migrated selectors.
+- Consequences: Display layout intent is now co-located with server-rendered markup through typed Kolo APIs, `/css/generated/kolo.css` supports both spacing and display utilities through the same deterministic hook pipeline, and browse/art page CSS remains focused on non-migrated declarations.

@@ -1,5 +1,6 @@
 package com.github.cc007.blueart.kolostyles.dsl
 
+import com.github.cc007.blueart.kolostyles.dsl.display.*
 import com.github.cc007.blueart.kolostyles.dsl.spacing.*
 import kotlinx.html.body
 import kotlinx.html.div
@@ -8,6 +9,7 @@ import kotlinx.html.html
 import kotlinx.html.stream.createHTML
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class KoloHtmlRuntimeTest {
 
@@ -222,5 +224,95 @@ class KoloHtmlRuntimeTest {
             </html>
         """.trimIndent() + "\n"
         assertEquals(expected, html)
+    }
+
+    @Test
+    fun `renderKoloHtml emits canonicalized href and class names for display dsl tokens`() {
+        val html = renderKoloHtml(version = "abc123") {
+            head {
+                koloStylesheetLink()
+            }
+            body {
+                div {
+                    kolo {
+                        flex
+                        inlineGrid
+                        variant("hover").inlineFlex
+                        variant("md").grid
+                    }
+                }
+            }
+        }
+
+        val expected = """
+            <html>
+              <head>
+                <link href="/css/generated/kolo.css?version=abc123&kolo=flex%3Bmd%3Agrid%3Binline-grid%3Bhover%3Ainline-flex" rel="stylesheet">
+              </head>
+              <body>
+                <div class="k-flex k-inline-grid k-hover:inline-flex k-md:grid"></div>
+              </body>
+            </html>
+        """.trimIndent() + "\n"
+        assertEquals(expected, html)
+    }
+
+    @Test
+    fun `display dsl helper mapping emits exact tailwind token strings`() {
+        val html = renderKoloHtml(version = "abc123") {
+            head { koloStylesheetLink() }
+            body {
+                div {
+                    kolo {
+                        block
+                        `inline`
+                        inlineBlock
+                        flowRoot
+                        flex
+                        inlineFlex
+                        grid
+                        inlineGrid
+                        contents
+                        listItem
+                        hidden
+                        table
+                        inlineTable
+                        tableCaption
+                        tableCell
+                        tableColumn
+                        tableColumnGroup
+                        tableHeaderGroup
+                        tableRowGroup
+                        tableRow
+                        tableFooterGroup
+                        variant("md").block
+                        variant("md").`inline`
+                        variant("md").inlineBlock
+                        variant("md").flowRoot
+                        variant("md").flex
+                        variant("md").inlineFlex
+                        variant("md").grid
+                        variant("md").inlineGrid
+                        variant("md").contents
+                        variant("md").listItem
+                        variant("md").hidden
+                        variant("md").table
+                        variant("md").inlineTable
+                        variant("md").tableCaption
+                        variant("md").tableCell
+                        variant("md").tableColumn
+                        variant("md").tableColumnGroup
+                        variant("md").tableHeaderGroup
+                        variant("md").tableRowGroup
+                        variant("md").tableRow
+                        variant("md").tableFooterGroup
+                    }
+                }
+            }
+        }
+
+        val expectedTokens = "block;md:block;contents;md:contents;flex;md:flex;flow-root;md:flow-root;grid;md:grid;hidden;md:hidden;inline;inline-block;inline-flex;inline-grid;inline-table;md:inline;md:inline-block;md:inline-flex;md:inline-grid;md:inline-table;list-item;md:list-item;table;table-caption;table-cell;table-column;table-column-group;table-footer-group;table-header-group;table-row;table-row-group;md:table;md:table-caption;md:table-cell;md:table-column;md:table-column-group;md:table-footer-group;md:table-header-group;md:table-row;md:table-row-group"
+        val expectedHref = "/css/generated/kolo.css?version=abc123&kolo=${java.net.URLEncoder.encode(expectedTokens, java.nio.charset.StandardCharsets.UTF_8)}"
+        assertTrue(html.contains("""<link href="$expectedHref" rel="stylesheet">"""))
     }
 }

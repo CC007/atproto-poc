@@ -1,6 +1,8 @@
 package com.github.cc007.blueart.kolostyles.web
 
 import com.github.cc007.blueart.kolostyles.compiler.KoloCssCompiler
+import com.github.cc007.blueart.kolostyles.compiler.display.DisplayGeneratorHook
+import com.github.cc007.blueart.kolostyles.compiler.display.DisplayParserHook
 import com.github.cc007.blueart.kolostyles.compiler.spacing.SpacingGeneratorHook
 import com.github.cc007.blueart.kolostyles.compiler.spacing.SpacingParserHook
 import org.springframework.http.HttpStatus
@@ -12,11 +14,18 @@ class KoloCssControllerTest {
     // controller with no hooks — tokens appear as unsupported comments (isolated test behaviour)
     private val emptyController = KoloCssController(KoloCssCompiler())
 
-    // controller with spacing hooks wired (mirrors Spring bean list wiring)
-    private val defaultController = KoloCssController(
+    // controller with spacing hooks only (isolated spacing behavior)
+    private val spacingController = KoloCssController(
         KoloCssCompiler(
             parserHooks = listOf(SpacingParserHook()),
             generatorHooks = listOf(SpacingGeneratorHook()),
+        )
+    )
+    // controller with spacing + display hooks wired (mirrors Spring bean list wiring)
+    private val defaultController = KoloCssController(
+        KoloCssCompiler(
+            parserHooks = listOf(SpacingParserHook(), DisplayParserHook()),
+            generatorHooks = listOf(SpacingGeneratorHook(), DisplayGeneratorHook()),
         )
     )
 
@@ -81,7 +90,7 @@ class KoloCssControllerTest {
 
     @Test
     fun `kolo stylesheet with spacing hooks generates real CSS for spacing tokens`() {
-        val response = defaultController.koloStylesheet(
+        val response = spacingController.koloStylesheet(
             version = "abc123",
             kolo = "m-0;p-4"
         )
@@ -103,7 +112,7 @@ class KoloCssControllerTest {
 
     @Test
     fun `kolo stylesheet with spacing hooks marks non-spacing tokens as unsupported`() {
-        val response = defaultController.koloStylesheet(
+        val response = spacingController.koloStylesheet(
             version = "abc123",
             kolo = "flex"
         )
@@ -113,6 +122,33 @@ class KoloCssControllerTest {
             """
             :root {
             --kolo-unsupported-0: "flex";
+            }
+            
+            """.trimIndent(),
+            response.body
+        )
+    }
+
+    @Test
+    fun `kolo stylesheet with spacing and display hooks compiles mixed utility tokens`() {
+        val response = defaultController.koloStylesheet(
+            version = "abc123",
+            kolo = "md:grid;mt-2;hover:inline-flex"
+        )
+
+        assertEquals(HttpStatus.OK, response.statusCode)
+        assertEquals(
+            """
+            @media (min-width: 48rem) {
+            .k-md\:grid {
+            display: grid;
+            }
+            }
+            .k-mt-2 {
+            margin-top: 0.5rem;
+            }
+            .k-hover\:inline-flex:hover {
+            display: inline-flex;
             }
             
             """.trimIndent(),

@@ -3,6 +3,8 @@ package com.github.cc007.blueart.endpoints.browse
 import com.github.cc007.blueart.components.overview.postSummary
 import com.github.cc007.blueart.components.topBanner
 import com.github.cc007.blueart.endpoints.auth.AtProtoAuthentication
+import com.github.cc007.blueart.kolostyles.dsl.display.flex
+import com.github.cc007.blueart.kolostyles.dsl.display.grid
 import com.github.cc007.blueart.kolostyles.dsl.kolo
 import com.github.cc007.blueart.kolostyles.dsl.koloStylesheetLink
 import com.github.cc007.blueart.kolostyles.dsl.renderKoloHtml
@@ -51,19 +53,20 @@ class BrowseController {
                 koloStylesheetLink()
             }
             body(classes = "browse-body") {
-                kolo { m(0) }
+                kolo { flex; m(0) }
                 topBanner(csrfToken)
                 main(classes = "browse-layout") {
-                    kolo { p(4) }
+                    kolo { grid; p(4) }
                     sidebar()
                     section(classes = "browse-content") {
                         div(classes = "content-top") {
-                            kolo { mb(4) }
+                            kolo { flex; mb(4) }
                             h1 {
                                 kolo { m(0) }
                                 +"Browse Timeline"
                             }
                             div(classes = "filter-row") {
+                                kolo { flex }
                                 filterChip(active = true) { +"Hot" }
                                 filterChip { +"New" }
                                 filterChip { +"Artists" }
@@ -71,6 +74,7 @@ class BrowseController {
                             }
                         }
                         section(classes = "feed-grid") {
+                            kolo { grid }
                             getTimelineFeed()
                                 .filter { it.reply == null }
                                 .forEach {
@@ -116,6 +120,7 @@ private fun MAIN.sidebar() {
     aside(classes = "browse-sidebar") {
         kolo { p(4) }
         nav(classes = "sidebar-nav") {
+            kolo { grid }
             navLink { +"Discover" }
             navLink { +"Following" }
             navLink { +"Traditional" }

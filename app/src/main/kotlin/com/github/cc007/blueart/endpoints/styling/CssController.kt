@@ -41,7 +41,6 @@ class CssController {
         "body.browse-body" {
             height = 100.vh
             overflow = Overflow.hidden
-            display = Display.flex
             flexDirection = FlexDirection.column
             background = "radial-gradient(circle at top, #d8effe 0%, ${cssVar("bg")} 48%)"
             color = cssColorVar("text")
@@ -57,7 +56,6 @@ class CssController {
             position = Position.sticky
             top = 0.px
             zIndex = 10
-            display = Display.flex
             justifyContent = JustifyContent.spaceBetween
             alignItems = Align.center
             raw("border-bottom", "1px solid #1a6eb5")
@@ -79,7 +77,6 @@ class CssController {
             cursor = Cursor.pointer
         }
         ".browse-layout" {
-            display = Display.grid
             raw("grid-template-columns", "245px minmax(0, 1fr)")
             gap = 1.rem
             width = 100.pct
@@ -101,7 +98,6 @@ class CssController {
             letterSpacing = 0.08.em
         }
         ".sidebar-nav" {
-            display = Display.grid
             gap = 0.35.rem
         }
         ".sidebar-nav a" {
@@ -119,7 +115,6 @@ class CssController {
             minHeight = 0.px
         }
         ".content-top" {
-            display = Display.flex
             justifyContent = JustifyContent.spaceBetween
             gap = 1.rem
             alignItems = Align.center
@@ -128,7 +123,6 @@ class CssController {
             fontSize = 1.35.rem
         }
         ".filter-row" {
-            display = Display.flex
             gap = 0.4.rem
             flexWrap = FlexWrap.wrap
         }
@@ -146,7 +140,6 @@ class CssController {
             background = "rgba(17, 133, 254, 0.16)"
         }
         ".feed-grid" {
-            display = Display.grid
             raw("grid-template-columns", "repeat(auto-fill, minmax(300px, 1fr))")
             gap = 0.8.rem
             raw("align-items", "stretch")
@@ -158,11 +151,9 @@ class CssController {
             raw("box-shadow", "0 8px 20px rgba(32, 58, 83, 0.12)")
             raw("height", cssVar("card-height"))
             overflow = Overflow.hidden
-            display = Display.flex
             flexDirection = FlexDirection.column
         }
         ".post-author" {
-            display = Display.flex
             alignItems = Align.center
             gap = 0.55.rem
             background = cssVar("author-surface")
@@ -174,11 +165,9 @@ class CssController {
             raw("border", "1px solid #89a9c4")
         }
         ".author-meta" {
-            display = Display.grid
             gap = 0.1.rem
         }
         ".author-name" {
-            display = Display.block
             fontSize = 0.93.rem
         }
         ".author-handle" {
@@ -223,14 +212,12 @@ class CssController {
             width = 100.pct
             height = 100.pct
             raw("border", "1px solid #a6bfd2")
-            display = Display.block
             objectFit = ObjectFit.cover
         }
         ".post-card-media .embed-media-single, .post-card-media .embed-blur-clip" {
             height = 170.px
         }
         ".embed-media-grid" {
-            display = Display.grid
             raw("grid-template-columns", "2fr 1fr")
             gap = 0.35.rem
             height = 180.px
@@ -240,7 +227,6 @@ class CssController {
             minHeight = 0.px
         }
         ".embed-media-grid-side" {
-            display = Display.grid
             gap = 0.35.rem
             raw("grid-template-rows", "repeat(3, minmax(0, 1fr))")
         }
@@ -248,7 +234,6 @@ class CssController {
             height = 100.pct
         }
         ".embed-blur-clip" {
-            display = Display.block
             borderRadius = 8.px
             overflow = Overflow.hidden
             width = 100.pct
@@ -266,7 +251,6 @@ class CssController {
             overflow = Overflow.visible
         }
         ".post-stats" {
-            display = Display.flex
             alignItems = Align.center
             gap = 0.85.rem
             flexWrap = FlexWrap.wrap
@@ -284,13 +268,11 @@ class CssController {
             raw("text-underline-offset", "2px")
         }
         ".post-stat-item" {
-            display = Display.inlineFlex
             alignItems = Align.center
             gap = 0.28.rem
             raw("line-height", "1")
         }
         ".post-stat-icon" {
-            display = Display.inlineFlex
             width = 1.2.rem
             height = 0.9.rem
         }
@@ -368,11 +350,9 @@ class CssController {
             maxWidth = 1080.px
         }
         ".art-content" {
-            display = Display.grid
             gap = 1.rem
         }
         ".content-top" {
-            display = Display.grid
             gap = 0.2.rem
         }
         ".art-title" {
@@ -394,15 +374,12 @@ class CssController {
             raw("border", "1px solid #b9d3e7")
         }
         ".art-image-grid" {
-            display = Display.grid
             raw("grid-template-columns", "repeat(auto-fit, minmax(250px, 1fr))")
             gap = 0.5.rem
         }
         ".art-image-single" {
-            display = Display.block
         }
         ".art-image" {
-            display = Display.block
             width = 100.pct
             maxHeight = 72.vh
             objectFit = ObjectFit.contain
@@ -438,18 +415,15 @@ class CssController {
             opacity = 0.85
         }
         ".comments" {
-            display = Display.grid
             gap = 0.7.rem
         }
         ".comment" {
             raw("border", "1px solid #bcd4e5")
             borderRadius = 10.px
             background = "#e8f3fc"
-            display = Display.grid
             gap = 0.45.rem
         }
         ".comment-header" {
-            display = Display.flex
             alignItems = Align.center
             gap = 0.45.rem
         }
@@ -458,7 +432,6 @@ class CssController {
             raw("border", "1px solid #89a9c4")
         }
         ".comment-meta" {
-            display = Display.grid
             raw("line-height", "1.15")
         }
         ".comment-author" {
@@ -493,4 +466,3 @@ class CssController {
 
     private fun cssColorVar(name: String): Color = Color(cssVar(name))
 }
-

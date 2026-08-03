@@ -1,5 +1,6 @@
 package com.github.cc007.blueart.components
 
+import com.github.cc007.blueart.kolostyles.dsl.display.flex
 import com.github.cc007.blueart.kolostyles.dsl.kolo
 import com.github.cc007.blueart.kolostyles.dsl.spacing.m
 import com.github.cc007.blueart.kolostyles.dsl.spacing.px
@@ -8,7 +9,7 @@ import kotlinx.html.*
 
 fun BODY.topBanner(csrfToken: String?) {
     header(classes = "top-banner") {
-        kolo { px(3); py(5) }
+        kolo { flex; px(3); py(5) }
         div(classes = "brand") {
             h1 {
                 kolo { m(0) }
