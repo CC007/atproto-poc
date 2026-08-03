@@ -9,11 +9,15 @@ The display layouts from https://tailwindcss.com/docs/display are also available
 ## Capabilities
 
 ### New Capabilities
-<!-- Capabilities being introduced. Use kebab-case identifiers (e.g., user-auth, data-export). Each creates specs/<name>/spec.md -->
+None.
 
 ### Modified Capabilities
-<!-- Existing capabilities whose REQUIREMENTS are changing. Use existing spec names from openspec/specs/. -->
+- kolo-utility-architecture
+- kolo-html-runtime-integration
+- kolo-css-generation
+- generated-page-stylesheets
 
 ## Impact
 
-<!-- Affected code, APIs, dependencies, systems -->
+- Affected modules: `:libs:kolo-styles`, `:app`
+- Affected contracts: parser/generator hook coverage, render-time DSL utility surface, `/css/generated/kolo.css` token handling, generated browse/art stylesheet ownership boundaries for migrated display declarations
