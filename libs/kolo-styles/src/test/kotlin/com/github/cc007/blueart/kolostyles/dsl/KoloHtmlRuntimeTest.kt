@@ -1,5 +1,6 @@
-package com.github.cc007.blueart.kolostyles.render
+package com.github.cc007.blueart.kolostyles.dsl
 
+import com.github.cc007.blueart.kolostyles.dsl.spacing.*
 import kotlinx.html.body
 import kotlinx.html.div
 import kotlinx.html.head
@@ -179,7 +180,47 @@ class KoloHtmlRuntimeTest {
         """.trimIndent() + "\n"
         assertEquals(expected, html)
     }
+
+    @Test
+    fun `kolo spacing dsl supports auto spacing variants`() {
+        val html = renderKoloHtml(version = "abc123") {
+            head {
+                koloStylesheetLink()
+            }
+            body {
+                div {
+                    kolo {
+                        mAuto
+                        mtAuto
+                        mrAuto
+                        mbAuto
+                        mlAuto
+                        mxAuto
+                        myAuto
+                        pAuto
+                        ptAuto
+                        prAuto
+                        pbAuto
+                        plAuto
+                        pxAuto
+                        pyAuto
+                        variant("md").mtAuto
+                        variant("md").ptAuto
+                    }
+                }
+            }
+        }
+
+        val expected = """
+            <html>
+              <head>
+                <link href="/css/generated/kolo.css?version=abc123&kolo=m-auto%3Bmb-auto%3Bml-auto%3Bmr-auto%3Bmt-auto%3Bmd%3Amt-auto%3Bmx-auto%3Bmy-auto%3Bp-auto%3Bpb-auto%3Bpl-auto%3Bpr-auto%3Bpt-auto%3Bmd%3Apt-auto%3Bpx-auto%3Bpy-auto" rel="stylesheet">
+              </head>
+              <body>
+                <div class="k-m-auto k-mt-auto k-mr-auto k-mb-auto k-ml-auto k-mx-auto k-my-auto k-p-auto k-pt-auto k-pr-auto k-pb-auto k-pl-auto k-px-auto k-py-auto k-md:mt-auto k-md:pt-auto"></div>
+              </body>
+            </html>
+        """.trimIndent() + "\n"
+        assertEquals(expected, html)
+    }
 }
-
-
-

@@ -1,4 +1,4 @@
-package com.github.cc007.blueart.kolostyles.render
+package com.github.cc007.blueart.kolostyles.dsl
 
 import kotlinx.html.*
 import kotlinx.html.stream.createHTML

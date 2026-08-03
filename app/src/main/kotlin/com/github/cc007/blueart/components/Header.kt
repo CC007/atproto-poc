@@ -1,9 +1,9 @@
 package com.github.cc007.blueart.components
 
-import com.github.cc007.blueart.kolostyles.render.kolo
-import com.github.cc007.blueart.kolostyles.render.m
-import com.github.cc007.blueart.kolostyles.render.px
-import com.github.cc007.blueart.kolostyles.render.py
+import com.github.cc007.blueart.kolostyles.dsl.kolo
+import com.github.cc007.blueart.kolostyles.dsl.spacing.m
+import com.github.cc007.blueart.kolostyles.dsl.spacing.px
+import com.github.cc007.blueart.kolostyles.dsl.spacing.py
 import kotlinx.html.*
 
 fun BODY.topBanner(csrfToken: String?) {

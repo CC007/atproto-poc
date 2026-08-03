@@ -3,7 +3,10 @@ package com.github.cc007.blueart.endpoints.content.art
 import com.github.cc007.blueart.components.richtext.renderRichText
 import com.github.cc007.blueart.components.topBanner
 import com.github.cc007.blueart.endpoints.auth.AtProtoAuthentication
-import com.github.cc007.blueart.kolostyles.render.*
+import com.github.cc007.blueart.kolostyles.dsl.kolo
+import com.github.cc007.blueart.kolostyles.dsl.koloStylesheetLink
+import com.github.cc007.blueart.kolostyles.dsl.renderKoloHtml
+import com.github.cc007.blueart.kolostyles.dsl.spacing.*
 import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.servlet.http.HttpServletRequest
 import kotlinx.html.*
@@ -83,7 +86,7 @@ class ArtContentController {
                     kolo { m(0) }
                     topBanner(csrfToken)
                     main(classes = "art-layout") {
-                        kolo { p(4); mxAuto() }
+                        kolo { p(4); mxAuto }
                         section(classes = "art-content") {
                             div(classes = "content-top") {
                                 h1(classes = "art-title") {
@@ -303,4 +306,3 @@ private fun collectComments(
     }
     reply.replies.orEmpty().forEach { child -> collectComments(child, depth + 1, into) }
 }
-

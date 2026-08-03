@@ -1,13 +1,6 @@
-# Kolo Styles Module Foundation
+# Kolo Styles Module Foundation — Delta
 
-## Provenance
-- `BA-017` (`docs/ai-tasks/2026-05-06-BA-017-setup-kolo-styles-library-module.md`)
-- `docs/ARCHITECTURE.md`
-
-## Purpose
-Define the baseline role and integration contract of the dedicated `:libs:kolo-styles` module.
-
-## Requirements
+## MODIFIED Requirements
 
 ### Requirement: Styling framework contracts live in dedicated library module
 The system SHALL provide `:libs:kolo-styles` as the dedicated module for styling utility contracts and integration points. The module SHALL declare `kotlin-css-jvm` as an explicit `implementation` dependency, using the same version as declared in `:app`, to enable type-safe CSS construction in the styling library.
