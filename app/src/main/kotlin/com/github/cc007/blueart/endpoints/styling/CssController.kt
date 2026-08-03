@@ -339,6 +339,20 @@ class CssController {
             boxSizing = BoxSizing.borderBox
         }
 
+        ".top-banner" {
+            position = Position.sticky
+            top = 0.px
+            zIndex = 10
+            justifyContent = JustifyContent.spaceBetween
+            alignItems = Align.center
+            raw("border-bottom", "1px solid #1a6eb5")
+            background = "linear-gradient(90deg, #0a5fa8 0%, #1478cc 50%, #0e6ec0 100%)"
+            backdropFilter = "blur(10px)"
+        }
+        ".top-banner, .top-banner .brand h1" {
+            color = Color("#f2f8ff")
+        }
+
         "body.art-body" {
             minHeight = 100.vh
             background = "radial-gradient(circle at top, #d8effe 0%, ${cssVar("bg")} 48%)"
