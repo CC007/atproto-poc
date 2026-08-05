@@ -3,6 +3,8 @@ package com.github.cc007.blueart.kolostyles.web
 import com.github.cc007.blueart.kolostyles.compiler.KoloCssCompiler
 import com.github.cc007.blueart.kolostyles.compiler.display.DisplayGeneratorHook
 import com.github.cc007.blueart.kolostyles.compiler.display.DisplayParserHook
+import com.github.cc007.blueart.kolostyles.compiler.font.FontGeneratorHook
+import com.github.cc007.blueart.kolostyles.compiler.font.FontParserHook
 import com.github.cc007.blueart.kolostyles.compiler.spacing.SpacingGeneratorHook
 import com.github.cc007.blueart.kolostyles.compiler.spacing.SpacingParserHook
 import org.springframework.http.HttpStatus
@@ -24,8 +26,8 @@ class KoloCssControllerTest {
     // controller with spacing + display hooks wired (mirrors Spring bean list wiring)
     private val defaultController = KoloCssController(
         KoloCssCompiler(
-            parserHooks = listOf(SpacingParserHook(), DisplayParserHook()),
-            generatorHooks = listOf(SpacingGeneratorHook(), DisplayGeneratorHook()),
+            parserHooks = listOf(SpacingParserHook(), DisplayParserHook(), FontParserHook()),
+            generatorHooks = listOf(SpacingGeneratorHook(), DisplayGeneratorHook(), FontGeneratorHook()),
         )
     )
 
@@ -130,10 +132,10 @@ class KoloCssControllerTest {
     }
 
     @Test
-    fun `kolo stylesheet with spacing and display hooks compiles mixed utility tokens`() {
+    fun `kolo stylesheet with spacing display and font hooks compiles mixed utility tokens`() {
         val response = defaultController.koloStylesheet(
             version = "abc123",
-            kolo = "md:grid;mt-2;hover:inline-flex"
+            kolo = "md:grid;mt-2;font-semibold;hover:inline-flex"
         )
 
         assertEquals(HttpStatus.OK, response.statusCode)
@@ -146,6 +148,9 @@ class KoloCssControllerTest {
             }
             .k-mt-2 {
             margin-top: 0.5rem;
+            }
+            .k-font-semibold {
+            font-weight: 600;
             }
             .k-hover\:inline-flex:hover {
             display: inline-flex;

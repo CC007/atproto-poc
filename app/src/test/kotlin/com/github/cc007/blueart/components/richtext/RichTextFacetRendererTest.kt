@@ -1,5 +1,9 @@
 package com.github.cc007.blueart.components.richtext
 
+import com.github.cc007.blueart.kolostyles.dsl.koloStylesheetLink
+import com.github.cc007.blueart.kolostyles.dsl.renderKoloHtml
+import kotlinx.html.body
+import kotlinx.html.head
 import kotlinx.html.p
 import kotlinx.html.stream.createHTML
 import work.socialhub.kbsky.model.app.bsky.richtext.*
@@ -154,6 +158,32 @@ class RichTextFacetRendererTest {
         assertTrue(html.contains(">more</a>"))
     }
 
+    @Test
+    fun `mention and tag links emit font semibold kolo utility during render`() {
+        val text = "hi @alice #art"
+        val mentionRange = byteRangeOf(text, "@alice")
+        val tagRange = byteRangeOf(text, "#art")
+
+        val html = renderKoloHtml(version = "abc123") {
+            head { koloStylesheetLink() }
+            body {
+                p {
+                    renderRichText(
+                        text,
+                        listOf(
+                            mentionFacet(mentionRange.first, mentionRange.second, "did:plc:alice123"),
+                            tagFacet(tagRange.first, tagRange.second, "art"),
+                        )
+                    )
+                }
+            }
+        }
+
+        assertTrue(html.contains("class=\"richtext-mention k-font-semibold\""))
+        assertTrue(html.contains("class=\"richtext-tag k-font-semibold\""))
+        assertTrue(html.contains("kolo=font-semibold"))
+    }
+
     private fun linkFacet(start: Int, end: Int, uri: String): RichtextFacet {
         return RichtextFacet().apply {
             index = RichtextFacetByteSlice().apply {
@@ -205,5 +235,4 @@ class RichTextFacetRendererTest {
         return startByte to endByte
     }
 }
-
 

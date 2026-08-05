@@ -5,6 +5,7 @@ import com.github.cc007.blueart.components.topBanner
 import com.github.cc007.blueart.endpoints.auth.AtProtoAuthentication
 import com.github.cc007.blueart.kolostyles.dsl.display.flex
 import com.github.cc007.blueart.kolostyles.dsl.display.grid
+import com.github.cc007.blueart.kolostyles.dsl.font.fontSans
 import com.github.cc007.blueart.kolostyles.dsl.kolo
 import com.github.cc007.blueart.kolostyles.dsl.koloStylesheetLink
 import com.github.cc007.blueart.kolostyles.dsl.renderKoloHtml
@@ -53,7 +54,7 @@ class BrowseController {
                 koloStylesheetLink()
             }
             body(classes = "browse-body") {
-                kolo { flex; m(0) }
+                kolo { flex; m(0); fontSans }
                 topBanner(csrfToken)
                 main(classes = "browse-layout") {
                     kolo { grid; p(4) }

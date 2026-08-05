@@ -32,6 +32,7 @@ class CssController {
             varDef("accent", "#0a62a8")
             varDef("hashtag", "#085898")
             varDef("card-height", "360px")
+            defineFontVariables()
         }
 
         universal {
@@ -44,7 +45,6 @@ class CssController {
             flexDirection = FlexDirection.column
             background = "radial-gradient(circle at top, #d8effe 0%, ${cssVar("bg")} 48%)"
             color = cssColorVar("text")
-            fontFamily = "Inter, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif"
         }
 
         a {
@@ -197,12 +197,8 @@ class CssController {
         ".richtext-link, .richtext-mention" {
             color = cssColorVar("accent")
         }
-        ".richtext-mention" {
-            raw("font-weight", "600")
-        }
         ".richtext-tag" {
             color = cssColorVar("hashtag")
-            raw("font-weight", "600")
         }
         ".richtext-link:hover, .richtext-link:focus-visible, .richtext-mention:hover, .richtext-mention:focus-visible, .richtext-tag:hover, .richtext-tag:focus-visible" {
             opacity = 0.85
@@ -333,6 +329,7 @@ class CssController {
             varDef("muted", "#3d6680")
             varDef("accent", "#0a62a8")
             varDef("hashtag", "#085898")
+            defineFontVariables()
         }
 
         universal {
@@ -357,7 +354,6 @@ class CssController {
             minHeight = 100.vh
             background = "radial-gradient(circle at top, #d8effe 0%, ${cssVar("bg")} 48%)"
             color = cssColorVar("text")
-            fontFamily = "Inter, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif"
         }
 
         ".art-layout" {
@@ -368,9 +364,6 @@ class CssController {
         }
         ".content-top" {
             gap = 0.2.rem
-        }
-        ".art-title" {
-            fontSize = 1.5.rem
         }
         ".art-byline" {
             color = cssColorVar("muted")
@@ -403,7 +396,6 @@ class CssController {
         ".art-description" {
         }
         ".art-description h2, .comments h2" {
-            fontSize = 1.rem
             color = cssColorVar("accent")
         }
         ".art-text, .comment-text, .art-empty, .art-external" {
@@ -419,11 +411,9 @@ class CssController {
             color = cssColorVar("accent")
         }
         ".richtext-mention" {
-            raw("font-weight", "600")
         }
         ".richtext-tag" {
             color = cssColorVar("hashtag")
-            raw("font-weight", "600")
         }
         ".richtext-link:hover, .richtext-link:focus-visible, .richtext-mention:hover, .richtext-mention:focus-visible, .richtext-tag:hover, .richtext-tag:focus-visible" {
             opacity = 0.85
@@ -470,6 +460,13 @@ class CssController {
 
     private fun CssBuilder.varDef(name: String, value: String) {
         put("--$name", value)
+    }
+
+    private fun CssBuilder.defineFontVariables() {
+        /* Todo: set default values to TailwindCSS defaults, but set font-serif to "Inter, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif" for BlueArt specifically */
+        varDef("font-sans", "Inter, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif")
+        varDef("font-serif", "ui-serif, Georgia, Cambria, \"Times New Roman\", Times, serif")
+        varDef("font-mono", "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace")
     }
 
     private fun CssBuilder.raw(name: String, value: String) {

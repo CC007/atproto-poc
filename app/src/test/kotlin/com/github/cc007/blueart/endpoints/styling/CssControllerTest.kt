@@ -68,6 +68,39 @@ class CssControllerTest {
         ).forEach { selector -> assertSelectorHasNoDisplay(css, selector) }
     }
 
+    @Test
+    fun `browse stylesheet omits migrated font declarations`() {
+        val css = controller.browseStylesheet()
+        listOf(
+            "body.browse-body",
+            ".richtext-mention",
+            ".richtext-tag",
+        ).forEach { selector -> assertSelectorHasNoFontDeclarations(css, selector) }
+    }
+
+    @Test
+    fun `art stylesheet omits migrated font declarations`() {
+        val css = controller.artStylesheet()
+        listOf(
+            "body.art-body",
+            ".art-title",
+            ".art-description h2, .comments h2",
+            ".richtext-mention",
+            ".richtext-tag",
+        ).forEach { selector -> assertSelectorHasNoFontDeclarations(css, selector) }
+    }
+
+    @Test
+    fun `stylesheets retain non migrated typography declarations as explicit exceptions`() {
+        val browseCss = controller.browseStylesheet()
+        val artCss = controller.artStylesheet()
+
+        assertSelectorContainsDeclaration(browseCss, ".brand h1", "font-size:")
+        assertSelectorContainsDeclaration(browseCss, ".content-top h1", "font-size:")
+        assertSelectorContainsDeclaration(artCss, ".art-byline", "font-size:")
+        assertSelectorContainsDeclaration(artCss, ".comment-author", "font-size:")
+    }
+
 
     private fun assertContainsAllRuleHeaders(legacyCss: String, generatedCss: String) {
         val legacyHeaders = extractRuleHeaders(legacyCss)
@@ -112,11 +145,58 @@ class CssControllerTest {
     }
 
     private fun assertSelectorHasNoDisplay(css: String, selector: String) {
-        val pattern = Regex("${Regex.escape(selector)}\\s*\\{([^}]*)\\}")
-        val match = pattern.find(css) ?: fail("Selector not found in generated CSS: $selector")
+        val declarations = findSelectorDeclarations(css, selector)
         assertFalse(
-            match.groupValues[1].contains("display:"),
+            declarations.any { it.contains("display:") },
             "Selector $selector should not contain display declarations after migration"
         )
+    }
+
+    private fun assertSelectorHasNoFontDeclarations(css: String, selector: String) {
+        val declarations = findSelectorDeclarations(css, selector, allowMissing = true).joinToString("\n")
+        if (declarations.isEmpty()) {
+            return
+        }
+        assertFalse(
+            declarations.contains("font-family:"),
+            "Selector $selector should not contain font-family declarations after migration"
+        )
+        assertFalse(
+            declarations.contains("font-size:"),
+            "Selector $selector should not contain font-size declarations after migration"
+        )
+        assertFalse(
+            declarations.contains("font-weight:"),
+            "Selector $selector should not contain font-weight declarations after migration"
+        )
+    }
+
+    private fun assertSelectorContainsDeclaration(css: String, selector: String, declarationPrefix: String) {
+        val declarations = findSelectorDeclarations(css, selector)
+        assertTrue(
+            declarations.any { it.contains(declarationPrefix) },
+            "Selector $selector should contain $declarationPrefix"
+        )
+    }
+
+    private fun findSelectorDeclarations(css: String, selector: String, allowMissing: Boolean = false): List<String> {
+        val blocks = Regex("([^{}]+)\\{([^}]*)\\}")
+            .findAll(css)
+            .mapNotNull { match ->
+                val selectors = match.groupValues[1]
+                    .split(",")
+                    .map { it.trim() }
+                if (selector in selectors) {
+                    match.groupValues[2]
+                } else {
+                    null
+                }
+            }
+            .toList()
+
+        if (blocks.isEmpty() && !allowMissing) {
+            fail("Selector not found in generated CSS: $selector")
+        }
+        return blocks
     }
 }

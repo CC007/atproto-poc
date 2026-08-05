@@ -57,6 +57,7 @@ class VisualSnapshotAssertions {
         }
 
         Files.copy(expected, reportExpected, StandardCopyOption.REPLACE_EXISTING)
+        Files.deleteIfExists(reportDiff)
 
         val expectedImage = expected.inputStream().use(ImageIO::read)
         val actualImage = reportActual.inputStream().use(ImageIO::read)
