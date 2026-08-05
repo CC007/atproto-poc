@@ -26,7 +26,9 @@ The system SHALL define explicit compiler token contracts for utility generation
 
 #### Scenario: Generator receives unsupported token type
 - **WHEN** a generator hook receives a token type it does not support
-- **THEN** it returns `false` and leaves emission to other hooks or compiler diagnostics### Requirement: Kolo stylesheet delivery coexists with page CSS during migration
+- **THEN** it returns `false` and leaves emission to other hooks or compiler diagnostics
+
+### Requirement: Kolo stylesheet delivery coexists with page CSS during migration
 The system SHALL support side-by-side delivery of `kolo.css` and page-specific CSS during incremental utility migration.
 
 #### Scenario: Utility migration is partial

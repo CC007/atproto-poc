@@ -25,7 +25,9 @@ The system SHALL expose render-time Kolo APIs from the `kolostyles.dsl` namespac
 
 #### Scenario: Migrated display call sites emit display utility tokens
 - **WHEN** browse/art render code replaces CSS-owned display declarations with display DSL helpers
-- **THEN** rendered HTML includes class names and canonicalized `kolo.css` token delivery for those display utilities### Requirement: Kolo DSL calls outside Kolo render context are inert
+- **THEN** rendered HTML includes class names and canonicalized `kolo.css` token delivery for those display utilities
+
+### Requirement: Kolo DSL calls outside Kolo render context are inert
 The system MUST allow `kolo { ... }` usage outside Kolo render scope without introducing runtime failures.
 
 #### Scenario: Kolo call happens outside render context

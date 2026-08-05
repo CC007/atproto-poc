@@ -26,7 +26,9 @@ The system SHALL generate CSS from `/css/generated/kolo.css` requests using the 
 
 #### Scenario: Display utility token is included in request
 - **WHEN** a request includes a supported display utility token
-- **THEN** the endpoint emits the corresponding display CSS rule through the same parser/generator pipeline used by other utilities### Requirement: Unsupported and malformed tokens are surfaced diagnostically
+- **THEN** the endpoint emits the corresponding display CSS rule through the same parser/generator pipeline used by other utilities
+
+### Requirement: Unsupported and malformed tokens are surfaced diagnostically
 The system MUST preserve permissive behavior by returning CSS with explicit diagnostics for unparsed or unsupported tokens. When parsing fails or no generator hook handles a parsed token, the compiler MUST append deterministic diagnostics to the shared `CssBuilder` as `:root` CSS custom properties with the forms `--kolo-unparsed-<index>` and `--kolo-unsupported-<index>`.
 
 #### Scenario: Request includes malformed token

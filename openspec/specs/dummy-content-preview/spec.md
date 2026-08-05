@@ -10,7 +10,9 @@ The system SHALL provide a deterministic dummy timeline for the dummy account so
 
 #### Scenario: Dummy timeline loads supported post variants including follows
 - **WHEN** an authenticated dummy account opens the browse timeline
-- **THEN** the system returns a deterministic set of dummy posts that covers every post type currently supported by timeline rendering, including follow-type records rendered as supported follow activity### Requirement: Dummy browsing reuses the standard browse and detail routes
+- **THEN** the system returns a deterministic set of dummy posts that covers every post type currently supported by timeline rendering, including follow-type records rendered as supported follow activity
+
+### Requirement: Dummy browsing reuses the standard browse and detail routes
 The system SHALL reuse the existing browse and detail routes for dummy content, and MUST NOT introduce a separate dummy-only browsing flow.
 
 #### Scenario: Dummy browsing uses the standard navigation flow
