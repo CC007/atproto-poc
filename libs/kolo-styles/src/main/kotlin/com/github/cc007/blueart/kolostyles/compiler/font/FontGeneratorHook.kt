@@ -17,6 +17,7 @@ class FontGeneratorHook : StyleGeneratorHook {
             }
 
             is FontSizeToken -> builder.emitFontRule(token) {
+                // TODO: Add line-height, like in TailwindCSS
                 fontSize = token.fontSizeValue
             }
 
