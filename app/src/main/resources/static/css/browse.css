@@ -238,10 +238,6 @@ a {
     color: var(--accent);
 }
 
-.richtext-mention {
-    font-weight: 600;
-}
-
 .richtext-tag {
     color: var(--hashtag);
     font-weight: 600;

@@ -6,6 +6,9 @@ import com.github.cc007.blueart.endpoints.auth.AtProtoAuthentication
 import com.github.cc007.blueart.kolostyles.dsl.display.block
 import com.github.cc007.blueart.kolostyles.dsl.display.flex
 import com.github.cc007.blueart.kolostyles.dsl.display.grid
+import com.github.cc007.blueart.kolostyles.dsl.font.fontSans
+import com.github.cc007.blueart.kolostyles.dsl.font.text2xl
+import com.github.cc007.blueart.kolostyles.dsl.font.textBase
 import com.github.cc007.blueart.kolostyles.dsl.kolo
 import com.github.cc007.blueart.kolostyles.dsl.koloStylesheetLink
 import com.github.cc007.blueart.kolostyles.dsl.renderKoloHtml
@@ -86,7 +89,7 @@ class ArtContentController {
                     koloStylesheetLink()
                 }
                 body(classes = "art-body") {
-                    kolo { m(0) }
+                    kolo { m(0); fontSans }
                     topBanner(csrfToken)
                     main(classes = "art-layout") {
                         kolo { p(4); mxAuto }
@@ -95,7 +98,7 @@ class ArtContentController {
                             div(classes = "content-top") {
                                 kolo { grid }
                                 h1(classes = "art-title") {
-                                    kolo { m(0) }
+                                    kolo { m(0); text2xl }
                                     +pageTitle
                                 }
                                 post?.author?.handle?.let {
@@ -125,7 +128,7 @@ class ArtContentController {
                                     section(classes = "art-description") {
                                         kolo { mt(4) }
                                         h2 {
-                                            kolo { mt(0); mx(0); mb(2) }
+                                            kolo { mt(0); mx(0); mb(2); textBase }
                                             +"Description"
                                         }
                                         if (feedPost?.text.isNullOrBlank()) {
@@ -145,7 +148,7 @@ class ArtContentController {
                                 section(classes = "comments") {
                                     kolo { grid; p(4) }
                                     h2 {
-                                        kolo { mt(0); mx(0); mb(2) }
+                                        kolo { mt(0); mx(0); mb(2); textBase }
                                         +"Comments"
                                     }
                                     if (comments.isEmpty()) {

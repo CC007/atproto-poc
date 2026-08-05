@@ -1,5 +1,7 @@
 package com.github.cc007.blueart.components.richtext
 
+import com.github.cc007.blueart.kolostyles.dsl.font.fontSemiBold
+import com.github.cc007.blueart.kolostyles.dsl.kolo
 import kotlinx.html.FlowContent
 import kotlinx.html.a
 import kotlinx.html.br
@@ -85,6 +87,7 @@ fun FlowContent.renderRichText(text: String?, facets: List<RichtextFacet>?) {
             a(href = href, classes = segment.cssClass.orEmpty()) {
                 target = "_blank"
                 rel = "noopener noreferrer nofollow"
+                kolo { fontSemiBold }
                 val lines = segment.text.split('\n')
                 lines.forEachIndexed { index, line ->
                     +line
@@ -184,4 +187,3 @@ private fun isExternalHttpUrl(value: String): Boolean {
 }
 
 private fun isDid(value: String): Boolean = value.startsWith("did:")
-

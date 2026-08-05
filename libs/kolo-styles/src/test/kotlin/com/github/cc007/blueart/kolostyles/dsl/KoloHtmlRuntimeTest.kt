@@ -1,6 +1,7 @@
 package com.github.cc007.blueart.kolostyles.dsl
 
 import com.github.cc007.blueart.kolostyles.dsl.display.*
+import com.github.cc007.blueart.kolostyles.dsl.font.*
 import com.github.cc007.blueart.kolostyles.dsl.spacing.*
 import kotlinx.html.body
 import kotlinx.html.div
@@ -313,6 +314,119 @@ class KoloHtmlRuntimeTest {
 
         val expectedTokens = "block;md:block;contents;md:contents;flex;md:flex;flow-root;md:flow-root;grid;md:grid;hidden;md:hidden;inline;inline-block;inline-flex;inline-grid;inline-table;md:inline;md:inline-block;md:inline-flex;md:inline-grid;md:inline-table;list-item;md:list-item;table;table-caption;table-cell;table-column;table-column-group;table-footer-group;table-header-group;table-row;table-row-group;md:table;md:table-caption;md:table-cell;md:table-column;md:table-column-group;md:table-footer-group;md:table-header-group;md:table-row;md:table-row-group"
         val expectedHref = "/css/generated/kolo.css?version=abc123&kolo=${java.net.URLEncoder.encode(expectedTokens, java.nio.charset.StandardCharsets.UTF_8)}"
+        assertTrue(html.contains("""<link href="$expectedHref" rel="stylesheet">"""))
+    }
+
+    @Test
+    fun `renderKoloHtml emits canonicalized href and class names for font dsl tokens`() {
+        val html = renderKoloHtml(version = "abc123") {
+            head {
+                koloStylesheetLink()
+            }
+            body {
+                div {
+                    kolo {
+                        fontSans
+                        text2xl
+                        fontSemiBold
+                        variant("hover").fontBlack
+                        variant("md").textBase
+                    }
+                }
+            }
+        }
+
+        val expected = """
+            <html>
+              <head>
+                <link href="/css/generated/kolo.css?version=abc123&kolo=font-sans%3Bfont-semibold%3Bhover%3Afont-black%3Btext-2xl%3Bmd%3Atext-base" rel="stylesheet">
+              </head>
+              <body>
+                <div class="k-font-sans k-text-2xl k-font-semibold k-hover:font-black k-md:text-base"></div>
+              </body>
+            </html>
+        """.trimIndent() + "\n"
+        assertEquals(expected, html)
+    }
+
+    @Test
+    fun `font dsl helper mapping emits exact tailwind token strings`() {
+        val html = renderKoloHtml(version = "abc123") {
+            head { koloStylesheetLink() }
+            body {
+                div {
+                    kolo {
+                        fontSans
+                        fontSerif
+                        fontMono
+                        textXs
+                        textSm
+                        textBase
+                        textLg
+                        textXl
+                        text2xl
+                        text3xl
+                        text4xl
+                        text5xl
+                        text6xl
+                        text7xl
+                        text8xl
+                        text9xl
+                        fontThin
+                        fontExtraLight
+                        fontLight
+                        fontNormal
+                        fontMedium
+                        fontSemiBold
+                        fontBold
+                        fontExtraBold
+                        fontBlack
+                        variant("md").fontSans
+                        variant("md").fontSerif
+                        variant("md").fontMono
+                        variant("md").textXs
+                        variant("md").textSm
+                        variant("md").textBase
+                        variant("md").textLg
+                        variant("md").textXl
+                        variant("md").text2xl
+                        variant("md").text3xl
+                        variant("md").text4xl
+                        variant("md").text5xl
+                        variant("md").text6xl
+                        variant("md").text7xl
+                        variant("md").text8xl
+                        variant("md").text9xl
+                        variant("md").fontThin
+                        variant("md").fontExtraLight
+                        variant("md").fontLight
+                        variant("md").fontNormal
+                        variant("md").fontMedium
+                        variant("md").fontSemiBold
+                        variant("md").fontBold
+                        variant("md").fontExtraBold
+                        variant("md").fontBlack
+                    }
+                }
+            }
+        }
+
+        val expectedTokens = listOf(
+            "font-sans", "font-serif", "font-mono",
+            "text-xs", "text-sm", "text-base", "text-lg", "text-xl", "text-2xl", "text-3xl", "text-4xl", "text-5xl", "text-6xl", "text-7xl", "text-8xl", "text-9xl",
+            "font-thin", "font-extralight", "font-light", "font-normal", "font-medium", "font-semibold", "font-bold", "font-extrabold", "font-black",
+            "md:font-sans", "md:font-serif", "md:font-mono",
+            "md:text-xs", "md:text-sm", "md:text-base", "md:text-lg", "md:text-xl", "md:text-2xl", "md:text-3xl", "md:text-4xl", "md:text-5xl", "md:text-6xl", "md:text-7xl", "md:text-8xl", "md:text-9xl",
+            "md:font-thin", "md:font-extralight", "md:font-light", "md:font-normal", "md:font-medium", "md:font-semibold", "md:font-bold", "md:font-extrabold", "md:font-black",
+        )
+        expectedTokens.forEach { token ->
+            assertTrue(html.contains("k-$token"), "Expected class token to be present: k-$token")
+        }
+
+        val expectedHref = "/css/generated/kolo.css?version=abc123&kolo=" + java.net.URLEncoder.encode(
+            canonicalizeKoloTokens(expectedTokens),
+            java.nio.charset.StandardCharsets.UTF_8
+        )
         assertTrue(html.contains("""<link href="$expectedHref" rel="stylesheet">"""))
     }
 }

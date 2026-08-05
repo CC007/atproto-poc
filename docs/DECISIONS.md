@@ -82,3 +82,14 @@ Track technical decisions and rationale in one place. Use this file for concise 
   - Reuse existing state/media variant semantics (`hover`, `focus`, `focus-visible`, `active`, `visited`, `sm`/`md`/`lg`/`xl`/`2xl`) across spacing and display parser/generator families.
   - Migrate browse/art render paths to display DSL usage and remove duplicate `display` declarations from generated page CSS for migrated selectors.
 - Consequences: Display layout intent is now co-located with server-rendered markup through typed Kolo APIs, `/css/generated/kolo.css` supports both spacing and display utilities through the same deterministic hook pipeline, and browse/art page CSS remains focused on non-migrated declarations.
+
+### D-011: Add allow-listed Kolo font utilities and migrate typography ownership incrementally
+- Status: accepted
+- Context: Typography declarations in browse/art were still primarily owned by `CssController`, while Kolo already owned spacing/display migration via typed utility hooks.
+- Decision:
+  - Add a dedicated font utility family in `:libs:kolo-styles` via `FontParserHook`, `FontGeneratorHook`, and typed font token models.
+  - Freeze allow-lists to Tailwind-compatible font families (`font-sans`, `font-serif`, `font-mono`), font sizes (`text-xs` through `text-9xl`), and font weights (`font-thin` through `font-black`).
+  - Add typed Kotlin font DSL helpers under `kolostyles.dsl.font` for both `KoloScope` and `KoloVariantScope`, with one-to-one token mappings (for example `fontSemiBold -> font-semibold`, `text2xl -> text-2xl`).
+  - Keep permissive unsupported/unparsed diagnostics behavior and existing variant/media semantics unchanged.
+  - Redefine the app default font baseline through `--font-sans`; migrate only selectors that have direct utility parity and keep unmatched sizes in page CSS as explicit temporary exceptions.
+- Consequences: Font utility intent is now co-located with render elements for migrated selectors, `/css/generated/kolo.css` supports spacing + display + font tokens through one deterministic pipeline, and typography migration can proceed safely in small batches without changing stylesheet delivery topology.

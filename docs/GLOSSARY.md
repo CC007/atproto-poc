@@ -62,13 +62,18 @@ Margin/padding typed DSL helpers (`m()`, `mt()`, `mb()`, `ml()`, `mr()`, `mx()`,
 ### Display Utilities
 Typed display DSL helpers available on both `KoloScope` and `KoloVariantScope` via `DisplayDsl.kt`. Helpers map one-to-one to Tailwind-compatible tokens (for example `inlineBlock` → `inline-block`, `inlineFlex` → `inline-flex`, `tableRowGroup` → `table-row-group`, `hidden` → `hidden` which generates `display: none`).
 
+### Font Utilities
+Typed typography DSL helpers available on both `KoloScope` and `KoloVariantScope` via `FontDsl.kt`, covering Tailwind-compatible family (`font-sans`, `font-serif`, `font-mono`), size (`text-xs` … `text-9xl`), and weight (`font-thin` … `font-black`) tokens.
+
 ### `SpacingParserHook` / `SpacingGeneratorHook`
 Spring `@Component` implementations that provide spacing token parsing (`StyleParserHook`) and CSS rule generation (`StyleGeneratorHook`) for the production compiler pipeline.
 
 ### `DisplayParserHook` / `DisplayGeneratorHook`
 Spring `@Component` implementations that provide display token parsing (`StyleParserHook`) and CSS rule generation (`StyleGeneratorHook`) for the production compiler pipeline.
 
+### `FontParserHook` / `FontGeneratorHook`
+Spring `@Component` implementations that provide font token parsing (`StyleParserHook`) and CSS rule generation (`StyleGeneratorHook`) for the production compiler pipeline.
+
 ### `KoloCssCompiler` bean wiring
 `KoloCssCompiler` is a Spring `@Service` that receives injected `List<StyleParserHook>` and `List<StyleGeneratorHook>`; Spring discovers hook implementations (including spacing and display hooks) as beans and supplies them automatically.
-
 

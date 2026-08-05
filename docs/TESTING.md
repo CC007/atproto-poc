@@ -60,12 +60,17 @@ Files:
 - `KoloCssControllerTest` validates BA-021 `/css/generated/kolo.css` from `:libs:kolo-styles` always returns `200 text/css` and emits comment diagnostics for unsupported/unparsed tokens.
 - `KoloHtmlRuntimeTest` validates BA-022 render-side plumbing: full HTML content assertions (not spot-checks) across all test cases, canonical token deduplication and variant-aware ordering, placeholder href finalization to `/css/generated/kolo.css`, per-element class scoping via the class-name mapper, multi-element overlap/deduplication, and no-op behaviour outside a kolo render context. Tests call `KoloScope.variant()` / `KoloScope.recordBase()` and `KoloVariantScope.variant()` / `KoloVariantScope.recordBase()` directly (no test-only adapter helpers).
 - `DisplayUtilitiesTest` validates display utility parsing/generation coverage: full allow-list acceptance, unknown/malformed token diagnostics, pseudo/media variant rule generation, and mixed spacing+display compiler output order.
+- `FontUtilitiesTest` validates font utility parsing/generation coverage: full family/size/weight allow-list acceptance, explicit rejection of custom weights, pseudo/media variant rule generation, and mixed spacing+display+font compiler output order.
 - `KoloCssControllerTest` validates mixed spacing+display `/css/generated/kolo.css` generation when both hook families are wired, alongside unsupported/unparsed diagnostics behavior.
+- `KoloCssControllerTest` also validates mixed spacing+display+font `/css/generated/kolo.css` generation when all hook families are wired.
 - `CssControllerTest` validates migrated browse/art selectors no longer emit duplicate `display` declarations from generated page CSS once display ownership has moved into Kolo DSL render paths.
+- `CssControllerTest` also validates migrated typography selectors omit duplicate `font-family`, `font-size`, and `font-weight` declarations while non-migrated typography exceptions remain explicit in generated page CSS.
 - `KoloStylesApiTest` validates baseline `:libs:kolo-styles` placeholder API wiring for utility definitions and parser/generator hook contracts.
 - `KoloStylesModuleWiringTest` validates the `:app` module can consume `:libs:kolo-styles` types without changing runtime behavior.
 - `BlueArtApplicationTests` validates the Spring application context still starts with the Kolo compiler/configuration/controller owned by `:libs:kolo-styles`.
 - `SpacingUtilitiesTest` validates BA-019 spacing utilities: `SpacingParserHook` accepts/rejects tokens correctly, `SpacingGeneratorHook` produces `k-`-prefixed CSS selectors with pseudo-class and media-query variant support, and `KoloCssCompiler` with spacing hook lists generates real CSS for spacing tokens.
+- `KoloHtmlRuntimeTest` validates font DSL token/class emission and canonicalized `kolo.css` href output across base + variant scopes.
+- `RichTextFacetRendererTest` validates mention/tag rich-text anchors emit semibold typography through co-located Kolo font utilities in render context.
 - `PlaywrightVisualRegressionTest` in `:visual-tests` validates login, browse timeline card rendering, and art detail rendering in headless Chromium and Firefox against committed per-browser snapshots.
 
 ## Suggested Additions
