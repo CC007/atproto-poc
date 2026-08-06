@@ -5,6 +5,8 @@ import com.github.cc007.blueart.kolostyles.compiler.display.DisplayGeneratorHook
 import com.github.cc007.blueart.kolostyles.compiler.display.DisplayParserHook
 import com.github.cc007.blueart.kolostyles.compiler.font.FontGeneratorHook
 import com.github.cc007.blueart.kolostyles.compiler.font.FontParserHook
+import com.github.cc007.blueart.kolostyles.compiler.sizing.SizingGeneratorHook
+import com.github.cc007.blueart.kolostyles.compiler.sizing.SizingParserHook
 import com.github.cc007.blueart.kolostyles.compiler.spacing.SpacingGeneratorHook
 import com.github.cc007.blueart.kolostyles.compiler.spacing.SpacingParserHook
 import org.springframework.http.HttpStatus
@@ -26,8 +28,8 @@ class KoloCssControllerTest {
     // controller with spacing + display hooks wired (mirrors Spring bean list wiring)
     private val defaultController = KoloCssController(
         KoloCssCompiler(
-            parserHooks = listOf(SpacingParserHook(), DisplayParserHook(), FontParserHook()),
-            generatorHooks = listOf(SpacingGeneratorHook(), DisplayGeneratorHook(), FontGeneratorHook()),
+            parserHooks = listOf(SpacingParserHook(), DisplayParserHook(), FontParserHook(), SizingParserHook()),
+            generatorHooks = listOf(SpacingGeneratorHook(), DisplayGeneratorHook(), FontGeneratorHook(), SizingGeneratorHook()),
         )
     )
 
@@ -132,10 +134,10 @@ class KoloCssControllerTest {
     }
 
     @Test
-    fun `kolo stylesheet with spacing display and font hooks compiles mixed utility tokens`() {
+    fun `kolo stylesheet with spacing display font and sizing hooks compiles mixed utility tokens`() {
         val response = defaultController.koloStylesheet(
             version = "abc123",
-            kolo = "md:grid;mt-2;font-semibold;hover:inline-flex"
+            kolo = "md:grid;mt-2;font-semibold;hover:inline-flex;size-full"
         )
 
         assertEquals(HttpStatus.OK, response.statusCode)
@@ -154,6 +156,10 @@ class KoloCssControllerTest {
             }
             .k-hover\:inline-flex:hover {
             display: inline-flex;
+            }
+            .k-size-full {
+            width: 100%;
+            height: 100%;
             }
             
             """.trimIndent(),

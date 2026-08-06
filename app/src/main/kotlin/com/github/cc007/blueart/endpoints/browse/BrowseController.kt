@@ -9,6 +9,12 @@ import com.github.cc007.blueart.kolostyles.dsl.font.fontSans
 import com.github.cc007.blueart.kolostyles.dsl.kolo
 import com.github.cc007.blueart.kolostyles.dsl.koloStylesheetLink
 import com.github.cc007.blueart.kolostyles.dsl.renderKoloHtml
+import com.github.cc007.blueart.kolostyles.dsl.sizing.SizingNamed.FULL
+import com.github.cc007.blueart.kolostyles.dsl.sizing.SizingNamed.SCREEN
+import com.github.cc007.blueart.kolostyles.dsl.sizing.h
+import com.github.cc007.blueart.kolostyles.dsl.sizing.minH
+import com.github.cc007.blueart.kolostyles.dsl.sizing.minW
+import com.github.cc007.blueart.kolostyles.dsl.sizing.w
 import com.github.cc007.blueart.kolostyles.dsl.spacing.*
 import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.servlet.http.HttpServletRequest
@@ -54,12 +60,13 @@ class BrowseController {
                 koloStylesheetLink()
             }
             body(classes = "browse-body") {
-                kolo { flex; m(0); fontSans }
+                kolo { flex; m(0); fontSans; h(SCREEN) }
                 topBanner(csrfToken)
                 main(classes = "browse-layout") {
-                    kolo { grid; p(4) }
+                    kolo { grid; p(4); w(FULL); minH(0) }
                     sidebar()
                     section(classes = "browse-content") {
+                        kolo { minW(0); minH(0) }
                         div(classes = "content-top") {
                             kolo { flex; mb(4) }
                             h1 {
