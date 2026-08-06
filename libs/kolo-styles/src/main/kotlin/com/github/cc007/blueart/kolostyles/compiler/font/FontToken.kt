@@ -1,5 +1,6 @@
 package com.github.cc007.blueart.kolostyles.compiler.font
 
+import com.github.cc007.blueart.kolostyles.compiler.MediaVariant
 import com.github.cc007.blueart.kolostyles.compiler.Token
 import kotlinx.css.FontWeight
 import kotlinx.css.LinearDimension
@@ -30,8 +31,6 @@ internal data class FontWeightToken(
     override val raw: String,
     override val stateVariants: List<String>,
     override val mediaVariant: MediaVariant?,
-    override val utility: String,
+    override     val utility: String,
     val fontWeightValue: FontWeight,
 ) : FontToken
-
-data class MediaVariant(val variant: String, val minWidth: LinearDimension)

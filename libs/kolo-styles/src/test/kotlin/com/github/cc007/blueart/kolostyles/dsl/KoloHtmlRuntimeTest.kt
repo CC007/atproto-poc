@@ -2,6 +2,9 @@ package com.github.cc007.blueart.kolostyles.dsl
 
 import com.github.cc007.blueart.kolostyles.dsl.display.*
 import com.github.cc007.blueart.kolostyles.dsl.font.*
+import com.github.cc007.blueart.kolostyles.dsl.sizing.*
+import com.github.cc007.blueart.kolostyles.dsl.sizing.SizingAlpha.MD
+import com.github.cc007.blueart.kolostyles.dsl.sizing.SizingNamed.*
 import com.github.cc007.blueart.kolostyles.dsl.spacing.*
 import kotlinx.html.body
 import kotlinx.html.div
@@ -428,5 +431,34 @@ class KoloHtmlRuntimeTest {
             java.nio.charset.StandardCharsets.UTF_8
         )
         assertTrue(html.contains("""<link href="$expectedHref" rel="stylesheet">"""))
+    }
+
+    @Test
+    fun `renderKoloHtml emits canonicalized href and class names for sizing dsl tokens`() {
+        val html = renderKoloHtml(version = "abc123") {
+            head { koloStylesheetLink() }
+            body {
+                div {
+                    kolo {
+                        w(FULL)
+                        h(SCREEN)
+                        minW(0)
+                        maxW(MD)
+                        size(1, 2)
+                        variant("md").maxH(DVH)
+                    }
+                }
+            }
+        }
+
+        val expectedTokens = listOf("w-full", "h-screen", "min-w-0", "max-w-md", "size-1/2", "md:max-h-dvh")
+        val expectedHref = "/css/generated/kolo.css?version=abc123&kolo=" + java.net.URLEncoder.encode(
+            canonicalizeKoloTokens(expectedTokens),
+            java.nio.charset.StandardCharsets.UTF_8
+        )
+        assertTrue(html.contains("""<link href="$expectedHref" rel="stylesheet">"""))
+        expectedTokens.forEach { token ->
+            assertTrue(html.contains("k-$token"), "Expected class token to be present: k-$token")
+        }
     }
 }

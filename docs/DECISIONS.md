@@ -93,3 +93,14 @@ Track technical decisions and rationale in one place. Use this file for concise 
   - Keep permissive unsupported/unparsed diagnostics behavior and existing variant/media semantics unchanged.
   - Redefine the app default font baseline through `--font-sans`; migrate only selectors that have direct utility parity and keep unmatched sizes in page CSS as explicit temporary exceptions.
 - Consequences: Font utility intent is now co-located with render elements for migrated selectors, `/css/generated/kolo.css` supports spacing + display + font tokens through one deterministic pipeline, and typography migration can proceed safely in small batches without changing stylesheet delivery topology.
+
+### D-012: Add allow-listed Kolo sizing utilities and migrate mappable sizing ownership incrementally
+- Status: accepted
+- Context: Width/height/min/max sizing declarations for browse/art were still split between `CssController` and render call sites, unlike utility families already migrated into Kolo.
+- Decision:
+  - Add a dedicated sizing utility family in `:libs:kolo-styles` via `SizingToken`, `SizingParserHook`, and `SizingGeneratorHook`.
+  - Consolidate compiler `MediaVariant` into a shared type reused by spacing/display/font/sizing utility families.
+  - Freeze an explicit sizing allow-list for `w-*`, `h-*`, `min-w-*`, `max-w-*`, `min-h-*`, `max-h-*`, and `size-*` tokens (named values, Tailwind numeric scale, max-width breakpoints, and supported fractions).
+  - Add typed Kotlin sizing DSL helpers under `kolostyles.dsl.sizing` for both `KoloScope` and `KoloVariantScope`.
+  - Migrate only Tailwind-mappable sizing declarations to Kolo DSL and keep arbitrary/css-var or selector-context sizing declarations in page CSS with explicit `kolo-exception` markers.
+- Consequences: `/css/generated/kolo.css` now supports spacing + display + font + sizing families through one deterministic hook pipeline, and sizing ownership can continue migrating safely in small steps while preserving layout parity.

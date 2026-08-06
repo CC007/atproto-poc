@@ -12,6 +12,12 @@ import com.github.cc007.blueart.kolostyles.dsl.font.textBase
 import com.github.cc007.blueart.kolostyles.dsl.kolo
 import com.github.cc007.blueart.kolostyles.dsl.koloStylesheetLink
 import com.github.cc007.blueart.kolostyles.dsl.renderKoloHtml
+import com.github.cc007.blueart.kolostyles.dsl.sizing.SizingNamed.FULL
+import com.github.cc007.blueart.kolostyles.dsl.sizing.SizingNamed.SCREEN
+import com.github.cc007.blueart.kolostyles.dsl.sizing.maxH
+import com.github.cc007.blueart.kolostyles.dsl.sizing.maxW
+import com.github.cc007.blueart.kolostyles.dsl.sizing.minH
+import com.github.cc007.blueart.kolostyles.dsl.sizing.w
 import com.github.cc007.blueart.kolostyles.dsl.spacing.*
 import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.servlet.http.HttpServletRequest
@@ -89,10 +95,10 @@ class ArtContentController {
                     koloStylesheetLink()
                 }
                 body(classes = "art-body") {
-                    kolo { m(0); fontSans }
+                    kolo { m(0); fontSans; minH(SCREEN) }
                     topBanner(csrfToken)
                     main(classes = "art-layout") {
-                        kolo { p(4); mxAuto }
+                        kolo { p(4); mxAuto; maxW(270) }
                         section(classes = "art-content") {
                             kolo { grid }
                             div(classes = "content-top") {
@@ -215,7 +221,7 @@ private fun FlowContent.renderMainEmbed(embed: EmbedViewUnion?) {
                 }
                 images.forEach { image ->
                     img(src = image.fullsize ?: image.thumb ?: "", classes = "art-image") {
-                        kolo { block }
+                        kolo { block; w(FULL); maxH(18, 25) }
                         alt = image.alt ?: "Artwork image"
                     }
                 }
@@ -225,7 +231,7 @@ private fun FlowContent.renderMainEmbed(embed: EmbedViewUnion?) {
         is EmbedVideoView -> {
             embed.thumbnail?.let { thumb ->
                 img(src = thumb, classes = "art-image") {
-                    kolo { block }
+                    kolo { block; w(FULL); maxH(18, 25) }
                     alt = embed.alt ?: "Artwork video"
                 }
             } ?: p(classes = "art-empty") {
@@ -238,7 +244,7 @@ private fun FlowContent.renderMainEmbed(embed: EmbedViewUnion?) {
             val external = embed.external
             if (external?.thumb != null) {
                 img(src = external.thumb!!, classes = "art-image") {
-                    kolo { block }
+                    kolo { block; w(FULL); maxH(18, 25) }
                     alt = external.title.ifBlank { "Artwork link" }
                 }
             }

@@ -31,7 +31,6 @@ class CssController {
             varDef("primary-2", "#3ca0ff")
             varDef("accent", "#0a62a8")
             varDef("hashtag", "#085898")
-            varDef("card-height", "360px")
             defineFontVariables()
         }
 
@@ -40,7 +39,6 @@ class CssController {
         }
 
         "body.browse-body" {
-            height = 100.vh
             overflow = Overflow.hidden
             flexDirection = FlexDirection.column
             background = "radial-gradient(circle at top, #d8effe 0%, ${cssVar("bg")} 48%)"
@@ -79,9 +77,7 @@ class CssController {
         ".browse-layout" {
             raw("grid-template-columns", "245px minmax(0, 1fr)")
             gap = 1.rem
-            width = 100.pct
             raw("flex", "1")
-            minHeight = 0.px
         }
         ".browse-sidebar" {
             raw("align-self", "start")
@@ -111,8 +107,6 @@ class CssController {
         }
         ".browse-content" {
             overflow = Overflow.auto
-            minWidth = 0.px
-            minHeight = 0.px
         }
         ".content-top" {
             justifyContent = JustifyContent.spaceBetween
@@ -149,7 +143,6 @@ class CssController {
             borderRadius = 12.px
             background = "linear-gradient(180deg, ${cssVar("surface-2")}, ${cssVar("surface")})"
             raw("box-shadow", "0 8px 20px rgba(32, 58, 83, 0.12)")
-            raw("height", cssVar("card-height"))
             overflow = Overflow.hidden
             flexDirection = FlexDirection.column
         }
@@ -176,7 +169,6 @@ class CssController {
         }
         ".post-content" {
             raw("flex", "1")
-            minHeight = 0.px
             overflow = Overflow.hidden
         }
         ".post-text" {
@@ -205,34 +197,20 @@ class CssController {
         }
         ".embed-media" {
             borderRadius = 8.px
-            width = 100.pct
-            height = 100.pct
             raw("border", "1px solid #a6bfd2")
             objectFit = ObjectFit.cover
-        }
-        ".post-card-media .embed-media-single, .post-card-media .embed-blur-clip" {
-            height = 170.px
         }
         ".embed-media-grid" {
             raw("grid-template-columns", "2fr 1fr")
             gap = 0.35.rem
-            height = 180.px
-        }
-        ".embed-media-grid-main, .embed-media-grid-side" {
-            minWidth = 0.px
-            minHeight = 0.px
         }
         ".embed-media-grid-side" {
             gap = 0.35.rem
             raw("grid-template-rows", "repeat(3, minmax(0, 1fr))")
         }
-        ".embed-media-grid-main .embed-blur-clip, .embed-media-grid-side .embed-blur-clip" {
-            height = 100.pct
-        }
         ".embed-blur-clip" {
             borderRadius = 8.px
             overflow = Overflow.hidden
-            width = 100.pct
         }
         ".embed-media-blur" {
             filter = "blur(18px)"
@@ -243,7 +221,6 @@ class CssController {
         }
         ".parent-post .post-card" {
             background = "#eaf3fa"
-            raw("height", "auto")
             overflow = Overflow.visible
         }
         ".post-stats" {
@@ -269,12 +246,8 @@ class CssController {
             raw("line-height", "1")
         }
         ".post-stat-icon" {
-            width = 1.2.rem
-            height = 0.9.rem
-        }
-        ".post-stat-icon svg" {
-            width = 100.pct
-            height = 100.pct
+            // kolo-exception: arbitrary value
+            height = 0.875.rem
         }
         ".post-stat-icon path" {
             raw("fill", "none")
@@ -351,14 +324,10 @@ class CssController {
         }
 
         "body.art-body" {
-            minHeight = 100.vh
             background = "radial-gradient(circle at top, #d8effe 0%, ${cssVar("bg")} 48%)"
             color = cssColorVar("text")
         }
 
-        ".art-layout" {
-            maxWidth = 1080.px
-        }
         ".art-content" {
             gap = 1.rem
         }
@@ -384,16 +353,10 @@ class CssController {
             raw("grid-template-columns", "repeat(auto-fit, minmax(250px, 1fr))")
             gap = 0.5.rem
         }
-        ".art-image-single" {
-        }
         ".art-image" {
-            width = 100.pct
-            maxHeight = 72.vh
             objectFit = ObjectFit.contain
             borderRadius = 8.px
             background = "#d7e8f6"
-        }
-        ".art-description" {
         }
         ".art-description h2, .comments h2" {
             color = cssColorVar("accent")
@@ -409,8 +372,6 @@ class CssController {
         }
         ".richtext-link, .richtext-mention" {
             color = cssColorVar("accent")
-        }
-        ".richtext-mention" {
         }
         ".richtext-tag" {
             color = cssColorVar("hashtag")
@@ -448,11 +409,9 @@ class CssController {
 
         media("(max-width: 700px)") {
             ".art-layout" {
-                // kolo-exception: max-width responsive - migrate when kolo gains max-width variant support
                 padding = Padding(0.75.rem)
             }
             ".art-card, .comments" {
-                // kolo-exception: max-width responsive - migrate when kolo gains max-width variant support
                 padding = Padding(0.8.rem)
             }
         }

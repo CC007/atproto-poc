@@ -59,7 +59,6 @@ class CssControllerTest {
             ".art-content",
             ".content-top",
             ".art-image-grid",
-            ".art-image-single",
             ".art-image",
             ".comments",
             ".comment",
@@ -99,6 +98,46 @@ class CssControllerTest {
         assertSelectorContainsDeclaration(browseCss, ".content-top h1", "font-size:")
         assertSelectorContainsDeclaration(artCss, ".art-byline", "font-size:")
         assertSelectorContainsDeclaration(artCss, ".comment-author", "font-size:")
+    }
+
+    @Test
+    fun `browse stylesheet omits sizing declarations for migrated selectors`() {
+        val css = controller.browseStylesheet()
+        listOf(
+            "body.browse-body",
+            ".browse-layout",
+            ".browse-content",
+            ".post-card",
+            ".parent-post .post-card",
+            ".post-content",
+            ".embed-media",
+            ".embed-blur-clip",
+            ".embed-media-grid",
+            ".post-card-media .embed-media-single",
+            ".post-card-media .embed-blur-clip",
+        ).forEach { selector -> assertSelectorHasNoSizingDeclarations(css, selector) }
+    }
+
+    @Test
+    fun `art stylesheet omits sizing declarations for migrated selectors`() {
+        val css = controller.artStylesheet()
+        listOf(
+            "body.art-body",
+            ".art-layout",
+            ".art-image",
+        ).forEach { selector -> assertSelectorHasNoSizingDeclarations(css, selector) }
+    }
+
+    @Test
+    fun `stylesheets retain non migrated sizing declarations as explicit exceptions`() {
+        val browseCss = controller.browseStylesheet()
+        val artCss = controller.artStylesheet()
+
+        assertSelectorContainsDeclaration(
+            browseCss,
+            ".post-stat-icon",
+            "height:"
+        )
     }
 
 
@@ -168,6 +207,37 @@ class CssControllerTest {
         assertFalse(
             declarations.contains("font-weight:"),
             "Selector $selector should not contain font-weight declarations after migration"
+        )
+    }
+
+    private fun assertSelectorHasNoSizingDeclarations(css: String, selector: String) {
+        val declarations = findSelectorDeclarations(css, selector, allowMissing = true).joinToString("\n")
+        if (declarations.isEmpty()) {
+            return
+        }
+        assertFalse(
+            declarations.contains("width:"),
+            "Selector $selector should not contain width declarations after migration"
+        )
+        assertFalse(
+            declarations.contains("height:"),
+            "Selector $selector should not contain height declarations after migration"
+        )
+        assertFalse(
+            declarations.contains("min-width:"),
+            "Selector $selector should not contain min-width declarations after migration"
+        )
+        assertFalse(
+            declarations.contains("max-width:"),
+            "Selector $selector should not contain max-width declarations after migration"
+        )
+        assertFalse(
+            declarations.contains("min-height:"),
+            "Selector $selector should not contain min-height declarations after migration"
+        )
+        assertFalse(
+            declarations.contains("max-height:"),
+            "Selector $selector should not contain max-height declarations after migration"
         )
     }
 
