@@ -2,6 +2,8 @@ package com.github.cc007.blueart.endpoints.auth
 
 import com.github.cc007.blueart.util.*
 import io.github.oshai.kotlinlogging.KotlinLogging
+import org.springframework.core.env.Environment
+import org.springframework.core.env.getProperty
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.authentication.InternalAuthenticationServiceException
@@ -18,14 +20,16 @@ import work.socialhub.kbsky.api.entity.share.Response
 private val logger = KotlinLogging.logger {}
 
 @Component
-class AtProtoAuthenticationProvider : AuthenticationProvider {
+class AtProtoAuthenticationProvider(
+    private val environment: Environment,
+) : AuthenticationProvider {
     override fun authenticate(authentication: Authentication): Authentication? {
         val handle = authentication.principal.toString()
         val password = authentication.credentials.toString()
         if (!handle.contains(".")) {
             throw BadCredentialsException("Username should be of the form handle")
         }
-        val authenticationUrl = handle.toAuthenticationUrl()
+        val authenticationUrl = handle.toAuthenticationUrl(resolveLocalhostPort())
         return when (val result = authenticate(handle, password, authenticationUrl)) {
             is Success<ServerCreateSessionResponse> -> result.data.toAuthentication(authenticationUrl)
             is Failure<*> -> {
@@ -44,6 +48,14 @@ class AtProtoAuthenticationProvider : AuthenticationProvider {
 
     override fun supports(authentication: Class<*>): Boolean =
         UsernamePasswordAuthenticationToken::class.java.isAssignableFrom(authentication)
+
+    private fun resolveLocalhostPort(): Int {
+        return environment.getProperty<Int>("local.server.port")
+            ?.takeIf { it > 0 }
+            ?: environment.getProperty<Int>("server.port")
+            ?.takeIf { it > 0 }
+            ?: 8080
+    }
 }
 
 private fun ServerCreateSessionResponse.toAuthentication(uri: String): AtProtoAuthentication {
