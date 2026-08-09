@@ -13,6 +13,7 @@ Look for alternatives that are able to assert more specifically (Kotlin tests, A
 
 ### Modified Capabilities
 <!-- Existing capabilities whose REQUIREMENTS are changing. Use existing spec names from openspec/specs/. -->
+- testing-verification-practices
 
 ## Impact
 
