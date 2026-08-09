@@ -1,23 +1,26 @@
 package com.github.cc007.blueart.endpoints.auth
 
+import com.github.cc007.blueart.testsupport.parseHtml
+import com.github.cc007.blueart.testsupport.selectRequired
+import com.github.cc007.blueart.testsupport.shouldContainText
+import io.kotest.matchers.nulls.shouldBeNull
+import io.kotest.matchers.shouldBe
 import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.security.web.csrf.DefaultCsrfToken
 import kotlin.test.Test
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 class LoginControllerTest {
 
     @Test
     fun `login form renders expected fields and default pds hint`() {
         val html = LoginController().loginForm(error = null, request = MockHttpServletRequest("GET", "/login"))
+        val document = html.parseHtml()
 
-        assertTrue(html.contains("<h1>Login</h1>"))
-        assertTrue(html.contains("name=\"username\""))
-        assertTrue(html.contains("name=\"password\""))
-        assertTrue(html.contains("name=\"pdsUrl\""))
-        assertTrue(html.contains("placeholder=\"https://bsky.social\""))
-        assertTrue(html.contains("(default: https://bsky.social)"))
+        document.selectRequired("h1").text() shouldBe "Login"
+        document.selectRequired("input[name=username]")
+        document.selectRequired("input[name=password]")
+        document.selectRequired("input[name=pdsUrl]").attr("placeholder") shouldBe "https://bsky.social"
+        document.selectRequired("body") shouldContainText "(default: https://bsky.social)"
     }
 
     @Test
@@ -26,8 +29,9 @@ class LoginControllerTest {
             error = "bad_credentials",
             request = MockHttpServletRequest("GET", "/login"),
         )
+        val document = html.parseHtml()
 
-        assertTrue(html.contains("Login failed: bad_credentials"))
+        document.selectRequired("body") shouldContainText "Login failed: bad_credentials"
     }
 
     @Test
@@ -36,11 +40,11 @@ class LoginControllerTest {
             setAttribute("_csrf", DefaultCsrfToken("X-CSRF-TOKEN", "_csrf", "csrf-token-value"))
         }
         val htmlWithCsrf = LoginController().loginForm(error = null, request = requestWithCsrf)
-        assertTrue(htmlWithCsrf.contains("type=\"hidden\""))
-        assertTrue(htmlWithCsrf.contains("name=\"_csrf\""))
-        assertTrue(htmlWithCsrf.contains("value=\"csrf-token-value\""))
+        val documentWithCsrf = htmlWithCsrf.parseHtml()
+        documentWithCsrf.selectRequired("input[type=hidden][name=_csrf][value=csrf-token-value]")
 
         val htmlWithoutCsrf = LoginController().loginForm(error = null, request = MockHttpServletRequest("GET", "/login"))
-        assertFalse(htmlWithoutCsrf.contains("name=\"_csrf\""))
+        val documentWithoutCsrf = htmlWithoutCsrf.parseHtml()
+        documentWithoutCsrf.selectFirst("input[name=_csrf]").shouldBeNull()
     }
 }

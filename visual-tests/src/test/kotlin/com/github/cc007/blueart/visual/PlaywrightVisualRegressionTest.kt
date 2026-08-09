@@ -17,7 +17,6 @@ import java.nio.charset.StandardCharsets
     properties = ["server.port=8080"],
 )
 class PlaywrightVisualRegressionTest {
-    private val snapshots = VisualSnapshotAssertions()
     private val baseUrl = "http://localhost:8080"
 
     @ParameterizedTest(name = "login route snapshot [{0}]")
@@ -28,7 +27,7 @@ class PlaywrightVisualRegressionTest {
             page.waitForSelector("form[action='/login']")
             VisualTestRuntime.disableAnimations(page)
             VisualTestRuntime.waitForStableRendering(page)
-            snapshots.assertPageMatches(page, browser, "login-route")
+            page shouldMatchSnapshot "login-route" forBrowser browser
         }
     }
 
@@ -40,7 +39,7 @@ class PlaywrightVisualRegressionTest {
             page.waitForSelector("section.feed-grid article.post-card")
             VisualTestRuntime.disableAnimations(page)
             VisualTestRuntime.waitForStableRendering(page)
-            snapshots.assertPageMatches(page, browser, "browse-route")
+            page shouldMatchSnapshot "browse-route" forBrowser browser
         }
     }
 
@@ -53,7 +52,7 @@ class PlaywrightVisualRegressionTest {
             VisualTestRuntime.disableAnimations(page)
             VisualTestRuntime.waitForStableRendering(page)
             val cards = page.locator("section.feed-grid > article.post-card")
-            snapshots.assertLocatorMatches(cards.nth(cardIndex), browser, "browse-card-$cardName")
+            cards.nth(cardIndex) shouldMatchSnapshot "browse-card-$cardName" forBrowser browser
         }
     }
 
@@ -95,7 +94,7 @@ class PlaywrightVisualRegressionTest {
             page.waitForSelector(".art-description")
             VisualTestRuntime.disableAnimations(page)
             VisualTestRuntime.waitForStableRendering(page)
-            snapshots.assertPageMatches(page, browser, "art-detail-route")
+            page shouldMatchSnapshot "art-detail-route" forBrowser browser
         }
     }
 

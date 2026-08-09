@@ -9,9 +9,9 @@ import com.github.cc007.blueart.kolostyles.compiler.sizing.SizingGeneratorHook
 import com.github.cc007.blueart.kolostyles.compiler.sizing.SizingParserHook
 import com.github.cc007.blueart.kolostyles.compiler.spacing.SpacingGeneratorHook
 import com.github.cc007.blueart.kolostyles.compiler.spacing.SpacingParserHook
+import io.kotest.matchers.shouldBe
 import org.springframework.http.HttpStatus
 import kotlin.test.Test
-import kotlin.test.assertEquals
 
 class KoloCssControllerTest {
 
@@ -40,8 +40,8 @@ class KoloCssControllerTest {
             kolo = "mt-2;flex;hover:mt-2"
         )
 
-        assertEquals(HttpStatus.OK, response.statusCode)
-        assertEquals(
+        response.statusCode shouldBe HttpStatus.OK
+        response.body shouldBe
             """
             :root {
             --kolo-unsupported-0: "mt-2";
@@ -49,9 +49,7 @@ class KoloCssControllerTest {
             --kolo-unsupported-2: "hover:mt-2";
             }
             
-            """.trimIndent(),
-            response.body
-        )
+            """.trimIndent()
     }
 
     @Test
@@ -61,16 +59,14 @@ class KoloCssControllerTest {
             kolo = "mt-[2px]"
         )
 
-        assertEquals(HttpStatus.OK, response.statusCode)
-        assertEquals(
+        response.statusCode shouldBe HttpStatus.OK
+        response.body shouldBe
             """
             :root {
             --kolo-unparsed-0: "mt-[2px]";
             }
             
-            """.trimIndent(),
-            response.body
-        )
+            """.trimIndent()
     }
 
     @Test
@@ -80,16 +76,14 @@ class KoloCssControllerTest {
             kolo = "mt- 2"
         )
 
-        assertEquals(HttpStatus.OK, response.statusCode)
-        assertEquals(
+        response.statusCode shouldBe HttpStatus.OK
+        response.body shouldBe
             """
             :root {
             --kolo-unparsed-0: "mt- 2";
             }
             
-            """.trimIndent(),
-            response.body
-        )
+            """.trimIndent()
     }
 
     @Test
@@ -99,8 +93,8 @@ class KoloCssControllerTest {
             kolo = "m-0;p-4"
         )
 
-        assertEquals(HttpStatus.OK, response.statusCode)
-        assertEquals(
+        response.statusCode shouldBe HttpStatus.OK
+        response.body shouldBe
             """
             .k-m-0 {
             margin: 0.0rem;
@@ -109,9 +103,7 @@ class KoloCssControllerTest {
             padding: 1.0rem;
             }
             
-            """.trimIndent(),
-            response.body
-        )
+            """.trimIndent()
     }
 
     @Test
@@ -120,17 +112,14 @@ class KoloCssControllerTest {
             version = "abc123",
             kolo = "flex"
         )
-        assertEquals(HttpStatus.OK, response.statusCode)
-        assertEquals(HttpStatus.OK, response.statusCode)
-        assertEquals(
+        response.statusCode shouldBe HttpStatus.OK
+        response.body shouldBe
             """
             :root {
             --kolo-unsupported-0: "flex";
             }
             
-            """.trimIndent(),
-            response.body
-        )
+            """.trimIndent()
     }
 
     @Test
@@ -140,8 +129,8 @@ class KoloCssControllerTest {
             kolo = "md:grid;mt-2;font-semibold;hover:inline-flex;size-full"
         )
 
-        assertEquals(HttpStatus.OK, response.statusCode)
-        assertEquals(
+        response.statusCode shouldBe HttpStatus.OK
+        response.body shouldBe
             """
             @media (min-width: 48rem) {
             .k-md\:grid {
@@ -162,8 +151,6 @@ class KoloCssControllerTest {
             height: 100%;
             }
             
-            """.trimIndent(),
-            response.body
-        )
+            """.trimIndent()
     }
 }

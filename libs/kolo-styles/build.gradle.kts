@@ -1,4 +1,7 @@
-import buildsrc.convention.dsl.*
+import buildsrc.convention.dsl.implementation
+import buildsrc.convention.dsl.kotlinx
+import buildsrc.convention.dsl.spring
+import buildsrc.convention.dsl.testImplementation
 import io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
@@ -27,7 +30,6 @@ dependencies {
     }
 
     testImplementation {
-        spring("webmvc")
-        kotlin("test-junit5")
+        +"org.jsoup:jsoup:1.18.3"
     }
 }

@@ -1,5 +1,11 @@
 package com.github.cc007.blueart.components.overview
 
+import com.github.cc007.blueart.testsupport.parseHtml
+import com.github.cc007.blueart.testsupport.selectRequired
+import com.github.cc007.blueart.testsupport.shouldContainText
+import io.kotest.matchers.collections.shouldContainExactly
+import io.kotest.matchers.nulls.shouldBeNull
+import io.kotest.matchers.shouldBe
 import kotlinx.html.div
 import kotlinx.html.stream.createHTML
 import work.socialhub.kbsky.model.app.bsky.actor.ActorDefsProfileViewBasic
@@ -10,7 +16,6 @@ import work.socialhub.kbsky.model.app.bsky.feed.FeedDefsPostView
 import work.socialhub.kbsky.model.app.bsky.feed.FeedPost
 import work.socialhub.kbsky.model.app.bsky.graph.GraphFollow
 import kotlin.test.Test
-import kotlin.test.assertTrue
 
 class PostSummaryTest {
 
@@ -28,7 +33,8 @@ class PostSummaryTest {
             )
         }
 
-        assertTrue(html.contains("plain text only"))
+        val document = html.parseHtml()
+        document.selectRequired("p.post-text.feed-post") shouldContainText "plain text only"
     }
 
     @Test
@@ -49,9 +55,18 @@ class PostSummaryTest {
             )
         }
 
-        assertTrue(html.contains("embed-media-grid"))
-        assertTrue(html.contains("embed-media-grid-primary"))
-        assertTrue(html.contains("embed-media-grid-secondary"))
+        val document = html.parseHtml()
+        document.selectRequired(".embed-media-grid")
+        document.select(".embed-media-grid-main img.embed-media-grid-primary").size shouldBe 1
+        document.selectRequired(".embed-media-grid-main img.embed-media-grid-primary")
+            .attr("src") shouldBe "https://example.com/image-1.jpg"
+
+        val secondarySources = document.select(".embed-media-grid-side img.embed-media-grid-secondary")
+            .eachAttr("src")
+        secondarySources shouldContainExactly listOf(
+            "https://example.com/image-2.jpg",
+            "https://example.com/image-3.jpg",
+        )
     }
 
     @Test
@@ -73,8 +88,9 @@ class PostSummaryTest {
             )
         }
 
-        assertTrue(html.contains("@dummy.localhost followed @dummy-follow-target"))
-        assertTrue(!html.contains("This type of post is not yet supported"))
+        val document = html.parseHtml()
+        document.selectRequired("p.post-text.feed-follow") shouldContainText "@dummy.localhost followed @dummy-follow-target"
+        document.selectFirst("p.post-text em").shouldBeNull()
     }
 
     private fun postView(
@@ -99,5 +115,3 @@ class PostSummaryTest {
         }
     }
 }
-
-

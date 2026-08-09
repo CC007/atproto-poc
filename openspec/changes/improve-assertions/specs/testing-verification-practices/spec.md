@@ -20,3 +20,7 @@ The system SHALL migrate existing tests to the standardized assertion approach a
 #### Scenario: Existing test behavior is migrated
 - **WHEN** assertion style is upgraded in an existing test file
 - **THEN** the migrated test continues asserting the same behavioral contract with stronger diagnostics
+
+#### Scenario: Audited suite migration is complete
+- **WHEN** the assertion migration change is implemented
+- **THEN** all audited test files in `:app`, `:libs:kolo-styles`, and `:visual-tests` use the standardized matcher-style assertion approach

@@ -10,8 +10,14 @@ import com.github.cc007.blueart.kolostyles.compiler.sizing.SizingGeneratorHook
 import com.github.cc007.blueart.kolostyles.compiler.sizing.SizingParserHook
 import com.github.cc007.blueart.kolostyles.compiler.spacing.SpacingGeneratorHook
 import com.github.cc007.blueart.kolostyles.compiler.spacing.SpacingParserHook
+import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.nulls.shouldBeNull
+import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldContain
 import kotlinx.css.CssBuilder
-import kotlin.test.*
+import kotlin.test.Test
 
 class SizingUtilitiesTest {
 
@@ -50,23 +56,23 @@ class SizingUtilitiesTest {
 
         tokens.forEach { token ->
             val parsed = parser.parse(token)
-            assertNotNull(parsed, "Expected parser to accept $token")
-            assertEquals(token, parsed.raw)
+            parsed.shouldNotBeNull()
+            parsed.raw shouldBe token
         }
     }
 
     @Test
     fun `parser rejects unsupported sizing tokens and malformed variants`() {
-        assertNull(parser.parse("w-[170px]"))
-        assertNull(parser.parse("h-72vh"))
-        assertNull(parser.parse("max-w-none"))
-        assertNull(parser.parse("h-3xl"))
-        assertNull(parser.parse("min-h-md"))
-        assertNull(parser.parse("max-h-2xl"))
-        assertNull(parser.parse("size-xs"))
-        assertNull(parser.parse("w-1/0"))
-        assertNull(parser.parse("sm:md:w-4"))
-        assertNull(parser.parse("unknown:w-4"))
+        parser.parse("w-[170px]").shouldBeNull()
+        parser.parse("h-72vh").shouldBeNull()
+        parser.parse("max-w-none").shouldBeNull()
+        parser.parse("h-3xl").shouldBeNull()
+        parser.parse("min-h-md").shouldBeNull()
+        parser.parse("max-h-2xl").shouldBeNull()
+        parser.parse("size-xs").shouldBeNull()
+        parser.parse("w-1/0").shouldBeNull()
+        parser.parse("sm:md:w-4").shouldBeNull()
+        parser.parse("unknown:w-4").shouldBeNull()
     }
 
     @Test
@@ -74,43 +80,41 @@ class SizingUtilitiesTest {
         val tokens = listOf("w-4", "w-1/1", "h-full", "min-w-0", "max-w-md", "min-h-screen", "max-h-fit", "size-full")
         val css = tokens.joinToString(separator = "") { token ->
             val parsed = parser.parse(token)
-            assertNotNull(parsed)
+            parsed.shouldNotBeNull()
             val builder = CssBuilder()
-            assertTrue(generator.generate(parsed, builder))
+            generator.generate(parsed, builder).shouldBeTrue()
             builder.toString()
         }
 
-        assertTrue(css.contains(".k-w-4 {\nwidth: 1.0rem;\n}"))
-        assertTrue(css.contains(".k-w-1/1 {\nwidth: calc(1/1 * 100%);\n}"))
-        assertTrue(css.contains(".k-h-full {\nheight: 100%;\n}"))
-        assertTrue(css.contains(".k-min-w-0 {\nmin-width: 0.0rem;\n}"))
-        assertTrue(css.contains(".k-max-w-md {\nmax-width: 28rem;\n}"))
-        assertTrue(css.contains(".k-min-h-screen {\nmin-height: 100vh;\n}"))
-        assertTrue(css.contains(".k-max-h-fit {\nmax-height: fit-content;\n}"))
-        assertTrue(css.contains(".k-size-full {\nwidth: 100%;\nheight: 100%;\n}"))
+        css.shouldContain(".k-w-4 {\nwidth: 1.0rem;\n}")
+        css.shouldContain(".k-w-1/1 {\nwidth: calc(1/1 * 100%);\n}")
+        css.shouldContain(".k-h-full {\nheight: 100%;\n}")
+        css.shouldContain(".k-min-w-0 {\nmin-width: 0.0rem;\n}")
+        css.shouldContain(".k-max-w-md {\nmax-width: 28rem;\n}")
+        css.shouldContain(".k-min-h-screen {\nmin-height: 100vh;\n}")
+        css.shouldContain(".k-max-h-fit {\nmax-height: fit-content;\n}")
+        css.shouldContain(".k-size-full {\nwidth: 100%;\nheight: 100%;\n}")
     }
 
     @Test
     fun `generator emits pseudo and media variants for sizing utilities`() {
         val pseudoToken = parser.parse("hover:w-4")
-        assertNotNull(pseudoToken)
+        pseudoToken.shouldNotBeNull()
         val pseudoBuilder = CssBuilder()
-        assertTrue(generator.generate(pseudoToken, pseudoBuilder))
-        assertEquals(
+        generator.generate(pseudoToken, pseudoBuilder).shouldBeTrue()
+        pseudoBuilder.toString() shouldBe
             """
             .k-hover\:w-4:hover {
             width: 1.0rem;
             }
             
-            """.trimIndent(),
-            pseudoBuilder.toString()
-        )
+            """.trimIndent()
 
         val mediaToken = parser.parse("md:min-h-screen")
-        assertNotNull(mediaToken)
+        mediaToken.shouldNotBeNull()
         val mediaBuilder = CssBuilder()
-        assertTrue(generator.generate(mediaToken, mediaBuilder))
-        assertEquals(
+        generator.generate(mediaToken, mediaBuilder).shouldBeTrue()
+        mediaBuilder.toString() shouldBe
             """
             @media (min-width: 48rem) {
             .k-md\:min-h-screen {
@@ -118,33 +122,29 @@ class SizingUtilitiesTest {
             }
             }
             
-            """.trimIndent(),
-            mediaBuilder.toString()
-        )
+            """.trimIndent()
     }
 
     @Test
     fun `generator returns false for unsupported token type`() {
         val unsupported = UnsupportedToken("w-4")
         val builder = CssBuilder()
-        assertFalse(generator.generate(unsupported, builder))
-        assertEquals("", builder.toString())
+        generator.generate(unsupported, builder).shouldBeFalse()
+        builder.toString() shouldBe ""
     }
 
     @Test
     fun `compiler marks unsupported sizing token and generates mixed utility output in order`() {
-        assertEquals(
+        sizingOnlyCompiler.compile("max-w-none") shouldBe
             """
             :root {
             --kolo-unsupported-0: "max-w-none";
             }
             
-            """.trimIndent(),
-            sizingOnlyCompiler.compile("max-w-none")
-        )
+            """.trimIndent()
 
         val css = mixedCompiler.compile("md:grid;w-full;mt-2;font-semibold;size-1/2")
-        assertEquals(
+        css shouldBe
             """
             @media (min-width: 48rem) {
             .k-md\:grid {
@@ -165,9 +165,7 @@ class SizingUtilitiesTest {
             height: calc(1/2 * 100%);
             }
             
-            """.trimIndent(),
-            css
-        )
+            """.trimIndent()
     }
 
     private data class UnsupportedToken(

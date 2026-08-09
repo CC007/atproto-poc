@@ -1,5 +1,13 @@
 package com.github.cc007.blueart.endpoints.auth
 
+import com.github.cc007.blueart.testsupport.parseHtml
+import com.github.cc007.blueart.testsupport.selectRequired
+import com.github.cc007.blueart.testsupport.shouldContainText
+import io.kotest.assertions.fail
+import io.kotest.matchers.collections.shouldNotContain
+import io.kotest.matchers.optional.shouldBePresent
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldEndWith
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
@@ -10,10 +18,6 @@ import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.nio.charset.StandardCharsets
-import kotlin.test.assertContains
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
-import kotlin.test.fail
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class DummyLoginFlowTest(
@@ -44,26 +48,28 @@ class DummyLoginFlowTest(
             ),
         )
 
-        assertEquals(302, login.statusCode())
+        login.statusCode() shouldBe 302
         val locationHeader = login.headers().firstValue("location")
-        assertTrue(locationHeader.isPresent)
-        assertTrue(locationHeader.get().contains("/browse"))
+        locationHeader shouldBePresent { it shouldEndWith "/browse" }
 
         val browse = get("/browse")
-        assertEquals(200, browse.statusCode())
-        assertContains(browse.body(), "Browse Timeline")
-        assertContains(browse.body(), "BlueArt Dummy")
-        assertContains(browse.body(), "embed-media-grid")
-        assertContains(browse.body(), "Open artwork")
-        assertContains(browse.body(), "@dummy.localhost followed @dummy-follow-target")
-        assertTrue(!browse.body().contains("This type of post is not yet supported"))
+        browse.statusCode() shouldBe 200
+        val browseDocument = browse.body().parseHtml()
+        browseDocument.selectRequired(".content-top h1") shouldContainText "Browse Timeline"
+        browseDocument.selectRequired(".post-author .author-name") shouldContainText "BlueArt Dummy"
+        browseDocument.selectRequired(".embed-media-grid")
+        browseDocument.selectRequired("p.post-open-link a") shouldContainText "Open artwork"
+        browseDocument.selectRequired("p.post-text.feed-follow") shouldContainText "@dummy.localhost followed @dummy-follow-target"
+        browseDocument.select("p.post-text em").eachText() shouldNotContain "This type of post is not yet supported"
 
         val detailUri = "at://dummy.localhost/app.bsky.feed.post/image-gallery"
         val detail = get("/art/bafyreidummyimage-gallery?uri=${URLEncoder.encode(detailUri, StandardCharsets.UTF_8)}")
-        assertEquals(200, detail.statusCode())
-        assertContains(detail.body(), "Multi-image embed to exercise the gallery layout.")
-        assertContains(detail.body(), "Description")
-        assertContains(detail.body(), "art-image-grid")
+        detail.statusCode() shouldBe 200
+        val detailDocument = detail.body().parseHtml()
+        detailDocument.selectRequired(".art-description h2").text() shouldBe "Description"
+        detailDocument.selectRequired("p.art-text") shouldContainText "Multi-image embed to exercise the gallery layout."
+        detailDocument.selectRequired(".art-image-grid")
+        detailDocument.select(".art-image-grid img.art-image").size shouldBe 2
     }
 
     private fun get(path: String): HttpResponse<String> {

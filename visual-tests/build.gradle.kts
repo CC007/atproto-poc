@@ -1,4 +1,3 @@
-import buildsrc.convention.dsl.kotlin
 import buildsrc.convention.dsl.testImplementation
 import buildsrc.convention.dsl.testRuntimeOnly
 import io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension
@@ -21,7 +20,6 @@ description = "Playwright visual regression test module for BlueArt"
 dependencies {
     testImplementation {
         +project(":app")
-        kotlin("test-junit5")
         +"org.junit.jupiter:junit-jupiter-params"
         +"org.springframework.boot:spring-boot-starter-test"
         +"com.microsoft.playwright:playwright:1.54.0"

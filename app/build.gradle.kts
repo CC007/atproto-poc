@@ -56,7 +56,7 @@ dependencies {
     }
 
     testImplementation {
-        kotlin("test-junit5")
+        +"org.jsoup:jsoup:1.18.3"
         springBoot("starter-actuator-test")
         springBoot("starter-data-jpa-test")
         springBoot("starter-liquibase-test")
