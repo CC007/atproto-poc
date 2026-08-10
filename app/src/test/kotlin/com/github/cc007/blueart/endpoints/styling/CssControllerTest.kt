@@ -1,9 +1,11 @@
 package com.github.cc007.blueart.endpoints.styling
 
+import io.kotest.assertions.fail
+import io.kotest.matchers.collections.shouldBeEmpty
+import io.kotest.matchers.collections.shouldNotBeEmpty
+import io.kotest.matchers.string.shouldContain
+import io.kotest.matchers.string.shouldNotContain
 import kotlin.test.Test
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
-import kotlin.test.fail
 
 class CssControllerTest {
 
@@ -14,7 +16,7 @@ class CssControllerTest {
         val css = controller.browseStylesheet()
         val legacyCss = readResource("/static/css/browse.css")
 
-        assertTrue(!css.contains("@import"), "Generated browse CSS should not contain @import bridge")
+        css shouldNotContain "@import"
         assertContainsAllRuleHeaders(legacyCss, css)
     }
 
@@ -23,7 +25,7 @@ class CssControllerTest {
         val css = controller.artStylesheet()
         val legacyCss = readResource("/static/css/art.css")
 
-        assertTrue(!css.contains("@import"), "Generated art CSS should not contain @import bridge")
+        css shouldNotContain "@import"
         assertContainsAllRuleHeaders(legacyCss, css)
     }
 
@@ -131,8 +133,6 @@ class CssControllerTest {
     @Test
     fun `stylesheets retain non migrated sizing declarations as explicit exceptions`() {
         val browseCss = controller.browseStylesheet()
-        val artCss = controller.artStylesheet()
-
         assertSelectorContainsDeclaration(
             browseCss,
             ".post-stat-icon",
@@ -145,10 +145,7 @@ class CssControllerTest {
         val legacyHeaders = extractRuleHeaders(legacyCss)
         val generatedHeaders = extractRuleHeaders(generatedCss)
         val missingHeaders = legacyHeaders - generatedHeaders
-
-        if (missingHeaders.isNotEmpty()) {
-            fail("Generated CSS is missing rule headers: ${missingHeaders.joinToString()}")
-        }
+        missingHeaders.shouldBeEmpty()
     }
 
     private fun readResource(path: String): String {
@@ -185,10 +182,7 @@ class CssControllerTest {
 
     private fun assertSelectorHasNoDisplay(css: String, selector: String) {
         val declarations = findSelectorDeclarations(css, selector)
-        assertFalse(
-            declarations.any { it.contains("display:") },
-            "Selector $selector should not contain display declarations after migration"
-        )
+        declarations.joinToString("\n") shouldNotContain "display:"
     }
 
     private fun assertSelectorHasNoFontDeclarations(css: String, selector: String) {
@@ -196,18 +190,9 @@ class CssControllerTest {
         if (declarations.isEmpty()) {
             return
         }
-        assertFalse(
-            declarations.contains("font-family:"),
-            "Selector $selector should not contain font-family declarations after migration"
-        )
-        assertFalse(
-            declarations.contains("font-size:"),
-            "Selector $selector should not contain font-size declarations after migration"
-        )
-        assertFalse(
-            declarations.contains("font-weight:"),
-            "Selector $selector should not contain font-weight declarations after migration"
-        )
+        declarations shouldNotContain "font-family:"
+        declarations shouldNotContain "font-size:"
+        declarations shouldNotContain "font-weight:"
     }
 
     private fun assertSelectorHasNoSizingDeclarations(css: String, selector: String) {
@@ -215,38 +200,17 @@ class CssControllerTest {
         if (declarations.isEmpty()) {
             return
         }
-        assertFalse(
-            declarations.contains("width:"),
-            "Selector $selector should not contain width declarations after migration"
-        )
-        assertFalse(
-            declarations.contains("height:"),
-            "Selector $selector should not contain height declarations after migration"
-        )
-        assertFalse(
-            declarations.contains("min-width:"),
-            "Selector $selector should not contain min-width declarations after migration"
-        )
-        assertFalse(
-            declarations.contains("max-width:"),
-            "Selector $selector should not contain max-width declarations after migration"
-        )
-        assertFalse(
-            declarations.contains("min-height:"),
-            "Selector $selector should not contain min-height declarations after migration"
-        )
-        assertFalse(
-            declarations.contains("max-height:"),
-            "Selector $selector should not contain max-height declarations after migration"
-        )
+        declarations shouldNotContain "width:"
+        declarations shouldNotContain "height:"
+        declarations shouldNotContain "min-width:"
+        declarations shouldNotContain "max-width:"
+        declarations shouldNotContain "min-height:"
+        declarations shouldNotContain "max-height:"
     }
 
     private fun assertSelectorContainsDeclaration(css: String, selector: String, declarationPrefix: String) {
-        val declarations = findSelectorDeclarations(css, selector)
-        assertTrue(
-            declarations.any { it.contains(declarationPrefix) },
-            "Selector $selector should contain $declarationPrefix"
-        )
+        val declarations = findSelectorDeclarations(css, selector).joinToString("\n")
+        declarations shouldContain declarationPrefix
     }
 
     private fun findSelectorDeclarations(css: String, selector: String, allowMissing: Boolean = false): List<String> {
@@ -264,8 +228,8 @@ class CssControllerTest {
             }
             .toList()
 
-        if (blocks.isEmpty() && !allowMissing) {
-            fail("Selector not found in generated CSS: $selector")
+        if (!allowMissing) {
+            blocks.shouldNotBeEmpty()
         }
         return blocks
     }

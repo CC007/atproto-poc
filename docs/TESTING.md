@@ -32,6 +32,12 @@ Baseline refresh (developer approval required):
 - Run `./gradlew visualTest` whenever AI diagnosis needs visual evidence for UI changes and before completing any change.
 - Document any unverified areas in handoff notes when checks cannot run.
 
+## Assertion Conventions
+- Prefer KoTest matcher assertions (`shouldBe`, `shouldContain`, `shouldThrow`, null/collection/string matchers) over boolean-style `assertTrue`/`assertEquals` forms.
+- Keep JUnit Platform execution unchanged (`kotlin("test-junit5")` baseline from shared `kotlin-jvm` convention plugin).
+- For server-rendered HTML assertions, parse with Jsoup and assert with selector-aware checks instead of raw substring checks.
+- Keep exact full-string assertions only when serialization format itself is the contract (for example canonical HTML/CSS output snapshots where byte-level ordering matters).
+
 ## Visual Baseline Policy
 - Baseline updates require explicit in-editor developer approval.
 - `-PvisualBaselineApprover` is mandatory for baseline updates.

@@ -1,7 +1,8 @@
 package com.github.cc007.blueart.kolostyles.compiler
 
+import io.kotest.matchers.collections.shouldContainExactly
+import io.kotest.matchers.shouldBe
 import kotlin.test.Test
-import kotlin.test.assertEquals
 
 class KoloCssCompilerTest {
 
@@ -26,7 +27,7 @@ class KoloCssCompilerTest {
 
         val result = compiler.compile("flex;mt-2;hover:mt-2;md:mt-2")
 
-        assertEquals(
+        result shouldBe
             """
             .flex {
             display: block;
@@ -41,9 +42,7 @@ class KoloCssCompilerTest {
             display: block;
             }
             
-            """.trimIndent(),
-            result
-        )
+            """.trimIndent()
     }
 
     @Test
@@ -62,7 +61,7 @@ class KoloCssCompilerTest {
         compiler.compile("md:mt-2;mt-2;flex;mt-2;hover:mt-2")
 
         // Should preserve order and include duplicates (deduping is client-side)
-        assertEquals(listOf("md:mt-2", "mt-2", "flex", "mt-2", "hover:mt-2"), tokens)
+        tokens shouldContainExactly listOf("md:mt-2", "mt-2", "flex", "mt-2", "hover:mt-2")
     }
 
     @Test
@@ -71,15 +70,13 @@ class KoloCssCompilerTest {
 
         val result = compiler.compile("mt-[4px]")
 
-        assertEquals(
+        result shouldBe
             """
             :root {
             --kolo-unparsed-0: "mt-[4px]";
             }
             
-            """.trimIndent(),
-            result
-        )
+            """.trimIndent()
     }
 
     @Test
@@ -88,15 +85,13 @@ class KoloCssCompilerTest {
 
         val result = compiler.compile("mt- 2")
 
-        assertEquals(
+        result shouldBe
             """
             :root {
             --kolo-unparsed-0: "mt- 2";
             }
             
-            """.trimIndent(),
-            result
-        )
+            """.trimIndent()
     }
 
     @Test
@@ -105,7 +100,7 @@ class KoloCssCompilerTest {
 
         val result = compiler.compile(" ; ; ")
 
-        assertEquals("", result)
+        result shouldBe ""
     }
 
     @Test
@@ -114,16 +109,14 @@ class KoloCssCompilerTest {
 
         val result = compiler.compile("flex;mt-2")
 
-        assertEquals(
+        result shouldBe
             """
             :root {
             --kolo-unsupported-0: "flex";
             --kolo-unsupported-1: "mt-2";
             }
             
-            """.trimIndent(),
-            result
-        )
+            """.trimIndent()
     }
 
     @Test
@@ -156,15 +149,13 @@ class KoloCssCompilerTest {
 
         val result = compiler.compile("x-hook")
 
-        assertEquals(
+        result shouldBe
             """
             .x-hook {
             display: block;
             }
             
-            """.trimIndent(),
-            result
-        )
+            """.trimIndent()
     }
 
     @Test
@@ -178,15 +169,13 @@ class KoloCssCompilerTest {
 
         val result = compiler.compile("mt-2")
 
-        assertEquals(
+        result shouldBe
             """
             :root {
             --kolo-unsupported-0: "mt-2";
             }
             
-            """.trimIndent(),
-            result
-        )
+            """.trimIndent()
     }
 
     @Test
@@ -195,15 +184,13 @@ class KoloCssCompilerTest {
 
         val result = compiler.compile("broken*/token")
 
-        assertEquals(
+        result shouldBe
             """
             :root {
             --kolo-unsupported-0: "broken*/token";
             }
             
-            """.trimIndent(),
-            result
-        )
+            """.trimIndent()
     }
 
     private data class TestToken(

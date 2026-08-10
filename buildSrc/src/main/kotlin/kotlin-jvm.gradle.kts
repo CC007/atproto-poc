@@ -1,5 +1,7 @@
 package buildsrc.convention
 
+import buildsrc.convention.dsl.kotlin
+import buildsrc.convention.dsl.testImplementation
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
@@ -15,6 +17,13 @@ kotlin {
 
 repositories {
     mavenCentral()
+}
+
+dependencies {
+    testImplementation {
+        kotlin("test-junit5")
+        +"io.kotest:kotest-assertions-core:5.9.1"
+    }
 }
 
 configurations {

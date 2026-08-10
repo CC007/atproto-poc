@@ -5,8 +5,12 @@ import com.github.cc007.blueart.kolostyles.compiler.display.DisplayGeneratorHook
 import com.github.cc007.blueart.kolostyles.compiler.display.DisplayParserHook
 import com.github.cc007.blueart.kolostyles.compiler.spacing.SpacingGeneratorHook
 import com.github.cc007.blueart.kolostyles.compiler.spacing.SpacingParserHook
+import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.nulls.shouldBeNull
+import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.shouldBe
 import kotlinx.css.CssBuilder
-import kotlin.test.*
+import kotlin.test.Test
 
 class DisplayUtilitiesTest {
 
@@ -32,67 +36,63 @@ class DisplayUtilitiesTest {
 
         tokens.forEach { token ->
             val parsed = parser.parse(token)
-            assertNotNull(parsed, "Expected parser to accept $token")
-            assertEquals(token, parsed.raw)
+            parsed.shouldNotBeNull()
+            parsed.raw shouldBe token
         }
     }
 
     @Test
     fun `parser rejects unknown and unsupported display-like tokens`() {
-        assertNull(parser.parse("sr-only"))
-        assertNull(parser.parse("not-sr-only"))
-        assertNull(parser.parse("inline-list"))
+        parser.parse("sr-only").shouldBeNull()
+        parser.parse("not-sr-only").shouldBeNull()
+        parser.parse("inline-list").shouldBeNull()
     }
 
     @Test
     fun `parser accepts state and media variants and rejects multiple media variants`() {
-        assertNotNull(parser.parse("hover:flex"))
-        assertNotNull(parser.parse("focus-visible:grid"))
-        assertNotNull(parser.parse("md:inline-grid"))
-        assertNull(parser.parse("sm:md:flex"))
+        parser.parse("hover:flex").shouldNotBeNull()
+        parser.parse("focus-visible:grid").shouldNotBeNull()
+        parser.parse("md:inline-grid").shouldNotBeNull()
+        parser.parse("sm:md:flex").shouldBeNull()
     }
 
     @Test
     fun `generator emits base display css for flex`() {
         val token = parser.parse("flex")
-        assertNotNull(token)
+        token.shouldNotBeNull()
         val builder = CssBuilder()
-        assertTrue(generator.generate(token, builder))
-        assertEquals(
+        generator.generate(token, builder).shouldBeTrue()
+        builder.toString() shouldBe
             """
             .k-flex {
             display: flex;
             }
             
-            """.trimIndent(),
-            builder.toString()
-        )
+            """.trimIndent()
     }
 
     @Test
     fun `generator emits pseudo selector for hover display variant`() {
         val token = parser.parse("hover:inline-flex")
-        assertNotNull(token)
+        token.shouldNotBeNull()
         val builder = CssBuilder()
-        assertTrue(generator.generate(token, builder))
-        assertEquals(
+        generator.generate(token, builder).shouldBeTrue()
+        builder.toString() shouldBe
             """
             .k-hover\:inline-flex:hover {
             display: inline-flex;
             }
             
-            """.trimIndent(),
-            builder.toString()
-        )
+            """.trimIndent()
     }
 
     @Test
     fun `generator emits media wrapped selector for md display variant`() {
         val token = parser.parse("md:grid")
-        assertNotNull(token)
+        token.shouldNotBeNull()
         val builder = CssBuilder()
-        assertTrue(generator.generate(token, builder))
-        assertEquals(
+        generator.generate(token, builder).shouldBeTrue()
+        builder.toString() shouldBe
             """
             @media (min-width: 48rem) {
             .k-md\:grid {
@@ -100,37 +100,31 @@ class DisplayUtilitiesTest {
             }
             }
             
-            """.trimIndent(),
-            builder.toString()
-        )
+            """.trimIndent()
     }
 
     @Test
     fun `compiler marks unknown display token unsupported and malformed display token unparsed`() {
-        assertEquals(
+        displayOnlyCompiler.compile("sr-only") shouldBe
             """
             :root {
             --kolo-unsupported-0: "sr-only";
             }
             
-            """.trimIndent(),
-            displayOnlyCompiler.compile("sr-only")
-        )
-        assertEquals(
+            """.trimIndent()
+        displayOnlyCompiler.compile("md: flex") shouldBe
             """
             :root {
             --kolo-unparsed-0: "md: flex";
             }
             
-            """.trimIndent(),
-            displayOnlyCompiler.compile("md: flex")
-        )
+            """.trimIndent()
     }
 
     @Test
     fun `mixed spacing and display compilation preserves input order`() {
         val css = mixedCompiler.compile("md:grid;mt-2;hover:inline-flex")
-        assertEquals(
+        css shouldBe
             """
             @media (min-width: 48rem) {
             .k-md\:grid {
@@ -144,8 +138,6 @@ class DisplayUtilitiesTest {
             display: inline-flex;
             }
             
-            """.trimIndent(),
-            css
-        )
+            """.trimIndent()
     }
 }

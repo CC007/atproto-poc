@@ -7,8 +7,12 @@ import com.github.cc007.blueart.kolostyles.compiler.font.FontGeneratorHook
 import com.github.cc007.blueart.kolostyles.compiler.font.FontParserHook
 import com.github.cc007.blueart.kolostyles.compiler.spacing.SpacingGeneratorHook
 import com.github.cc007.blueart.kolostyles.compiler.spacing.SpacingParserHook
+import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.nulls.shouldBeNull
+import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.shouldBe
 import kotlinx.css.CssBuilder
-import kotlin.test.*
+import kotlin.test.Test
 
 class FontUtilitiesTest {
 
@@ -28,8 +32,8 @@ class FontUtilitiesTest {
         val tokens = listOf("font-sans", "font-serif", "font-mono")
         tokens.forEach { token ->
             val parsed = parser.parse(token)
-            assertNotNull(parsed, "Expected parser to accept $token")
-            assertEquals(token, parsed.raw)
+            parsed.shouldNotBeNull()
+            parsed.raw shouldBe token
         }
     }
 
@@ -41,8 +45,8 @@ class FontUtilitiesTest {
         )
         tokens.forEach { token ->
             val parsed = parser.parse(token)
-            assertNotNull(parsed, "Expected parser to accept $token")
-            assertEquals(token, parsed.raw)
+            parsed.shouldNotBeNull()
+            parsed.raw shouldBe token
         }
     }
 
@@ -54,64 +58,60 @@ class FontUtilitiesTest {
         )
         accepted.forEach { token ->
             val parsed = parser.parse(token)
-            assertNotNull(parsed, "Expected parser to accept $token")
-            assertEquals(token, parsed.raw)
+            parsed.shouldNotBeNull()
+            parsed.raw shouldBe token
         }
 
-        assertNull(parser.parse("font-100"))
-        assertNull(parser.parse("font-950"))
-        assertNull(parser.parse("font-[600]"))
+        parser.parse("font-100").shouldBeNull()
+        parser.parse("font-950").shouldBeNull()
+        parser.parse("font-[600]").shouldBeNull()
     }
 
     @Test
     fun `parser accepts state and media variants and rejects multiple media variants`() {
-        assertNotNull(parser.parse("hover:font-semibold"))
-        assertNotNull(parser.parse("focus-visible:text-lg"))
-        assertNotNull(parser.parse("md:font-sans"))
-        assertNull(parser.parse("sm:md:text-lg"))
+        parser.parse("hover:font-semibold").shouldNotBeNull()
+        parser.parse("focus-visible:text-lg").shouldNotBeNull()
+        parser.parse("md:font-sans").shouldNotBeNull()
+        parser.parse("sm:md:text-lg").shouldBeNull()
     }
 
     @Test
     fun `generator emits base font family css`() {
         val token = parser.parse("font-sans")
-        assertNotNull(token)
+        token.shouldNotBeNull()
         val builder = CssBuilder()
-        assertTrue(generator.generate(token, builder))
-        assertEquals(
+        generator.generate(token, builder).shouldBeTrue()
+        builder.toString() shouldBe
             """
             .k-font-sans {
             font-family: var(--font-sans);
             }
             
-            """.trimIndent(),
-            builder.toString()
-        )
+            """.trimIndent()
     }
 
     @Test
     fun `generator emits pseudo selector for hover font weight variant`() {
         val token = parser.parse("hover:font-semibold")
-        assertNotNull(token)
+        token.shouldNotBeNull()
         val builder = CssBuilder()
-        assertTrue(generator.generate(token, builder))
-        assertEquals(
+        generator.generate(token, builder).shouldBeTrue()
+        builder.toString() shouldBe
             """
             .k-hover\:font-semibold:hover {
             font-weight: 600;
             }
             
-            """.trimIndent(),
-            builder.toString()
-        )
+            """.trimIndent()
     }
 
     @Test
     fun `generator emits media wrapped selector for md font size variant`() {
         val token = parser.parse("md:text-2xl")
-        assertNotNull(token)
+        token.shouldNotBeNull()
         val builder = CssBuilder()
-        assertTrue(generator.generate(token, builder))
-        assertEquals(
+        generator.generate(token, builder).shouldBeTrue()
+        builder.toString() shouldBe
             """
             @media (min-width: 48rem) {
             .k-md\:text-2xl {
@@ -119,37 +119,31 @@ class FontUtilitiesTest {
             }
             }
             
-            """.trimIndent(),
-            builder.toString()
-        )
+            """.trimIndent()
     }
 
     @Test
     fun `compiler marks unknown font token unsupported and malformed font token unparsed`() {
-        assertEquals(
+        fontOnlyCompiler.compile("font-950") shouldBe
             """
             :root {
             --kolo-unsupported-0: "font-950";
             }
             
-            """.trimIndent(),
-            fontOnlyCompiler.compile("font-950")
-        )
-        assertEquals(
+            """.trimIndent()
+        fontOnlyCompiler.compile("md: text-xl") shouldBe
             """
             :root {
             --kolo-unparsed-0: "md: text-xl";
             }
             
-            """.trimIndent(),
-            fontOnlyCompiler.compile("md: text-xl")
-        )
+            """.trimIndent()
     }
 
     @Test
     fun `mixed spacing display and font compilation preserves input order`() {
         val css = mixedCompiler.compile("md:grid;mt-2;font-semibold;hover:inline-flex")
-        assertEquals(
+        css shouldBe
             """
             @media (min-width: 48rem) {
             .k-md\:grid {
@@ -166,8 +160,6 @@ class FontUtilitiesTest {
             display: inline-flex;
             }
             
-            """.trimIndent(),
-            css
-        )
+            """.trimIndent()
     }
 }

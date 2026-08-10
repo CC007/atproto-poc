@@ -2,15 +2,19 @@ package com.github.cc007.blueart.components.richtext
 
 import com.github.cc007.blueart.kolostyles.dsl.koloStylesheetLink
 import com.github.cc007.blueart.kolostyles.dsl.renderKoloHtml
+import com.github.cc007.blueart.testsupport.parseHtml
+import com.github.cc007.blueart.testsupport.selectRequired
+import io.kotest.matchers.collections.shouldContainExactly
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.nulls.shouldBeNull
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldContain
 import kotlinx.html.body
 import kotlinx.html.head
 import kotlinx.html.p
 import kotlinx.html.stream.createHTML
 import work.socialhub.kbsky.model.app.bsky.richtext.*
 import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
 
 class RichTextFacetRendererTest {
 
@@ -28,15 +32,15 @@ class RichTextFacetRendererTest {
             )
         )
 
-        assertEquals(4, segments.size)
-        assertEquals("A😀 check ", segments[0].text)
-        assertNull(segments[0].href)
-        assertEquals("#art", segments[1].text)
-        assertEquals("https://bsky.app/hashtag/art", segments[1].href)
-        assertEquals(" at ", segments[2].text)
-        assertNull(segments[2].href)
-        assertEquals("https://example.com", segments[3].text)
-        assertEquals("https://example.com", segments[3].href)
+        segments.shouldHaveSize(4)
+        segments[0].text shouldBe "A😀 check "
+        segments[0].href.shouldBeNull()
+        segments[1].text shouldBe "#art"
+        segments[1].href shouldBe "https://bsky.app/hashtag/art"
+        segments[2].text shouldBe " at "
+        segments[2].href.shouldBeNull()
+        segments[3].text shouldBe "https://example.com"
+        segments[3].href shouldBe "https://example.com"
     }
 
     @Test
@@ -51,11 +55,11 @@ class RichTextFacetRendererTest {
 
         val segments = renderFacets(text, listOf(malformed, overlapping, valid))
 
-        assertEquals(3, segments.size)
-        assertEquals("one ", segments[0].text)
-        assertEquals("two", segments[1].text)
-        assertEquals("https://two.example", segments[1].href)
-        assertEquals(" three", segments[2].text)
+        segments.shouldHaveSize(3)
+        segments[0].text shouldBe "one "
+        segments[1].text shouldBe "two"
+        segments[1].href shouldBe "https://two.example"
+        segments[2].text shouldBe " three"
     }
 
     @Test
@@ -68,9 +72,9 @@ class RichTextFacetRendererTest {
             listOf(linkFacet(linkRange.first, linkRange.second, "ftp://example.com"))
         )
 
-        assertEquals(1, segments.size)
-        assertEquals(text, segments[0].text)
-        assertNull(segments[0].href)
+        segments.shouldHaveSize(1)
+        segments[0].text shouldBe text
+        segments[0].href.shouldBeNull()
     }
 
     @Test
@@ -83,12 +87,12 @@ class RichTextFacetRendererTest {
             listOf(mentionFacet(mentionRange.first, mentionRange.second, "did:plc:alice123"))
         )
 
-        assertEquals(2, segments.size)
-        assertEquals("hi ", segments[0].text)
-        assertNull(segments[0].href)
-        assertEquals("@alice.example", segments[1].text)
-        assertEquals("https://bsky.app/profile/did:plc:alice123", segments[1].href)
-        assertEquals("richtext-mention", segments[1].cssClass)
+        segments.shouldHaveSize(2)
+        segments[0].text shouldBe "hi "
+        segments[0].href.shouldBeNull()
+        segments[1].text shouldBe "@alice.example"
+        segments[1].href shouldBe "https://bsky.app/profile/did:plc:alice123"
+        segments[1].cssClass shouldBe "richtext-mention"
     }
 
     @Test
@@ -107,16 +111,13 @@ class RichTextFacetRendererTest {
             )
         )
 
-        assertEquals(
-            listOf(
-                TextSegment("hi "),
-                TextSegment("@alice.example", "https://bsky.app/profile/did:plc:alice123", "richtext-mention"),
-                TextSegment(" check "),
-                TextSegment("#art", "https://bsky.app/hashtag/art", "richtext-tag"),
-                TextSegment(" "),
-                TextSegment("https://example.com", "https://example.com", "richtext-link")
-            ),
-            segments
+        segments shouldContainExactly listOf(
+            TextSegment("hi "),
+            TextSegment("@alice.example", "https://bsky.app/profile/did:plc:alice123", "richtext-mention"),
+            TextSegment(" check "),
+            TextSegment("#art", "https://bsky.app/hashtag/art", "richtext-tag"),
+            TextSegment(" "),
+            TextSegment("https://example.com", "https://example.com", "richtext-link")
         )
     }
 
@@ -130,19 +131,18 @@ class RichTextFacetRendererTest {
             listOf(mentionFacet(mentionRange.first, mentionRange.second, "alice.example"))
         )
 
-        assertEquals(1, segments.size)
-        assertEquals(text, segments[0].text)
-        assertNull(segments[0].href)
+        segments.shouldHaveSize(1)
+        segments[0].text shouldBe text
+        segments[0].href.shouldBeNull()
     }
 
     @Test
     fun `renders newlines as br tags for plain text segments`() {
         val html = createHTML().p {
-            renderRichText("line one\nline two", null)
+            renderRichText("line one\nline two\nline three", null)
         }
 
-        assertTrue(html.contains("line one<br"))
-        assertTrue(html.contains(">line two<"))
+        html shouldBe "<p>line one<br>line two<br>line three</p>\n"
     }
 
     @Test
@@ -153,9 +153,7 @@ class RichTextFacetRendererTest {
             renderRichText(text, listOf(linkFacet(linkRange.first, linkRange.second, "https://example.com/path")))
         }
 
-        assertTrue(html.contains("richtext-link"))
-        assertTrue(html.contains("https://example.com/path<br"))
-        assertTrue(html.contains(">more</a>"))
+        html shouldBe "<p><a href=\"https://example.com/path\" class=\"richtext-link\" target=\"_blank\" rel=\"noopener noreferrer nofollow\">https://example.com/path<br>more</a></p>\n"
     }
 
     @Test
@@ -179,9 +177,10 @@ class RichTextFacetRendererTest {
             }
         }
 
-        assertTrue(html.contains("class=\"richtext-mention k-font-semibold\""))
-        assertTrue(html.contains("class=\"richtext-tag k-font-semibold\""))
-        assertTrue(html.contains("kolo=font-semibold"))
+        val document = html.parseHtml()
+        document.selectRequired("a.richtext-mention.k-font-semibold")
+        document.selectRequired("a.richtext-tag.k-font-semibold")
+        document.selectRequired("link[rel=stylesheet]").attr("href").shouldContain("kolo=font-semibold")
     }
 
     private fun linkFacet(start: Int, end: Int, uri: String): RichtextFacet {
@@ -235,4 +234,3 @@ class RichTextFacetRendererTest {
         return startByte to endByte
     }
 }
-

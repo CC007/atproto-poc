@@ -6,14 +6,18 @@ import com.github.cc007.blueart.kolostyles.dsl.sizing.*
 import com.github.cc007.blueart.kolostyles.dsl.sizing.SizingAlpha.MD
 import com.github.cc007.blueart.kolostyles.dsl.sizing.SizingNamed.*
 import com.github.cc007.blueart.kolostyles.dsl.spacing.*
+import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
+import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.shouldBe
 import kotlinx.html.body
 import kotlinx.html.div
 import kotlinx.html.head
 import kotlinx.html.html
 import kotlinx.html.stream.createHTML
+import org.jsoup.Jsoup
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets.UTF_8
 import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 class KoloHtmlRuntimeTest {
 
@@ -31,7 +35,7 @@ class KoloHtmlRuntimeTest {
             )
         )
 
-        assertEquals("hover:bg-sky-500;flex;invalid;md:mt-2;token", canonical)
+        canonical shouldBe "hover:bg-sky-500;flex;invalid;md:mt-2;token"
     }
 
     @Test
@@ -62,7 +66,7 @@ class KoloHtmlRuntimeTest {
               </body>
             </html>
         """.trimIndent() + "\n"
-        assertEquals(expected, html)
+        html shouldBe expected
     }
 
     @Test
@@ -93,7 +97,7 @@ class KoloHtmlRuntimeTest {
               </body>
             </html>
         """.trimIndent() + "\n"
-        assertEquals(expected, html)
+        html shouldBe expected
     }
 
     @Test
@@ -121,7 +125,7 @@ class KoloHtmlRuntimeTest {
               </body>
             </html>
         """.trimIndent() + "\n"
-        assertEquals(expected, html)
+        html shouldBe expected
     }
 
     @Test
@@ -162,7 +166,7 @@ class KoloHtmlRuntimeTest {
               </body>
             </html>
         """.trimIndent() + "\n"
-        assertEquals(expected, html)
+        html shouldBe expected
     }
 
     @Test
@@ -184,7 +188,7 @@ class KoloHtmlRuntimeTest {
               </body>
             </html>
         """.trimIndent() + "\n"
-        assertEquals(expected, html)
+        html shouldBe expected
     }
 
     @Test
@@ -227,7 +231,7 @@ class KoloHtmlRuntimeTest {
               </body>
             </html>
         """.trimIndent() + "\n"
-        assertEquals(expected, html)
+        html shouldBe expected
     }
 
     @Test
@@ -258,7 +262,7 @@ class KoloHtmlRuntimeTest {
               </body>
             </html>
         """.trimIndent() + "\n"
-        assertEquals(expected, html)
+        html shouldBe expected
     }
 
     @Test
@@ -315,9 +319,20 @@ class KoloHtmlRuntimeTest {
             }
         }
 
-        val expectedTokens = "block;md:block;contents;md:contents;flex;md:flex;flow-root;md:flow-root;grid;md:grid;hidden;md:hidden;inline;inline-block;inline-flex;inline-grid;inline-table;md:inline;md:inline-block;md:inline-flex;md:inline-grid;md:inline-table;list-item;md:list-item;table;table-caption;table-cell;table-column;table-column-group;table-footer-group;table-header-group;table-row;table-row-group;md:table;md:table-caption;md:table-cell;md:table-column;md:table-column-group;md:table-footer-group;md:table-header-group;md:table-row;md:table-row-group"
-        val expectedHref = "/css/generated/kolo.css?version=abc123&kolo=${java.net.URLEncoder.encode(expectedTokens, java.nio.charset.StandardCharsets.UTF_8)}"
-        assertTrue(html.contains("""<link href="$expectedHref" rel="stylesheet">"""))
+        val expectedTokens = listOf(
+            "block", "md:block", "contents", "md:contents", "flex", "md:flex", "flow-root", "md:flow-root",
+            "grid", "md:grid", "hidden", "md:hidden", "inline", "inline-block", "inline-flex", "inline-grid",
+            "inline-table", "md:inline", "md:inline-block", "md:inline-flex", "md:inline-grid", "md:inline-table",
+            "list-item", "md:list-item", "table", "table-caption", "table-cell", "table-column",
+            "table-column-group", "table-footer-group", "table-header-group", "table-row", "table-row-group",
+            "md:table", "md:table-caption", "md:table-cell", "md:table-column", "md:table-column-group",
+            "md:table-footer-group", "md:table-header-group", "md:table-row", "md:table-row-group",
+        )
+        val canonizedTokens = canonicalizeKoloTokens(expectedTokens)
+        val expectedHref = "/css/generated/kolo.css?version=abc123&kolo=" + URLEncoder.encode(canonizedTokens, UTF_8)
+
+        extractHeadStylesheetHref(html) shouldBe expectedHref
+        extractFirstBodyDivClasses(html) shouldContainExactlyInAnyOrder expectedTokens.map { "k-$it" }
     }
 
     @Test
@@ -349,7 +364,7 @@ class KoloHtmlRuntimeTest {
               </body>
             </html>
         """.trimIndent() + "\n"
-        assertEquals(expected, html)
+        html shouldBe expected
     }
 
     @Test
@@ -422,15 +437,11 @@ class KoloHtmlRuntimeTest {
             "md:text-xs", "md:text-sm", "md:text-base", "md:text-lg", "md:text-xl", "md:text-2xl", "md:text-3xl", "md:text-4xl", "md:text-5xl", "md:text-6xl", "md:text-7xl", "md:text-8xl", "md:text-9xl",
             "md:font-thin", "md:font-extralight", "md:font-light", "md:font-normal", "md:font-medium", "md:font-semibold", "md:font-bold", "md:font-extrabold", "md:font-black",
         )
-        expectedTokens.forEach { token ->
-            assertTrue(html.contains("k-$token"), "Expected class token to be present: k-$token")
-        }
+        val canonizedTokens = canonicalizeKoloTokens(expectedTokens)
+        val expectedHref = "/css/generated/kolo.css?version=abc123&kolo=" + URLEncoder.encode(canonizedTokens, UTF_8)
 
-        val expectedHref = "/css/generated/kolo.css?version=abc123&kolo=" + java.net.URLEncoder.encode(
-            canonicalizeKoloTokens(expectedTokens),
-            java.nio.charset.StandardCharsets.UTF_8
-        )
-        assertTrue(html.contains("""<link href="$expectedHref" rel="stylesheet">"""))
+        extractHeadStylesheetHref(html) shouldBe expectedHref
+        extractFirstBodyDivClasses(html) shouldContainExactlyInAnyOrder expectedTokens.map { "k-$it" }
     }
 
     @Test
@@ -452,13 +463,25 @@ class KoloHtmlRuntimeTest {
         }
 
         val expectedTokens = listOf("w-full", "h-screen", "min-w-0", "max-w-md", "size-1/2", "md:max-h-dvh")
-        val expectedHref = "/css/generated/kolo.css?version=abc123&kolo=" + java.net.URLEncoder.encode(
-            canonicalizeKoloTokens(expectedTokens),
-            java.nio.charset.StandardCharsets.UTF_8
-        )
-        assertTrue(html.contains("""<link href="$expectedHref" rel="stylesheet">"""))
-        expectedTokens.forEach { token ->
-            assertTrue(html.contains("k-$token"), "Expected class token to be present: k-$token")
-        }
+        val canonizedTokens = canonicalizeKoloTokens(expectedTokens)
+        val expectedHref = "/css/generated/kolo.css?version=abc123&kolo=" + URLEncoder.encode(canonizedTokens, UTF_8)
+
+        extractHeadStylesheetHref(html) shouldBe expectedHref
+        extractFirstBodyDivClasses(html) shouldContainExactlyInAnyOrder expectedTokens.map { "k-$it" }
+    }
+
+    private fun extractHeadStylesheetHref(html: String): String {
+        val document = Jsoup.parse(html)
+        return document.selectFirst("head > link[rel=stylesheet]")
+            .shouldNotBeNull()
+            .attr("href")
+    }
+
+    private fun extractFirstBodyDivClasses(html: String): List<String> {
+        val document = Jsoup.parse(html)
+        return document.selectFirst("body > div")
+            .shouldNotBeNull()
+            .classNames()
+            .toList()
     }
 }
