@@ -9,11 +9,17 @@ Look at TailwindCSS docs (https://tailwindcss.com/docs) in the layout section (f
 ## Capabilities
 
 ### New Capabilities
-<!-- Capabilities being introduced. Use kebab-case identifiers (e.g., user-auth, data-export). Each creates specs/<name>/spec.md -->
+- kolo-layout-ownership
 
 ### Modified Capabilities
-<!-- Existing capabilities whose REQUIREMENTS are changing. Use existing spec names from openspec/specs/. -->
+- kolo-utility-architecture
+- kolo-css-generation
+- kolo-html-runtime-integration
+- generated-page-stylesheets
 
 ## Impact
 
-<!-- Affected code, APIs, dependencies, systems -->
+- Affected modules: `:libs:kolo-styles`, `:app`
+- Affected contracts: layout utility parser/generator coverage and typed DSL surface (`kolostyles.dsl.layout`)
+- Affected endpoint behavior: `/css/generated/kolo.css` adds deterministic generation support for migrated layout token families
+- Affected ownership boundary: migrated layout declarations are removed from generated page CSS where Kolo utilities now own behavior

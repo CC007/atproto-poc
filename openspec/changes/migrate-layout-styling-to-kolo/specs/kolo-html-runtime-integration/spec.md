@@ -1,0 +1,20 @@
+## MODIFIED Requirements
+
+### Requirement: Render-time Kolo DSL lives under `kolostyles.dsl`
+The system SHALL expose render-time Kolo APIs from the `kolostyles.dsl` namespace, with spacing utility helpers under `kolostyles.dsl.spacing`, layout utility helpers under `kolostyles.dsl.layout`, font utility helpers under `kolostyles.dsl.font`, and sizing utility helpers under `kolostyles.dsl.sizing`, while preserving existing token collection and stylesheet-link emission behavior.
+
+#### Scenario: App module imports Kolo DSL/runtime APIs
+- **WHEN** server-rendered pages use `renderKoloHtml`, `kolo { ... }`, spacing utility helpers, layout utility helpers, font utility helpers, and sizing utility helpers
+- **THEN** imports resolve from the `dsl` namespace and runtime behavior remains equivalent
+
+#### Scenario: Migrated display call sites emit display utility tokens
+- **WHEN** browse/art render code uses layout DSL helpers that map to display utilities
+- **THEN** rendered HTML includes class names and canonicalized `kolo.css` token delivery for those display utilities
+
+#### Scenario: Migrated layout call sites emit layout utility tokens
+- **WHEN** browse/art render code replaces CSS-owned layout declarations with layout DSL helpers
+- **THEN** rendered HTML includes class names and canonicalized `kolo.css` token delivery for those layout utilities
+
+#### Scenario: Migrated font call sites emit font utility tokens
+- **WHEN** browse/art render code replaces CSS-owned font declarations with font DSL helpers
+- **THEN** rendered HTML includes class names and canonicalized `kolo.css` token delivery for those font utilities
