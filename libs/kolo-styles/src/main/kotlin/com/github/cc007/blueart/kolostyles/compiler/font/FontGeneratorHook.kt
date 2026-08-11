@@ -11,38 +11,24 @@ import org.springframework.stereotype.Component
 @Component
 class FontGeneratorHook : StyleGeneratorHook {
     override fun generate(token: Token, builder: CssBuilder): Boolean {
-        return when (token) {
-            is FontFamilyToken -> builder.emitFontRule(token) {
-                fontFamily = token.fontFamilyValue
-            }
+        if (token !is FontToken) return false
+        return builder.emitVariantRule(
+            rawToken = token.raw,
+            stateVariants = token.stateVariants,
+            mediaVariant = token.mediaVariant,
+            declaration = buildFontDeclaration(token),
+        )
+    }
 
-            is FontSizeToken -> builder.emitFontRule(token) {
+    private fun buildFontDeclaration(token: FontToken): CssBuilder.() -> Unit = {
+        when (token) {
+            is FontFamilyToken -> fontFamily = token.fontFamilyValue
+            is FontWeightToken -> fontWeight = token.fontWeightValue
+            is FontSizeToken -> {
                 // TODO: Add line-height, like in TailwindCSS
                 fontSize = token.fontSizeValue
             }
-
-            is FontWeightToken -> builder.emitFontRule(token) {
-                fontWeight = token.fontWeightValue
-            }
-
-            else -> false
         }
     }
 
-    private fun CssBuilder.emitFontRule(token: FontToken, declaration: CssBuilder.() -> Unit): Boolean {
-        val pseudoSuffix = token.stateVariants.joinToString(separator = "") { variant -> ":$variant" }
-        val selectorText = ".k-${escapeCssClass(token.raw)}$pseudoSuffix"
-
-        val mediaVariant = token.mediaVariant
-        if (mediaVariant == null) {
-            selectorText { declaration() }
-        } else {
-            media("(min-width: ${mediaVariant.minWidth})") {
-                selectorText { declaration() }
-            }
-        }
-        return true
-    }
-
-    private fun escapeCssClass(token: String): String = token.replace(":", "\\:")
 }

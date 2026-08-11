@@ -3,11 +3,15 @@ package com.github.cc007.blueart.endpoints.browse
 import com.github.cc007.blueart.components.overview.postSummary
 import com.github.cc007.blueart.components.topBanner
 import com.github.cc007.blueart.endpoints.auth.AtProtoAuthentication
-import com.github.cc007.blueart.kolostyles.dsl.display.flex
-import com.github.cc007.blueart.kolostyles.dsl.display.grid
 import com.github.cc007.blueart.kolostyles.dsl.font.fontSans
 import com.github.cc007.blueart.kolostyles.dsl.kolo
 import com.github.cc007.blueart.kolostyles.dsl.koloStylesheetLink
+import com.github.cc007.blueart.kolostyles.dsl.layout.display.flex
+import com.github.cc007.blueart.kolostyles.dsl.layout.display.grid
+import com.github.cc007.blueart.kolostyles.dsl.layout.offset.top
+import com.github.cc007.blueart.kolostyles.dsl.layout.overflowAuto
+import com.github.cc007.blueart.kolostyles.dsl.layout.overflowHidden
+import com.github.cc007.blueart.kolostyles.dsl.layout.sticky
 import com.github.cc007.blueart.kolostyles.dsl.renderKoloHtml
 import com.github.cc007.blueart.kolostyles.dsl.sizing.SizingNamed.FULL
 import com.github.cc007.blueart.kolostyles.dsl.sizing.SizingNamed.SCREEN
@@ -60,13 +64,13 @@ class BrowseController {
                 koloStylesheetLink()
             }
             body(classes = "browse-body") {
-                kolo { flex; m(0); fontSans; h(SCREEN) }
+                kolo { flex; m(0); fontSans; h(SCREEN); overflowHidden }
                 topBanner(csrfToken)
                 main(classes = "browse-layout") {
                     kolo { grid; p(4); w(FULL); minH(0) }
                     sidebar()
                     section(classes = "browse-content") {
-                        kolo { minW(0); minH(0) }
+                        kolo { minW(0); minH(0); overflowAuto }
                         div(classes = "content-top") {
                             kolo { flex; mb(4) }
                             h1 {
@@ -126,7 +130,7 @@ private fun getTimeline(
 
 private fun MAIN.sidebar() {
     aside(classes = "browse-sidebar") {
-        kolo { p(4) }
+        kolo { p(4); sticky; top(18) }
         nav(classes = "sidebar-nav") {
             kolo { grid }
             navLink { +"Discover" }

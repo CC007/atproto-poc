@@ -1,7 +1,10 @@
 package com.github.cc007.blueart.kolostyles.dsl
 
-import com.github.cc007.blueart.kolostyles.dsl.display.*
 import com.github.cc007.blueart.kolostyles.dsl.font.*
+import com.github.cc007.blueart.kolostyles.dsl.layout.*
+import com.github.cc007.blueart.kolostyles.dsl.layout.display.*
+import com.github.cc007.blueart.kolostyles.dsl.layout.offset.insetX
+import com.github.cc007.blueart.kolostyles.dsl.layout.offset.top
 import com.github.cc007.blueart.kolostyles.dsl.sizing.*
 import com.github.cc007.blueart.kolostyles.dsl.sizing.SizingAlpha.MD
 import com.github.cc007.blueart.kolostyles.dsl.sizing.SizingNamed.*
@@ -463,6 +466,43 @@ class KoloHtmlRuntimeTest {
         }
 
         val expectedTokens = listOf("w-full", "h-screen", "min-w-0", "max-w-md", "size-1/2", "md:max-h-dvh")
+        val canonizedTokens = canonicalizeKoloTokens(expectedTokens)
+        val expectedHref = "/css/generated/kolo.css?version=abc123&kolo=" + URLEncoder.encode(canonizedTokens, UTF_8)
+
+        extractHeadStylesheetHref(html) shouldBe expectedHref
+        extractFirstBodyDivClasses(html) shouldContainExactlyInAnyOrder expectedTokens.map { "k-$it" }
+    }
+
+    @Test
+    fun `renderKoloHtml emits canonicalized href and class names for layout dsl tokens`() {
+        val html = renderKoloHtml(version = "abc123") {
+            head { koloStylesheetLink() }
+            body {
+                div {
+                    kolo {
+                        sticky
+                        top(18)
+                        z(10)
+                        overflowHidden
+                        objectCover
+                        boxBorder
+                        variant("hover").overflowVisible
+                        variant("md").insetX(4)
+                    }
+                }
+            }
+        }
+
+        val expectedTokens = listOf(
+            "sticky",
+            "top-18",
+            "z-10",
+            "overflow-hidden",
+            "object-cover",
+            "box-border",
+            "hover:overflow-visible",
+            "md:inset-x-4",
+        )
         val canonizedTokens = canonicalizeKoloTokens(expectedTokens)
         val expectedHref = "/css/generated/kolo.css?version=abc123&kolo=" + URLEncoder.encode(canonizedTokens, UTF_8)
 

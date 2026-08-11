@@ -104,3 +104,14 @@ Track technical decisions and rationale in one place. Use this file for concise 
   - Add typed Kotlin sizing DSL helpers under `kolostyles.dsl.sizing` for both `KoloScope` and `KoloVariantScope`.
   - Migrate only Tailwind-mappable sizing declarations to Kolo DSL and keep arbitrary/css-var or selector-context sizing declarations in page CSS with explicit `kolo-exception` markers.
 - Consequences: `/css/generated/kolo.css` now supports spacing + display + font + sizing families through one deterministic hook pipeline, and sizing ownership can continue migrating safely in small steps while preserving layout parity.
+
+### D-013: Reclassify display into layout and migrate non-display layout ownership to Kolo
+- Status: accepted
+- Context: Browse/art still depended on `CssController` for layout declarations (`overflow`, `position`, offsets, `z-index`, `object-fit`, plus global/exceptional layout rules) while display utilities were separated under non-layout package taxonomy.
+- Decision:
+  - Keep display behavior unchanged but relocate display parser/generator/DSL ownership under `compiler.layout.display` and `kolostyles.dsl.layout.display`.
+  - Add non-display layout parser/generator support under `compiler.layout` for `box-sizing`, `overflow`, `position`, `z-index` (`z-<n>` positive integer + `z-auto`), and `object-fit`, with offset parsing/generation (`inset/top/right/bottom/left`) split into dedicated hooks under `compiler.layout.offset`.
+  - Add typed layout DSL helpers under `kolostyles.dsl.layout` plus grouped offset helpers in `kolostyles.dsl.layout.offset` for both base and variant scopes.
+  - Centralize media/state variant selector emission in shared `StyleGeneratorHook` helper and migrate spacing/display/font/sizing/layout generators to the shared path.
+  - Migrate mappable browse/art layout ownership to render-site Kolo helpers and keep non-mappable/max-width layout rules in `CssController` as explicit `kolo-exception`s.
+- Consequences: Layout ownership is co-located for migrated selectors, compiler/generator logic has less media-wrapper duplication, and residual page-CSS layout behavior remains auditable until max-width/arbitrary patterns gain utility support.

@@ -60,7 +60,16 @@ Wrapper around `createHTML()` that installs a request-scoped `KoloRenderContext`
 Margin/padding typed DSL helpers (`m()`, `mt()`, `mb()`, `ml()`, `mr()`, `mx()`, `my()`, `p()`, `pt()`, `pb()`, `pl()`, `pr()`, `px()`, `py()`) available on both `KoloScope` and `KoloVariantScope` via `SpacingDsl.kt`. Each function records a Tailwind-style token (e.g., `m(0)` → `"m-0"`, `p(4)` → `"p-4"`) and generates a `k-`-prefixed CSS class (e.g., `.k-m-0 { margin: 0; }`).
 
 ### Display Utilities
-Typed display DSL helpers available on both `KoloScope` and `KoloVariantScope` via `DisplayDsl.kt`. Helpers map one-to-one to Tailwind-compatible tokens (for example `inlineBlock` → `inline-block`, `inlineFlex` → `inline-flex`, `tableRowGroup` → `table-row-group`, `hidden` → `hidden` which generates `display: none`).
+Typed display DSL helpers available on both `KoloScope` and `KoloVariantScope` via `kolostyles.dsl.layout.display.DisplayDsl.kt`. Helpers map one-to-one to Tailwind-compatible tokens (for example `inlineBlock` → `inline-block`, `inlineFlex` → `inline-flex`, `tableRowGroup` → `table-row-group`, `hidden` → `hidden` which generates `display: none`).
+
+### Layout Utilities
+Typed layout DSL helpers available on both `KoloScope` and `KoloVariantScope` via `kolostyles.dsl.layout.*`, including:
+- box sizing (`boxBorder`, `boxContent`)
+- overflow (`overflowHidden`, `overflowXAuto`, `overflowYScroll`, etc.)
+- position (`static`, `relative`, `absolute`, `fixed`, `sticky`)
+- offsets under `kolostyles.dsl.layout.offset` (`top()`, `insetX()`, `leftAuto`, etc.)
+- z-index (`zAuto`, `z(<positive-int>)`)
+- object-fit (`objectContain`, `objectCover`, `objectFill`, `objectNone`, `objectScaleDown`)
 
 ### Font Utilities
 Typed typography DSL helpers available on both `KoloScope` and `KoloVariantScope` via `FontDsl.kt`, covering Tailwind-compatible family (`font-sans`, `font-serif`, `font-mono`), size (`text-xs` … `text-9xl`), and weight (`font-thin` … `font-black`) tokens.
@@ -71,8 +80,14 @@ Typed sizing DSL helpers available on both `KoloScope` and `KoloVariantScope` vi
 ### `SpacingParserHook` / `SpacingGeneratorHook`
 Spring `@Component` implementations that provide spacing token parsing (`StyleParserHook`) and CSS rule generation (`StyleGeneratorHook`) for the production compiler pipeline.
 
-### `DisplayParserHook` / `DisplayGeneratorHook`
+### `layout.display.DisplayParserHook` / `layout.display.DisplayGeneratorHook`
 Spring `@Component` implementations that provide display token parsing (`StyleParserHook`) and CSS rule generation (`StyleGeneratorHook`) for the production compiler pipeline.
+
+### `LayoutParserHook` / `LayoutGeneratorHook`
+Spring `@Component` implementations that provide non-display layout token parsing (`StyleParserHook`) and CSS rule generation (`StyleGeneratorHook`) for box-sizing, overflow, position, z-index, and object-fit utilities.
+
+### `layout.offset.OffsetParserHook` / `layout.offset.OffsetGeneratorHook`
+Spring `@Component` implementations that provide offset layout token parsing (`StyleParserHook`) and CSS rule generation (`StyleGeneratorHook`) for `inset`, `inset-x`, `inset-y`, `top`, `right`, `bottom`, and `left` utilities.
 
 ### `FontParserHook` / `FontGeneratorHook`
 Spring `@Component` implementations that provide font token parsing (`StyleParserHook`) and CSS rule generation (`StyleGeneratorHook`) for the production compiler pipeline.

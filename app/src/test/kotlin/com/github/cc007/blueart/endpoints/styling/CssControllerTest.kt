@@ -17,7 +17,11 @@ class CssControllerTest {
         val legacyCss = readResource("/static/css/browse.css")
 
         css shouldNotContain "@import"
-        assertContainsAllRuleHeaders(legacyCss, css)
+        assertContainsAllRuleHeaders(
+            legacyCss,
+            css,
+            ignoredLegacyHeaders = setOf(".browse-content"),
+        )
     }
 
     @Test
@@ -140,11 +144,54 @@ class CssControllerTest {
         )
     }
 
+    @Test
+    fun `browse stylesheet omits migrated layout declarations`() {
+        val css = controller.browseStylesheet()
+        listOf(
+            "body.browse-body",
+            ".top-banner",
+            ".browse-content",
+            ".post-card",
+            ".post-content",
+            ".embed-media",
+            ".embed-blur-clip",
+            ".parent-post .post-card",
+        ).forEach { selector -> assertSelectorHasNoLayoutDeclarations(css, selector) }
+    }
 
-    private fun assertContainsAllRuleHeaders(legacyCss: String, generatedCss: String) {
+    @Test
+    fun `art stylesheet omits migrated layout declarations`() {
+        val css = controller.artStylesheet()
+        listOf(
+            ".top-banner",
+            ".art-image",
+        ).forEach { selector -> assertSelectorHasNoLayoutDeclarations(css, selector) }
+    }
+
+    @Test
+    fun `stylesheets retain non migrated layout exceptions`() {
+        val browseCss = controller.browseStylesheet()
+        val artCss = controller.artStylesheet()
+        val browseMerged = findSelectorDeclarations(browseCss, ".browse-sidebar", allowMissing = true).joinToString("\n")
+        val browseUniversal = findSelectorDeclarations(browseCss, "*", allowMissing = true).joinToString("\n")
+        val artUniversal = findSelectorDeclarations(artCss, "*", allowMissing = true).joinToString("\n")
+        val clampedText = findSelectorDeclarations(browseCss, ".post-card-text-only .post-text", allowMissing = true).joinToString("\n")
+
+        browseMerged shouldContain "position: static;"
+        browseUniversal shouldContain "box-sizing: border-box;"
+        artUniversal shouldContain "box-sizing: border-box;"
+        clampedText shouldContain "overflow: hidden;"
+    }
+
+
+    private fun assertContainsAllRuleHeaders(
+        legacyCss: String,
+        generatedCss: String,
+        ignoredLegacyHeaders: Set<String> = emptySet(),
+    ) {
         val legacyHeaders = extractRuleHeaders(legacyCss)
         val generatedHeaders = extractRuleHeaders(generatedCss)
-        val missingHeaders = legacyHeaders - generatedHeaders
+        val missingHeaders = (legacyHeaders - ignoredLegacyHeaders) - generatedHeaders
         missingHeaders.shouldBeEmpty()
     }
 
@@ -211,6 +258,33 @@ class CssControllerTest {
     private fun assertSelectorContainsDeclaration(css: String, selector: String, declarationPrefix: String) {
         val declarations = findSelectorDeclarations(css, selector).joinToString("\n")
         declarations shouldContain declarationPrefix
+    }
+
+    private fun assertSelectorHasNoLayoutDeclarations(css: String, selector: String) {
+        val declarations = findSelectorDeclarations(css, selector, allowMissing = true).joinToString("\n")
+        if (declarations.isEmpty()) {
+            return
+        }
+        val forbidden = setOf(
+            "box-sizing",
+            "overflow",
+            "overflow-x",
+            "overflow-y",
+            "position",
+            "top",
+            "right",
+            "bottom",
+            "left",
+            "z-index",
+            "object-fit",
+        )
+        val declaredProperties = declarations
+            .lineSequence()
+            .map { it.trim() }
+            .filter { it.contains(':') }
+            .map { it.substringBefore(':').trim() }
+            .toSet()
+        (declaredProperties intersect forbidden).shouldBeEmpty()
     }
 
     private fun findSelectorDeclarations(css: String, selector: String, allowMissing: Boolean = false): List<String> {
