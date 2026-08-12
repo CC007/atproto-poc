@@ -1,4 +1,4 @@
-package com.github.cc007.blueart.kolostyles.compiler.display
+package com.github.cc007.blueart.kolostyles.compiler.layout.display
 
 import com.github.cc007.blueart.kolostyles.compiler.MediaVariant
 import com.github.cc007.blueart.kolostyles.compiler.Token

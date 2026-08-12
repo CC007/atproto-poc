@@ -1,10 +1,10 @@
 package com.github.cc007.blueart.kolostyles.utility
 
 import com.github.cc007.blueart.kolostyles.compiler.KoloCssCompiler
-import com.github.cc007.blueart.kolostyles.compiler.display.DisplayGeneratorHook
-import com.github.cc007.blueart.kolostyles.compiler.display.DisplayParserHook
 import com.github.cc007.blueart.kolostyles.compiler.font.FontGeneratorHook
 import com.github.cc007.blueart.kolostyles.compiler.font.FontParserHook
+import com.github.cc007.blueart.kolostyles.compiler.layout.display.DisplayGeneratorHook
+import com.github.cc007.blueart.kolostyles.compiler.layout.display.DisplayParserHook
 import com.github.cc007.blueart.kolostyles.compiler.spacing.SpacingGeneratorHook
 import com.github.cc007.blueart.kolostyles.compiler.spacing.SpacingParserHook
 import io.kotest.matchers.booleans.shouldBeTrue
