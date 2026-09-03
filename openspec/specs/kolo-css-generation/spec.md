@@ -10,7 +10,7 @@ Define endpoint-side Kolo CSS generation, including parser/generator flow and di
 ## Requirements
 
 ### Requirement: Kolo CSS endpoint handles tokenized requests deterministically
-The system SHALL generate CSS from `/css/generated/kolo.css` requests using the parser/generator hook pipeline. Parser hooks SHALL parse raw token strings into typed compiler tokens, generator hooks SHALL emit rules into a shared `kotlinx.css.CssBuilder` instance owned by the compiler instead of returning raw CSS strings, and the compiler SHALL return final CSS by serializing that shared builder. The endpoint MUST generate rules for supported spacing, display, font-family, font-size, and font-weight utility tokens through the same deterministic pipeline.
+The system SHALL generate CSS from `/css/generated/kolo.css` requests using the parser/generator hook pipeline. Parser hooks SHALL parse raw token strings into typed compiler tokens, generator hooks SHALL emit rules into a shared `kotlinx.css.CssBuilder` instance owned by the compiler instead of returning raw CSS strings, and the compiler SHALL return final CSS by serializing that shared builder. The endpoint MUST generate rules for supported spacing, layout, font-family, font-size, font-weight, and sizing utility tokens through the same deterministic pipeline. Supported layout tokens MUST include display, box-sizing, overflow, position, inset/top/right/bottom/left offsets, z-index, and object-fit.
 
 #### Scenario: Valid Kolo tokens are provided
 - **WHEN** a request includes supported Kolo tokens
@@ -27,6 +27,10 @@ The system SHALL generate CSS from `/css/generated/kolo.css` requests using the 
 #### Scenario: Display utility token is included in request
 - **WHEN** a request includes a supported display utility token
 - **THEN** the endpoint emits the corresponding display CSS rule through the same parser/generator pipeline used by other utilities
+
+#### Scenario: Layout utility token is included in request
+- **WHEN** a request includes a supported non-display layout utility token
+- **THEN** the endpoint emits the corresponding layout CSS rule through the same parser/generator pipeline used by other utilities
 
 #### Scenario: Font utility token is included in request
 - **WHEN** a request includes a supported font utility token

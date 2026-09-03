@@ -10,7 +10,7 @@ Define core Kolo utility-token architecture, canonicalization rules, and migrati
 ## Requirements
 
 ### Requirement: Kolo utility tokens follow canonical architecture contracts
-The system SHALL define explicit compiler token contracts for utility generation. Parser hooks SHALL parse raw utility strings into typed tokens, and generator hooks SHALL consume those typed tokens to emit CSS through the compiler pipeline. Supported utility families MUST include spacing, display, font-family, font-size, and font-weight tokens in the same parser/generator hook architecture.
+The system SHALL define explicit compiler token contracts for utility generation. Parser hooks SHALL parse raw utility strings into typed tokens, and generator hooks SHALL consume those typed tokens to emit CSS through the compiler pipeline. Supported utility families MUST include spacing, layout, font-family, font-size, font-weight, and sizing tokens in the same parser/generator hook architecture. The layout family MUST include display, box-sizing, overflow, position, inset/top/right/bottom/left offsets, z-index, and object-fit tokens.
 
 #### Scenario: Tokens are prepared for stylesheet URL generation
 - **WHEN** Kolo tokens are finalized for stylesheet delivery
@@ -22,11 +22,19 @@ The system SHALL define explicit compiler token contracts for utility generation
 
 #### Scenario: Display utility token is parsed for generation
 - **WHEN** a supported display token is parsed
-- **THEN** a typed display compiler token is produced with raw token identity and resolved display utility metadata
+- **THEN** a typed layout compiler token is produced with raw token identity and resolved display utility metadata
+
+#### Scenario: Non-display layout utility token is parsed for generation
+- **WHEN** a supported layout token for box-sizing, overflow, position, offset, z-index, or object-fit is parsed
+- **THEN** a typed layout compiler token is produced with raw token identity and resolved layout utility metadata
 
 #### Scenario: Font utility token is parsed for generation
 - **WHEN** a supported font-family, font-size, or font-weight token is parsed
 - **THEN** a typed font compiler token is produced with raw token identity and resolved font utility metadata
+
+#### Scenario: Sizing utility token is parsed for generation
+- **WHEN** a supported sizing token is parsed
+- **THEN** a typed sizing compiler token is produced with raw token identity and resolved sizing utility metadata
 
 #### Scenario: Generator receives unsupported token type
 - **WHEN** a generator hook receives a token type it does not support
