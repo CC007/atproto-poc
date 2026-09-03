@@ -7,4 +7,24 @@ import kotlinx.css.CssBuilder
  */
 fun interface StyleGeneratorHook {
     fun generate(token: Token, builder: CssBuilder): Boolean
+
+    fun CssBuilder.emitVariantRule(
+        rawToken: String,
+        stateVariants: List<String>,
+        mediaVariant: MediaVariant?,
+        declaration: CssBuilder.() -> Unit,
+    ): Boolean {
+        val pseudoSuffix = stateVariants.joinToString(separator = "") { variant -> ":$variant" }
+        val selectorText = ".k-${rawToken.escapeCssClass()}$pseudoSuffix"
+        if (mediaVariant == null) {
+            selectorText { declaration() }
+        } else {
+            media("(min-width: ${mediaVariant.minWidth})") {
+                selectorText { declaration() }
+            }
+        }
+        return true
+    }
+
+    private fun String.escapeCssClass(): String = replace(":", "\\:")
 }

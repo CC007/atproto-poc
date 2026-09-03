@@ -1,11 +1,14 @@
 package com.github.cc007.blueart.components.overview
 
 import com.github.cc007.blueart.components.richtext.renderRichText
-import com.github.cc007.blueart.kolostyles.dsl.display.block
-import com.github.cc007.blueart.kolostyles.dsl.display.flex
-import com.github.cc007.blueart.kolostyles.dsl.display.grid
-import com.github.cc007.blueart.kolostyles.dsl.display.inlineFlex
 import com.github.cc007.blueart.kolostyles.dsl.kolo
+import com.github.cc007.blueart.kolostyles.dsl.layout.display.block
+import com.github.cc007.blueart.kolostyles.dsl.layout.display.flex
+import com.github.cc007.blueart.kolostyles.dsl.layout.display.grid
+import com.github.cc007.blueart.kolostyles.dsl.layout.display.inlineFlex
+import com.github.cc007.blueart.kolostyles.dsl.layout.objectCover
+import com.github.cc007.blueart.kolostyles.dsl.layout.overflowHidden
+import com.github.cc007.blueart.kolostyles.dsl.layout.overflowVisible
 import com.github.cc007.blueart.kolostyles.dsl.sizing.*
 import com.github.cc007.blueart.kolostyles.dsl.sizing.SizingNamed.AUTO
 import com.github.cc007.blueart.kolostyles.dsl.sizing.SizingNamed.FULL
@@ -70,11 +73,12 @@ private fun HtmlBlockTag.postSummary(
         kolo {
             flex
             p(1)
+            if (isNested) overflowVisible else overflowHidden
             if (isNested) h(AUTO) else h(90)
         }
         author?.let { authorBanner(it) }
         div(classes = "post-content") {
-            kolo { minH(0) }
+            kolo { minH(0); overflowHidden }
             embeds.forEach { embed(it, needsBlur) }
             record(author, record)
         }
@@ -338,10 +342,11 @@ private fun HtmlBlockTag.embedThumbnail(src: String, blur: Boolean, mediaClass: 
                 block
                 m(0)
                 w(FULL)
+                overflowHidden
                 if (isSinglePostMedia) h(45) else h(FULL)
             }
             img(src = src, classes = "$classes embed-media-blur") {
-                kolo { block; size(FULL) }
+                kolo { block; size(FULL); objectCover }
             }
         }
     } else {
@@ -351,6 +356,7 @@ private fun HtmlBlockTag.embedThumbnail(src: String, blur: Boolean, mediaClass: 
                 kolo {
                     block
                     w(FULL)
+                    objectCover
                     if (isSinglePostMedia) h(45) else h(FULL)
                 }
             }

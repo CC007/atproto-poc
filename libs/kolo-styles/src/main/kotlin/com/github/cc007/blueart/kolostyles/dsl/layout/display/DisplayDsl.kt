@@ -1,4 +1,4 @@
-package com.github.cc007.blueart.kolostyles.dsl.display
+package com.github.cc007.blueart.kolostyles.dsl.layout.display
 
 import com.github.cc007.blueart.kolostyles.dsl.KoloScope
 import com.github.cc007.blueart.kolostyles.dsl.KoloVariantScope

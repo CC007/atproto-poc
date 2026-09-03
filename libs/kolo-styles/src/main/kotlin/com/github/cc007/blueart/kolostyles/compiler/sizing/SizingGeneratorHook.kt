@@ -8,24 +8,14 @@ import org.springframework.stereotype.Component
 @Component
 class SizingGeneratorHook : StyleGeneratorHook {
     override fun generate(token: Token, builder: CssBuilder): Boolean {
-        val sizingToken = token as? SizingToken ?: return false
-        return builder.emitSizingRule(sizingToken)
-    }
-
-    private fun CssBuilder.emitSizingRule(token: SizingToken): Boolean {
-        val pseudoSuffix = token.stateVariants.joinToString(separator = "") { variant -> ":$variant" }
-        val selectorText = ".k-${escapeCssClass(token.raw)}$pseudoSuffix"
+        if (token !is SizingToken) return false
         val declaration = buildSizingDeclaration(token) ?: return false
-
-        val mediaVariant = token.mediaVariant
-        if (mediaVariant == null) {
-            selectorText { declaration() }
-        } else {
-            media("(min-width: ${mediaVariant.minWidth})") {
-                selectorText { declaration() }
-            }
-        }
-        return true
+        return builder.emitVariantRule(
+            rawToken = token.raw,
+            stateVariants = token.stateVariants,
+            mediaVariant = token.mediaVariant,
+            declaration = declaration,
+        )
     }
 
     private fun buildSizingDeclaration(token: SizingToken): (CssBuilder.() -> Unit)? {
@@ -40,6 +30,4 @@ class SizingGeneratorHook : StyleGeneratorHook {
             else -> null
         }
     }
-
-    private fun escapeCssClass(token: String): String = token.replace(":", "\\:")
 }

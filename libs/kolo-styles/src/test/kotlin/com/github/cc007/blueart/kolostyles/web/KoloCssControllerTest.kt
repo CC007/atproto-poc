@@ -1,10 +1,14 @@
 package com.github.cc007.blueart.kolostyles.web
 
 import com.github.cc007.blueart.kolostyles.compiler.KoloCssCompiler
-import com.github.cc007.blueart.kolostyles.compiler.display.DisplayGeneratorHook
-import com.github.cc007.blueart.kolostyles.compiler.display.DisplayParserHook
 import com.github.cc007.blueart.kolostyles.compiler.font.FontGeneratorHook
 import com.github.cc007.blueart.kolostyles.compiler.font.FontParserHook
+import com.github.cc007.blueart.kolostyles.compiler.layout.LayoutGeneratorHook
+import com.github.cc007.blueart.kolostyles.compiler.layout.LayoutParserHook
+import com.github.cc007.blueart.kolostyles.compiler.layout.display.DisplayGeneratorHook
+import com.github.cc007.blueart.kolostyles.compiler.layout.display.DisplayParserHook
+import com.github.cc007.blueart.kolostyles.compiler.layout.offset.OffsetGeneratorHook
+import com.github.cc007.blueart.kolostyles.compiler.layout.offset.OffsetParserHook
 import com.github.cc007.blueart.kolostyles.compiler.sizing.SizingGeneratorHook
 import com.github.cc007.blueart.kolostyles.compiler.sizing.SizingParserHook
 import com.github.cc007.blueart.kolostyles.compiler.spacing.SpacingGeneratorHook
@@ -28,8 +32,8 @@ class KoloCssControllerTest {
     // controller with spacing + display hooks wired (mirrors Spring bean list wiring)
     private val defaultController = KoloCssController(
         KoloCssCompiler(
-            parserHooks = listOf(SpacingParserHook(), DisplayParserHook(), FontParserHook(), SizingParserHook()),
-            generatorHooks = listOf(SpacingGeneratorHook(), DisplayGeneratorHook(), FontGeneratorHook(), SizingGeneratorHook()),
+            parserHooks = listOf(SpacingParserHook(), DisplayParserHook(), LayoutParserHook(), OffsetParserHook(), FontParserHook(), SizingParserHook()),
+            generatorHooks = listOf(SpacingGeneratorHook(), DisplayGeneratorHook(), LayoutGeneratorHook(), OffsetGeneratorHook(), FontGeneratorHook(), SizingGeneratorHook()),
         )
     )
 
@@ -126,7 +130,7 @@ class KoloCssControllerTest {
     fun `kolo stylesheet with spacing display font and sizing hooks compiles mixed utility tokens`() {
         val response = defaultController.koloStylesheet(
             version = "abc123",
-            kolo = "md:grid;mt-2;font-semibold;hover:inline-flex;size-full"
+            kolo = "md:grid;mt-2;font-semibold;hover:inline-flex;size-full;overflow-hidden;sticky;top-0;z-10;object-cover"
         )
 
         response.statusCode shouldBe HttpStatus.OK
@@ -149,6 +153,21 @@ class KoloCssControllerTest {
             .k-size-full {
             width: 100%;
             height: 100%;
+            }
+            .k-overflow-hidden {
+            overflow: hidden;
+            }
+            .k-sticky {
+            position: sticky;
+            }
+            .k-top-0 {
+            top: 0.0rem;
+            }
+            .k-z-10 {
+            z-index: 10;
+            }
+            .k-object-cover {
+            object-fit: cover;
             }
             
             """.trimIndent()

@@ -35,11 +35,11 @@ class CssController {
         }
 
         universal {
+            // kolo-exception: global preflight-style selector cannot be represented as element-local utilities
             boxSizing = BoxSizing.borderBox
         }
 
         "body.browse-body" {
-            overflow = Overflow.hidden
             flexDirection = FlexDirection.column
             background = "radial-gradient(circle at top, #d8effe 0%, ${cssVar("bg")} 48%)"
             color = cssColorVar("text")
@@ -51,9 +51,6 @@ class CssController {
         }
 
         ".top-banner" {
-            position = Position.sticky
-            top = 0.px
-            zIndex = 10
             justifyContent = JustifyContent.spaceBetween
             alignItems = Align.center
             raw("border-bottom", "1px solid #1a6eb5")
@@ -81,8 +78,6 @@ class CssController {
         }
         ".browse-sidebar" {
             raw("align-self", "start")
-            position = Position.sticky
-            top = 4.5.rem
             raw("border", "1px solid ${cssVar("border")}")
             borderRadius = 12.px
             background = "linear-gradient(180deg, #dbe8f4, #d3e2f0)"
@@ -104,9 +99,6 @@ class CssController {
             raw("outline", "none")
             color = cssColorVar("text")
             background = "rgba(17, 133, 254, 0.14)"
-        }
-        ".browse-content" {
-            overflow = Overflow.auto
         }
         ".content-top" {
             justifyContent = JustifyContent.spaceBetween
@@ -143,7 +135,6 @@ class CssController {
             borderRadius = 12.px
             background = "linear-gradient(180deg, ${cssVar("surface-2")}, ${cssVar("surface")})"
             raw("box-shadow", "0 8px 20px rgba(32, 58, 83, 0.12)")
-            overflow = Overflow.hidden
             flexDirection = FlexDirection.column
         }
         ".post-author" {
@@ -169,7 +160,6 @@ class CssController {
         }
         ".post-content" {
             raw("flex", "1")
-            overflow = Overflow.hidden
         }
         ".post-text" {
             raw("line-height", "1.4")
@@ -177,6 +167,7 @@ class CssController {
             raw("word-break", "break-word")
         }
         ".post-card-text-only .post-text" {
+            // kolo-exception: browser-specific line-clamp pattern not represented by current utility model
             raw("display", "-webkit-box")
             raw("-webkit-box-orient", "vertical")
             raw("-webkit-line-clamp", "11")
@@ -198,7 +189,6 @@ class CssController {
         ".embed-media" {
             borderRadius = 8.px
             raw("border", "1px solid #a6bfd2")
-            objectFit = ObjectFit.cover
         }
         ".embed-media-grid" {
             raw("grid-template-columns", "2fr 1fr")
@@ -210,7 +200,6 @@ class CssController {
         }
         ".embed-blur-clip" {
             borderRadius = 8.px
-            overflow = Overflow.hidden
         }
         ".embed-media-blur" {
             filter = "blur(18px)"
@@ -221,7 +210,6 @@ class CssController {
         }
         ".parent-post .post-card" {
             background = "#eaf3fa"
-            overflow = Overflow.visible
         }
         ".post-stats" {
             alignItems = Align.center
@@ -281,6 +269,7 @@ class CssController {
                 raw("grid-template-columns", "1fr")
             }
             ".browse-sidebar" {
+                // kolo-exception: max-width variant not representable in current min-width-only utility variants
                 position = Position.static
             }
         }
@@ -306,13 +295,11 @@ class CssController {
         }
 
         universal {
+            // kolo-exception: global preflight-style selector cannot be represented as element-local utilities
             boxSizing = BoxSizing.borderBox
         }
 
         ".top-banner" {
-            position = Position.sticky
-            top = 0.px
-            zIndex = 10
             justifyContent = JustifyContent.spaceBetween
             alignItems = Align.center
             raw("border-bottom", "1px solid #1a6eb5")
@@ -354,7 +341,6 @@ class CssController {
             gap = 0.5.rem
         }
         ".art-image" {
-            objectFit = ObjectFit.contain
             borderRadius = 8.px
             background = "#d7e8f6"
         }
